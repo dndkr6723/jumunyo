@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.finalp.jumunyo.vo.UserVO" alias="userVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.CategoryVO" alias="categoryVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.MenuVO" alias="menuVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.OrderVO" alias="orderVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.QuestionCategoryVO" alias="questioncategoryVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.QuestionVO" alias="questionVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.ReplyVO" alias="replyVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.RestaurantVO" alias="restaurantVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.ReviewVO" alias="reviewVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.RoomVO" alias="roomVo"></typeAlias>
+		<typeAlias type="com.finalp.jumunyo.vo.SeatOrderVO" alias="seatorderVo"></typeAlias>
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="main.xml" />
+	</mappers>
+</configuration>

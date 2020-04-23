@@ -12,18 +12,14 @@
 
 <jsp:include page="../include/businessHeader.jsp"></jsp:include>
 
+여기 바디
+${rvo.restaurant_accept}
 
-<c:if test="${rvo.restaurant_accept == 1 }">
-	사업자 등록 인증 안받음
-	<div>
-		매장입점신청
-	</div>
+<c:if test="${rvo.restaurant_accept != 1 }">
+	맞음
 </c:if>
-<c:if test="${rvo.restaurant_accept == 0 }">
-	사업자등록 인증받음
-	<div>
-		매장관리
-	</div>
+<c:if test="${rvo.restaurant_accept != 0 }">
+	트림
 </c:if>
 
 
