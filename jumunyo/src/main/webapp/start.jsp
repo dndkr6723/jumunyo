@@ -12,5 +12,10 @@
 	<input type="submit" value="가자">
 </form>
 
+<form action="ready">
+	<input type="submit" value="일반,사업자 세션켜기">
+</form>
+
+
 </body>
 </html>
