@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+<!-- myBatis의 싱글톤 객체 생성 -->
+<bean id="my" class="org.mybatis.spring.SqlSessionTemplate">
+	<constructor-arg ref="config"></constructor-arg>
+</bean>
+
+<!-- myBaris의 설정 객체 생성 -->
+<bean id="config" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dbcp"></property>
+	<property name="configLocation" value="classpath:config.xml"></property>
+</bean>
+
+<!-- dbcp의 싱글톤 객체 생성 -->
+<!-- db프로그램의 2단계 까지 담당. driver 설정, db연결 -->
+<bean id="dbcp" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>  
+    <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"></property> 
+    <property name="username" value="hr"></property>  
+    <property name="password" value="hr"></property> 
+</bean>
+
+
+
+
+</beans>
