@@ -147,7 +147,20 @@
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
+ 	<select id="entrance_request" parameterType="restaurantVo" resultMap="restaurantmap">
+ 		insert into restaurants values(1,#{user_id},#{restaurant_name},#{restaurant_tell}
+ 		,#{restaurant_address},#{restaurant_owner},#{restaurant_businessnumber},#{restaurant_businessnumber_img}
+ 		,#{category_id},1,0,sysdate,1,1)
+ 	</select>
  	
+ 	<select id="question_list" resultMap="questionmap">
+ 		SELECT * FROM questions
+ 		where user_id_send = #{user_id} or user_id_receive = #{user_id}
+ 	</select>
+ 	
+ 	<select id="getQuestionCategory" resultMap="questioncategorymap">
+ 		SELECT * FROM question_categories
+ 	</select>
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
  	

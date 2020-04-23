@@ -13,7 +13,15 @@
 </form>
 
 <form action="ready">
-	<input type="submit" value="일반,사업자 세션켜기">
+	<input type="submit" value="일반,사업자 세션켜면서 사업자인덱스로 가자 이걸 제일처음 무조건 눌러야 한다잉">
+</form>
+
+<form action="goentrance">
+	<input type="submit" value="입점신청으로 가자">
+</form>
+
+<form action="question_list">
+	<input type="submit" value="1:1문의 보러가자">
 </form>
 
 
