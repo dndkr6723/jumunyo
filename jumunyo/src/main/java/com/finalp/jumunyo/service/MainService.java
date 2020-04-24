@@ -2,6 +2,7 @@ package com.finalp.jumunyo.service;
 
 import java.util.List;
 
+import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
@@ -43,6 +44,10 @@ public interface MainService {
 	public List<QuestionVO> question_list(UserVO uuvo);
 	
 	public List<QuestionCategoryVO> getQuestionCategory();
+	
+	public void question_send(QuestionVO qvo);
+	
+	public List<OrderVO> dealorder_list(RestaurantVO rvo);
 	 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 

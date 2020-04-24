@@ -54,6 +54,7 @@
 		<result property="question_category_id" column="question_category_id"/>
 		<result property="user_id_send" column="user_id_send"/>
 		<result property="question_title" column="question_title"/>
+		<result property="question_content" column="question_content"/>
 		<result property="question_image" column="question_image"/>
 		<result property="question_check" column="question_check"/>
 		<result property="question_date" column="question_date"/>
@@ -161,6 +162,17 @@
  	<select id="getQuestionCategory" resultMap="questioncategorymap">
  		SELECT * FROM question_categories
  	</select>
+ 	
+ 	<select id="question_send" resultMap="questionmap">
+ 		insert into questions values(3,#{question_category_id},#{user_id_send},#{question_title},
+ 			#{question_content},'없음',#{question_check},sysdate,#{user_id_receive})
+ 	</select>
+ 	
+ 	<select id="dealorder_list" resultMap="ordermap">
+ 		SELECT * FROM orders
+ 		where restaurant_id = #{restaurant_id}
+ 	</select>
+ 	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
  	

@@ -1,11 +1,13 @@
 package com.finalp.jumunyo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
@@ -69,6 +71,21 @@ public class MainServiceImpl implements MainService {
 		// 문의 카테고리 리스트 전부 가져오기
 		return my.selectList("Main.getQuestionCategory");
 	}
+
+	@Override
+	public void question_send(QuestionVO qvo) {
+		// 사장님이 관리자에게 문의보내기
+		my.insert("Main.question_send",qvo);
+		
+	}
+
+	@Override
+	public List<OrderVO> dealorder_list(RestaurantVO rvo) {
+		// 사장님 매장id값으로 거래내역 모두 출력
+		return my.selectList("Main.dealorder_list",rvo);
+	}
+	
+	
 		 	
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 

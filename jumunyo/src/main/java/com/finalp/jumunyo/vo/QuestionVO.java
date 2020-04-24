@@ -8,6 +8,7 @@ public class QuestionVO {
 	private int question_category_id;
 	private int user_id_send;
 	private String question_title;
+	private String question_content;
 	private String question_image;
 	private String question_check;
 	private Date question_date;
@@ -37,6 +38,12 @@ public class QuestionVO {
 	}
 	public void setQuestion_title(String question_title) {
 		this.question_title = question_title;
+	}
+	public String getQuestion_content() {
+		return question_content;
+	}
+	public void setQuestion_content(String question_content) {
+		this.question_content = question_content;
 	}
 	public String getQuestion_image() {
 		return question_image;

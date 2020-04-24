@@ -24,6 +24,10 @@
 	<input type="submit" value="1:1문의 보러가자">
 </form>
 
+<form action="dealorder_list">
+	<input type="submit" value="거래내역보러 가자">
+</form>
+
 
 </body>
 </html>

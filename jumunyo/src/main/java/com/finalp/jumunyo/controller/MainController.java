@@ -1,9 +1,7 @@
 package com.finalp.jumunyo.controller;
 
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.finalp.jumunyo.service.MainService;
+import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
@@ -110,6 +109,12 @@ public class MainController {
 		return "business/entranceApplication";
 	}
 	
+	@RequestMapping("goquestion_send") // 입점신청페이지로
+	public String goquestion_send() throws Exception {
+		
+		return "business/questionSend";
+	}
+	
 	@RequestMapping("entrance_request") // 입점신청페이지로
 	public String entrance_request(RestaurantVO rvo) throws Exception {
 		//restaurant_accept : 0 미신청  ,1 신청중  ,2 입점완료
@@ -124,19 +129,30 @@ public class MainController {
 			UserVO uuvo = (UserVO) session.getAttribute("uvo");
 			
 			List<QuestionVO> list = service.question_list(uuvo);
-			HashMap<Integer, String> cg= new HashMap<Integer, String>();
 			List<QuestionCategoryVO> qcvo = service.getQuestionCategory();
 			
-			for(int i=0; i<qcvo.size(); i++) {
-				cg.put(
-						qcvo.get(i).getQuestion_category_id(), 
-						qcvo.get(i).getQuestion_category_name());
-			}
-			
-			model.addAttribute("qlist",list);
-			model.addAttribute("cg",cg);
+			model.addAttribute("qlist",list).addAttribute("qcvo",qcvo);
 			
 		return "business/questionList";
+	}
+	
+	@RequestMapping("question_send") // 1:1문의 보내기
+	public String question_send(QuestionVO qvo) throws Exception {
+		
+		service.question_send(qvo);
+		
+		return "redirect:/question_list";
+	}
+	
+	@RequestMapping("dealorder_list") // 사장님 매장id값으로 거래내역 출력
+	public String dealorder_list(RestaurantVO rvo,HttpSession session,Model model) throws Exception {
+		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		List<OrderVO> olist = (List<OrderVO>) service.dealorder_list(rrvo);
+		
+		model.addAttribute("olist",olist);
+		
+		return "business/dealRecord";
 	}
 	
  	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

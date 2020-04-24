@@ -4,31 +4,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
-<% 
-/* 	 model 로 넘긴 해쉬맵값 풀어해치는 방법 
-	HashMap cc = request.getAttribute("cg");
-	HashMap cg = new HashMap();
-	Map map = request.getParameterMap();
-	Iterator it = map.keySet().iterator();
-	Object key = null;
-	String[] value = null;
-
-	 while(it.hasNext()){
-		 key = it.next();
-		 value = (String[]) map.get(key);
-
-		 for(int i = 0 ; i < value.length; i++) {
-			 cg.put(key,value[i]);
-		 }
-	 }
-	 System.out.print(cg.get(1)); */
- %>
 
 </head>
 <body>
@@ -62,14 +51,17 @@
 						<th>확인여부</th>
 					</tr>
 					
-				<c:forEach var="qlist" items="${qlist}">
+				<c:forEach var="qlist" items="${qlist}" varStatus="loop">
 					<tr>
 						<td>
-							<%-- ${cg.get(1) } --%>
-							${qlist.question_category_id }
+							<c:forEach var="qcvo" items="${qcvo}">
+								<c:if test="${qcvo.question_category_id == qlist.question_category_id }">
+									${qcvo.question_category_name }
+								</c:if>
+						  	</c:forEach>
 						</td>
 						<td>
-							${qlist.question_title }
+							<a href="#question_detail${loop.count}" rel=modal:open>${qlist.question_title }</a>
 						</td>
 						<td>
 							<c:if test="${qlist.user_id_send == 0}">
@@ -86,9 +78,77 @@
 							${qlist.question_check }
 						</td>
 					</tr>
-				</c:forEach>
+					<tr>
+						<td colspan="5">
+					
+					<!-- 여기 모달때문에 만든 임시 trtd -->
+				<div id="question_detail${loop.count}" class="modal">
+					<table>
+						<tr>
+							<th>1:1문의 확인</th>
+						</tr>
+						<tr><td>상세분류</td></tr>
+						<tr>
+							<td>
+								<c:forEach var="qcvo" items="${qcvo}">
+								<c:if test="${qcvo.question_category_id == qlist.question_category_id }">
+									${qcvo.question_category_name }
+								</c:if>
+						  		</c:forEach>
+							</td>
+						</tr>
+						<tr><td>제목</td></tr>
+						<tr>
+							<td>
+								${qlist.question_title }
+							</td>
+						</tr>
+						<tr><td>작성자</td></tr>
+						<tr>
+							<td>
+								<c:if test="${qlist.user_id_send == 0}">
+								관리자
+								</c:if>
+								<c:if test="${qlist.user_id_send != 0}">
+									${uvo.user_name } 님
+								</c:if>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								작성일
+							</td>
+						</tr>
+						<tr>
+							<td>
+								${qlist.question_date}	
+							</td>
+						</tr>
+						<tr>
+							<td>
+								문의내용
+							</td>
+						</tr>
+						<tr>
+							<td>
+								${qlist.question_content}	
+							</td>
+						</tr>
+					</table>
+				</div>
+				<!-- 모달 끝 -->
+						</td>
+					</tr>
 				
+				</c:forEach>
 				</table>
+				
+				<hr>
+				<form action="goquestion_send">
+					<input type="submit" value="문의 작성하기">
+				</form>
+				<input type="button" value="이전페이지로">
+				
 			</div>
 		</div>
 	</div>
