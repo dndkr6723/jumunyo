@@ -6,6 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
 </head>
 <body>
 <!-- 매장 거래내역 페이지 입니다. -->
@@ -20,7 +28,8 @@
 			</div>
 			
 			<div>
-				주문번호 검색  상세검색
+				주문번호 검색<input type="text" name="search_order_id">
+				<input type="button" value="상세검색" id="search_detail_btn">
 			</div>
 		</div>
 		
@@ -54,7 +63,7 @@
 							</td>
 							
 							<td>
-								${olist.seat_order_id }
+								<%-- ${olist.seat_order_id } --%> 예약자리
 							</td>
 							
 							<td>
@@ -65,9 +74,40 @@
 					</c:forEach>
 				</table>
 				
+				<div id="search_detail_modal" class="modal fade">
+					나는 모달
+					<form action="order_search_detail" method="post">
+						시간별 검색
+							<div>
+								<input type="date" id="far_time" name="far_time"> ~
+								<input type="date" id="last_time" name="last_time">
+							</div>
+						금액별 검색
+							<div>
+								<input type="text" id="min_price" name="min_price" placeholder="최소값"> 원 ~
+								<input type="text" id="max_price" name="max_price" placeholder="최대값"> 원 
+							</div>
+						거래종류별 검색
+							<div>
+								<input type="radio" id="deliver" name="order_type1" value="배달"> 배달
+								<input type="radio" id="reservation" name="order_type1" value="예약"> 예약
+								<input type="radio" id="all" name="order_type1" value="all"> 전체
+							</div>
+						<input type="submit" value="검색">
+					</form>
+				</div>
+				
 			</div>
 		</div>
 	</div>
 </div>
 </body>
+
+<script>
+
+    $('#search_detail_btn').click(function(){
+            $('#search_detail_modal').modal('show');
+    });
+</script>
+
 </html>

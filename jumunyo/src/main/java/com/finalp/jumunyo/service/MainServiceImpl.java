@@ -1,6 +1,7 @@
 package com.finalp.jumunyo.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -83,6 +84,13 @@ public class MainServiceImpl implements MainService {
 	public List<OrderVO> dealorder_list(RestaurantVO rvo) {
 		// 사장님 매장id값으로 거래내역 모두 출력
 		return my.selectList("Main.dealorder_list",rvo);
+	}
+
+
+	@Override
+	public List<OrderVO> order_search_detail(HashMap<String, Object> hm) {
+		// 거래내역 조건 검색
+		return my.selectList("order_search_detail",hm);
 	}
 	
 	

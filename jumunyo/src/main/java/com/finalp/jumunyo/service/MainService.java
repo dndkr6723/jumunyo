@@ -1,5 +1,6 @@
 package com.finalp.jumunyo.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.finalp.jumunyo.vo.OrderVO;
@@ -48,7 +49,9 @@ public interface MainService {
 	public void question_send(QuestionVO qvo);
 	
 	public List<OrderVO> dealorder_list(RestaurantVO rvo);
-	 	
+	
+	public List<OrderVO> order_search_detail(HashMap<String, Object> hm);
+	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 }

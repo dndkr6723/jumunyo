@@ -42,6 +42,7 @@
 		<result property="menu_list" column="menu_list"/>
 		<result property="order_type" column="order_type"/>
 		<result property="review_check" column="review_check"/>
+		
 	</resultMap>
 	
 	<resultMap type="questioncategoryVo" id="questioncategorymap">
@@ -172,6 +173,21 @@
  		SELECT * FROM orders
  		where restaurant_id = #{restaurant_id}
  	</select>
+ 	
+ 	
+ 	<select id="order_search_detail" parameterType="hashmap" resultMap="ordermap">
+ 		SELECT * FROM orders where restaurant_id = #{restaurant_id}
+ 		<if test="far_time != '' and last_time != ''">
+ 			and order_date between #{far_time} and #{last_time}
+ 		</if>
+ 		<if test="max_price != '' and min_price != ''">
+ 			and order_price between #{min_price} and #{max_price}
+ 		</if>
+ 		<if test="order_type1 != 'all'">
+ 			and order_type = #{order_type1}
+ 		</if>
+ 	</select>
+ 	
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	

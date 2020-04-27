@@ -1,13 +1,18 @@
 package com.finalp.jumunyo.controller;
 
+
+
+import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.finalp.jumunyo.service.MainService;
 import com.finalp.jumunyo.vo.OrderVO;
@@ -150,6 +155,25 @@ public class MainController {
 		
 		List<OrderVO> olist = (List<OrderVO>) service.dealorder_list(rrvo);
 		
+		model.addAttribute("olist",olist);
+		
+		return "business/dealRecord";
+	}
+	
+	@RequestMapping(value="order_search_detail", method = RequestMethod.POST) // 사장님 매장id값으로 거래내역 출력
+	public String order_search_detail(HttpServletRequest rq ,HttpSession session, OrderVO ovo ,Model model) throws Exception {
+		
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		hm.put("restaurant_id",rrvo.getRestaurant_id());
+		hm.put("far_time", rq.getParameter("far_time"));
+		hm.put("last_time", rq.getParameter("last_time"));
+		hm.put("min_price", rq.getParameter("min_price"));
+		hm.put("max_price", rq.getParameter("max_price"));
+		hm.put("order_type1", rq.getParameter("order_type1"));
+		
+		List<OrderVO> olist = service.order_search_detail(hm);
 		model.addAttribute("olist",olist);
 		
 		return "business/dealRecord";
