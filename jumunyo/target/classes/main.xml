@@ -188,6 +188,31 @@
  		</if>
  	</select>
  	
+ 	<select id="menu_list" resultMap="menumap">
+ 		SELECT * FROM menus
+ 		where restaurant_id = #{restaurant_id}
+ 	</select>
+ 	
+ 	<select id="go_menu_modify" resultMap="menumap">
+ 		SELECT * FROM menus
+ 		where menu_id=#{menu_id}
+ 	</select>
+ 	
+ 	<select id="menu_add" resultMap="menumap">
+ 		INSERT INTO menus values(3,#{menu_name},#{menu_price},'설명','노미지',#{restaurant_id})
+ 	</select>
+ 	
+ 	<select id="menu_modify" resultMap="menumap">
+ 		UPDATE menus set menu_name=#{menu_name}, menu_price=#{menu_price}, menu_image='읎음'
+ 		WHERE menu_id=#{menu_id}
+ 	</select>
+ 	
+ 	<select id="menu_delete" resultMap="menumap">
+ 		DELETE FROM menus
+ 		WHERE menu_id=#{menu_id}
+ 	</select>
+ 	
+ 	
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	

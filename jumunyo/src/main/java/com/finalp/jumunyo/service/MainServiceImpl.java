@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
@@ -90,7 +91,44 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public List<OrderVO> order_search_detail(HashMap<String, Object> hm) {
 		// 거래내역 조건 검색
-		return my.selectList("order_search_detail",hm);
+		return my.selectList("Main.order_search_detail",hm);
+	}
+
+
+	@Override
+	public List<MenuVO> menu_list(RestaurantVO rvo) {
+		// 매장 id 값으로 매장 메뉴 전체 출력
+		return my.selectList("Main.menu_list",rvo);
+	}
+
+
+	@Override
+	public MenuVO go_menu_modify(MenuVO mvo) {
+		// 메뉴의 id 값으로 메뉴의 정보를 들고 수정페이지로 이동
+		return my.selectOne("Main.go_menu_modify",mvo);
+	}
+
+
+	@Override
+	public void menu_add(MenuVO mvo) {
+		// 메뉴추가 메소드
+		my.insert("Main.menu_add",mvo);
+	}
+
+
+	@Override
+	public void menu_modify(MenuVO mvo) {
+		// 메뉴의 아이디 값으로 메뉴의 정보 수정
+		my.update("Main.menu_modify",mvo);
+		
+	}
+
+
+	@Override
+	public void menu_delete(MenuVO mvo) {
+		// 메뉴의 아이디 값으로 메뉴 삭제
+		my.delete("Main.menu_delete",mvo);
+		
 	}
 	
 	

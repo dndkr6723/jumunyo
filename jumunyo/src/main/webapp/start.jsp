@@ -28,6 +28,10 @@
 	<input type="submit" value="거래내역보러 가자">
 </form>
 
+<form action="menu_list">
+	<input type="submit" value="메뉴관리로 가자">
+</form>
+
 
 </body>
 </html>

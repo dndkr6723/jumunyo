@@ -3,6 +3,7 @@ package com.finalp.jumunyo.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
@@ -51,6 +52,17 @@ public interface MainService {
 	public List<OrderVO> dealorder_list(RestaurantVO rvo);
 	
 	public List<OrderVO> order_search_detail(HashMap<String, Object> hm);
+	
+	public List<MenuVO> menu_list(RestaurantVO rvo);
+	
+	public MenuVO go_menu_modify(MenuVO mvo);
+	
+	public void menu_add(MenuVO mvo);
+	
+	public void menu_modify(MenuVO mvo);
+	
+	public void menu_delete(MenuVO mvo);
+	
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 

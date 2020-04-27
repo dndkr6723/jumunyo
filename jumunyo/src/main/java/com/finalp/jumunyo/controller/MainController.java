@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.finalp.jumunyo.service.MainService;
+import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
@@ -160,9 +162,9 @@ public class MainController {
 		return "business/dealRecord";
 	}
 	
-	@RequestMapping(value="order_search_detail", method = RequestMethod.POST) // 사장님 매장id값으로 거래내역 출력
+	@RequestMapping(value="order_search_detail", method = RequestMethod.POST)
 	public String order_search_detail(HttpServletRequest rq ,HttpSession session, OrderVO ovo ,Model model) throws Exception {
-		
+		// 거래내역 조건별 검색
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
 		
@@ -179,10 +181,68 @@ public class MainController {
 		return "business/dealRecord";
 	}
 	
+	@RequestMapping("menu_list") 
+	public String menu_list(MenuVO mvo ,HttpSession session,Model model) throws Exception {
+		// 매장 id 값으로 매장 메뉴 출력
+		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		List<MenuVO> mlist = (List<MenuVO>) service.menu_list(rrvo);
+		
+		model.addAttribute("mlist",mlist);
+		
+		return "business/menuList";
+	}
+	
+	@RequestMapping("go_menu_add") 
+	public String menu_add() throws Exception {
+		// 메뉴 리스트 페이지에서 menuAdd 페이지로 이동
+		
+		return "business/menuAdd";
+	}
+	
+	
+	@RequestMapping("go_menu_modify") 
+	public String go_menu_modify(MenuVO mvo ,Model model) throws Exception {
+		// 메뉴의 id 값으로 메뉴의 정보와 함께 menuAdd 로 이동만!
+		
+		MenuVO mmvo = service.go_menu_modify(mvo);
+		
+		model.addAttribute("mvo",mmvo);
+		
+		return "business/menuAdd";
+	}
+	
+	
+	@RequestMapping("menu_add") 
+	public String menu_add(MenuVO mvo) throws Exception {
+		// 매장의 메뉴 추가
+		
+		service.menu_add(mvo);
+		
+		return "redirect:/menu_list";
+	}
+	
+	
+	@RequestMapping("menu_modify") 
+	public String menu_modify(MenuVO mvo) throws Exception {
+		// 메뉴의 id 값으로 메뉴 수정
+		
+		service.menu_modify(mvo);
+		
+		return "redirect:/menu_list";
+	}
+	
+	
+	@RequestMapping("menu_delete") 
+	public String menu_delete(MenuVO mvo) throws Exception {
+		// 메뉴의 id 값으로 메뉴 삭제
+		
+		service.menu_delete(mvo);
+		
+		return "redirect:/menu_list";
+	}
+	
  	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-	
-	
-	
 	
 
 }
