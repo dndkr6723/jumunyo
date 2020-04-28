@@ -13,7 +13,9 @@ import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
+import com.finalp.jumunyo.vo.ReplyVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
+import com.finalp.jumunyo.vo.ReviewVO;
 import com.finalp.jumunyo.vo.RoomVO;
 import com.finalp.jumunyo.vo.UserVO;
 
@@ -145,6 +147,20 @@ public class MainServiceImpl implements MainService {
 	public List<RoomVO> go_roomlist(RestaurantVO rvo) {
 		// 매장 id 값으로 매장 좌석정보 전부출력
 		return my.selectList("Main.go_roomlist",rvo);
+	}
+
+
+	@Override
+	public List<ReviewVO> review_list(RestaurantVO rvo) {
+		// 매장 id 값으로 해당 매장의 리뷰 전부 출력
+		return my.selectList("Main.review_list",rvo);
+	}
+
+
+	@Override
+	public List<ReplyVO> reply_list(RestaurantVO rvo) {
+		// 매장 id 값으로 해당 매장의 리뷰댓글 전부 출력
+		return my.selectList("Main.reply_list",rvo);
 	}
 
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

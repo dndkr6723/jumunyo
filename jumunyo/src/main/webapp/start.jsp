@@ -36,6 +36,14 @@
 	<input type="submit" value="매장 좌석관리로 가자">
 </form>
 
+<form action="reservation_list">
+	<input type="submit" value="매장 예약관리 페이지로 가자">
+</form>
+
+<form action="review_list">
+	<input type="submit" value="매장 리뷰페이지로 갑시다 ㅎㅎ">
+</form>
+
 
 </body>
 </html>

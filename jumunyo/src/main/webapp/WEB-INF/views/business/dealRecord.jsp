@@ -18,8 +18,6 @@
 <body>
 <!-- 매장 거래내역 페이지 입니다. -->
 
-<!-- 1:1 문의 게시판 입니다. -->
-
 <div id="window_div">
 	<div id="content_div">
 		<div id="upper_div">

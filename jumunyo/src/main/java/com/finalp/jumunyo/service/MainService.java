@@ -8,7 +8,9 @@ import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
+import com.finalp.jumunyo.vo.ReplyVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
+import com.finalp.jumunyo.vo.ReviewVO;
 import com.finalp.jumunyo.vo.RoomVO;
 import com.finalp.jumunyo.vo.UserVO;
 
@@ -69,6 +71,10 @@ public interface MainService {
 	public void menu_delete(MenuVO mvo);
 	
 	public List<RoomVO> go_roomlist(RestaurantVO rvo);
+	
+	public List<ReviewVO> review_list(RestaurantVO rvo);
+	
+	public List<ReplyVO> reply_list(RestaurantVO rvo);
 	
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

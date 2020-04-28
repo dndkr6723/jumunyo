@@ -221,6 +221,16 @@
  		WHERE restaurant_id=#{restaurant_id}
  	</select>
  	
+ 	<select id="review_list" resultMap="reviewmap">
+ 		SELECT * FROM reviews
+ 		WHERE restaurant_id=#{restaurant_id}
+ 	</select>
+ 	
+ 	<select id="reply_list" resultMap="replymap">
+ 		SELECT * FROM replies
+ 		WHERE restaurant_id=#{restaurant_id}
+ 	</select>
+ 	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
  	

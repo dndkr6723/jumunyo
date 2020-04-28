@@ -20,7 +20,9 @@ import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
+import com.finalp.jumunyo.vo.ReplyVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
+import com.finalp.jumunyo.vo.ReviewVO;
 import com.finalp.jumunyo.vo.RoomVO;
 import com.finalp.jumunyo.vo.UserVO;
 
@@ -262,6 +264,42 @@ public class MainController {
 		model.addAttribute("rlist",rlist);
 		
 		return "business/roomModify";
+	}
+	
+	@RequestMapping("reservation_list") 
+	public String reservation_list(Model model,HttpSession session) throws Exception {
+		// 매장의 id 값으로 해당 매장의 예약정보 전부 출력
+		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		/*List<SeatOrderVO> solist = service.seatorder_list(rvo);
+		List<OrderVO> olist = (List<OrderVO>) service.dealorder_list(rvo);*/
+		//olist에서 reservation_time 빼오기 
+		// 좌석의 아이디가 작은순으로 테이블번호 1~10 등등 붙이기
+		// user_id 값으로 user_name, user_tell 구하기
+		
+		
+		return "business/roomModify";
+	}
+	
+	@RequestMapping("review_list") 
+	public String review_list(Model model,HttpSession session) throws Exception {
+		// 매장의 id 값으로 해당 매장의 리뷰 정보와 리뷰의 댓글들 전부 출력
+		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		List<ReviewVO> rvlist = service.review_list(rvo);
+		List<ReplyVO> rplist = service.reply_list(rvo);
+		
+		model.addAttribute("rvlist",rvlist).addAttribute("rplist",rplist);
+		
+		/*List<VisitorsBookBean> visitorsBook = vbDao.selectVisitorsBook();
+        if(!visitorsBook.isEmpty()){
+            for(VisitorsBookBean visitor : visitorsBook){
+                visitor.setVb_article(visitor.getVb_article().replaceAll("\r\n|\r|\n", " "));
+            } 
+            	리뷰같은 string 띄어쓰기 줄바꿈 관한 참고문
+        }*/
+		
+		return "business/reviewList";
 	}
 	
 	
