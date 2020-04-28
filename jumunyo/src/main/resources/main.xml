@@ -149,8 +149,12 @@
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
+ 	<select id="goentrance" resultMap="categorymap">
+ 		SELECT * FROM categories
+ 	</select>
+ 	
  	<select id="entrance_request" parameterType="restaurantVo" resultMap="restaurantmap">
- 		insert into restaurants values(1,#{user_id},#{restaurant_name},#{restaurant_tell}
+ 		insert into restaurants values(restaurants_seq.nextval,#{user_id},#{restaurant_name},#{restaurant_tell}
  		,#{restaurant_address},#{restaurant_owner},#{restaurant_businessnumber},#{restaurant_businessnumber_img}
  		,#{category_id},1,0,sysdate,1,1)
  	</select>
@@ -165,7 +169,7 @@
  	</select>
  	
  	<select id="question_send" resultMap="questionmap">
- 		insert into questions values(3,#{question_category_id},#{user_id_send},#{question_title},
+ 		insert into questions values(questions_seq.NEXTVAL ,#{question_category_id},#{user_id_send},#{question_title},
  			#{question_content},'없음',#{question_check},sysdate,#{user_id_receive})
  	</select>
  	
@@ -199,7 +203,7 @@
  	</select>
  	
  	<select id="menu_add" resultMap="menumap">
- 		INSERT INTO menus values(3,#{menu_name},#{menu_price},'설명','노미지',#{restaurant_id})
+ 		INSERT INTO menus values(menus_seq.NEXTVAL,#{menu_name},#{menu_price},'설명','노미지',#{restaurant_id})
  	</select>
  	
  	<select id="menu_modify" resultMap="menumap">
@@ -212,7 +216,10 @@
  		WHERE menu_id=#{menu_id}
  	</select>
  	
- 	
+ 	<select id="go_roomlist" resultMap="roommap">
+ 		SELECT * FROM rooms
+ 		WHERE restaurant_id=#{restaurant_id}
+ 	</select>
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	

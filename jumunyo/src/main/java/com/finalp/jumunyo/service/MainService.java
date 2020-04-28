@@ -3,11 +3,13 @@ package com.finalp.jumunyo.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.finalp.jumunyo.vo.CategoryVO;
 import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
+import com.finalp.jumunyo.vo.RoomVO;
 import com.finalp.jumunyo.vo.UserVO;
 
 public interface MainService {
@@ -41,6 +43,9 @@ public interface MainService {
 		
 	 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+	
+	public List<CategoryVO> goentrance();
+	
 	public void entrance_request(RestaurantVO rvo);
 	
 	public List<QuestionVO> question_list(UserVO uuvo);
@@ -62,6 +67,8 @@ public interface MainService {
 	public void menu_modify(MenuVO mvo);
 	
 	public void menu_delete(MenuVO mvo);
+	
+	public List<RoomVO> go_roomlist(RestaurantVO rvo);
 	
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

@@ -8,11 +8,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.finalp.jumunyo.vo.CategoryVO;
 import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
+import com.finalp.jumunyo.vo.RoomVO;
 import com.finalp.jumunyo.vo.UserVO;
 
 @Repository
@@ -54,6 +56,13 @@ public class MainServiceImpl implements MainService {
 			
 		 	
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+	
+	@Override
+	public List<CategoryVO> goentrance() {
+		// db에서 카테고리 목록 대리고 입점신청 페이지로 이동
+		return my.selectList("Main.goentrance");
+	}
+	
 	@Override
 	public void entrance_request(RestaurantVO rvo) {
 		// 입점신청
@@ -130,9 +139,14 @@ public class MainServiceImpl implements MainService {
 		my.delete("Main.menu_delete",mvo);
 		
 	}
-	
-	
-		 	
+
+
+	@Override
+	public List<RoomVO> go_roomlist(RestaurantVO rvo) {
+		// 매장 id 값으로 매장 좌석정보 전부출력
+		return my.selectList("Main.go_roomlist",rvo);
+	}
+
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 }

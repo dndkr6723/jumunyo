@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.finalp.jumunyo.service.MainService;
+import com.finalp.jumunyo.vo.CategoryVO;
 import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
 import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
+import com.finalp.jumunyo.vo.RoomVO;
 import com.finalp.jumunyo.vo.UserVO;
 
 
@@ -110,20 +111,29 @@ public class MainController {
 		return "business/businessMenu";
 	}
 	
-	@RequestMapping("goentrance") // 입점신청페이지로
-	public String goentrance() throws Exception {
+	@RequestMapping("goentrance")
+	public String goentrance(Model model) throws Exception {
+		// db의 category 테이블의 정보를 가지고와서 입점신청 페이지로
+		List<CategoryVO> clist = service.goentrance();
+		
+		model.addAttribute("clist",clist);
 		
 		return "business/entranceApplication";
 	}
 	
-	@RequestMapping("goquestion_send") // 입점신청페이지로
-	public String goquestion_send() throws Exception {
+	@RequestMapping("goquestion_send")
+	public String goquestion_send(Model model) throws Exception {
+		// db에 들려서 문의 카테고리 들고온 후 1:1 문의 작성 페이지로 이동
+		List<QuestionCategoryVO> qclist = service.getQuestionCategory();
+		
+		model.addAttribute("qclist",qclist);
 		
 		return "business/questionSend";
 	}
 	
-	@RequestMapping("entrance_request") // 입점신청페이지로
+	@RequestMapping("entrance_request")
 	public String entrance_request(RestaurantVO rvo) throws Exception {
+		// 받은 값들로 입점신청 insert 로직
 		//restaurant_accept : 0 미신청  ,1 신청중  ,2 입점완료
 		
 		service.entrance_request(rvo);
@@ -241,6 +251,19 @@ public class MainController {
 		
 		return "redirect:/menu_list";
 	}
+	
+	@RequestMapping("go_roomlist") 
+	public String go_roomlist(Model model,HttpSession session) throws Exception {
+		// 매장의 id 값으로 해당 매장의 좌석 정보 다 출력
+		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		List<RoomVO> rlist = service.go_roomlist(rvo);
+		
+		model.addAttribute("rlist",rlist);
+		
+		return "business/roomModify";
+	}
+	
 	
  	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 	

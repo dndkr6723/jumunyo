@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,8 +38,9 @@
 								<td>
 									<div>
 										<select name="question_category_id">
-											<option value="1" selected>시스템문의</option>
-											<option value="2">오류문의</option>
+											<c:forEach var="qclist" items="${qclist }">
+												<option value="${qclist.question_category_id }">${qclist.question_category_name }</option>
+											</c:forEach>
 										</select>
 									</div>
 								</td>

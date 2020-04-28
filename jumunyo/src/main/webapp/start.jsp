@@ -32,6 +32,10 @@
 	<input type="submit" value="메뉴관리로 가자">
 </form>
 
+<form action="go_roomlist">
+	<input type="submit" value="매장 좌석관리로 가자">
+</form>
+
 
 </body>
 </html>

@@ -53,8 +53,8 @@
 								<input type="text" value="${mlist.menu_image }" name="menu_image" disabled="disabled">
 							</td>
 							<td>
-								<form action="go_menu_modify?menu_id=${loop.count}" method="post"><input type="submit" value="수정" id="m_modify${loop.count}"></form>
-								<form action="menu_delete?menu_id=${loop.count}" method="post"><input type="submit" value="삭제" id="m_delete${loop.count}"></form>
+								<form action="go_menu_modify?menu_id=${mlist.menu_id }" method="post"><input type="submit" value="수정" id="m_modify${loop.count}"></form>
+								<form action="menu_delete?menu_id=${mlist.menu_id }" method="post"><input type="submit" value="삭제" id="m_delete${loop.count}"></form>
 							</td>
 						</tr>
 					</c:forEach>
