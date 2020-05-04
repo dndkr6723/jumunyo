@@ -231,6 +231,16 @@
  		WHERE restaurant_id=#{restaurant_id}
  	</select>
  	
+ 	<delete id="room_delete">
+ 		DELETE FROM rooms
+ 		where room_id = #{room_id}
+ 	</delete>
+
+	<update id="room_modify">
+		UPDATE rooms
+		SET room_number = #{room_number}
+		WHERE room_id = #{room_id}
+	</update>
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
  	

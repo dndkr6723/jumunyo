@@ -163,6 +163,18 @@ public class MainServiceImpl implements MainService {
 		return my.selectList("Main.reply_list",rvo);
 	}
 
+
+	@Override
+	public String room_delete(RoomVO rmvo) {
+		my.delete("Main.room_delete",rmvo);
+		return null;
+	}
+	
+	@Override
+	public void room_modify(RoomVO rmvo) {
+		my.delete("Main.room_modify",rmvo);
+	}
+
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 }

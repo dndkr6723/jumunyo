@@ -28,28 +28,62 @@
 		var ncell4 = nRow.insertCell();
 		
 		ncell1.innerHTML = lastidnum+1+" 번 테이블";
-		ncell2.innerHTML = "<input type='text' value='' name='room_num'>";
+		ncell2.innerHTML = "<form action='room_add'><input type='text' value='' name='room_num'>";
 		ncell3.innerHTML = "<input type='text' value='없음' name='room_check'>";
-		ncell4.innerHTML = "<input type='button' value='등록' onclick=''>"
-						   + "<input type='button' value='취소'>";
+		ncell4.innerHTML = "<input type='submit' value='등록'>"
+						   + "<input type='button' value='취소' onclick='cancel()'></form>";
 		
 	}
  	
- 	function r_modify(num,chk){
- 		
+ 	function r_modify(num){
  		
  		var $num = document.getElementById(num);
- 		var $chk = document.getElementById(chk);
- 		console.log($num);
- 		console.log($chk);
- 		$num.removeAttribute("disable");
- 		$chk.removeAttribute("disable");
+ 		$num.removeAttribute("disabled");
+ 		
+ 		// 현재 루프의 숫자 알아내서
+ 		var loop_str = num.split('_');
+ 		var loop_num = parseInt(loop_str[1]);
+ 		
+ 		// 일단 form 컨트롤러 위치 바꾸고
+ 		document.getElementById("room_form"+loop_num).action = "room_modify";
+ 		
+ 		// 기존 버튼 숨기고 수정용 버튼 출현
+	 	document.getElementById("roommodify_"+loop_num).style="display : none";
+	 	document.getElementById("roomdelete_"+loop_num).style="display : none";
+	 	document.getElementById("roomodiconfirm_"+loop_num).style="display : block";
+	 	document.getElementById("modifycancel_"+loop_num).style="display : block";
+	 	
  	}
+ 	
+ 	// 수정 취소 눌렀을 때 로직
+ 	function r_modify_cancel(num){
+ 		
+ 		var loop_str = num.split('_');
+ 		var loop_num = parseInt(loop_str[1]);
+ 		
+ 		document.getElementById("room_form"+loop_num).action = "go_roomlist";
+ 		document.getElementById("room_form"+loop_num).submit();
+ 		
+ 	}
+ 	
+	function cancel(){ // 신규등록 취소 함수
+		var tr = document.getElementById("room_table").getElementsByTagName("TBODY")[0];
+		tr.removeChild(tr.lastChild);
+	}
 </script>
 
 </head>
 <body>
 <!-- 매장 좌석 관리 페이지 입니다. -->
+<c:choose>
+	<c:when test="${result != null }">
+		<input type="hidden" name="" value="${result }" id="result">
+		<script>
+			var string = document.getElementById("result").value;
+			alert(string);
+		</script>
+	</c:when>
+</c:choose>
 
 <div id="window_div">
 	<div id="content_div">
@@ -80,7 +114,8 @@
 						</tr>
 					
 					<c:forEach var="rlist" items="${rlist }" varStatus="loop">
-						<tr id="${loop.count}">
+						<form action="room_delete" id="room_form${loop.count}">
+						<tr id="tr_${loop.count}">
 							<td>
 								<input type="hidden" value="${rlist.room_id }" name="room_id" id="roomid_${loop.count}">
 								${loop.count} 번 테이블
@@ -89,13 +124,21 @@
 								<input type="text" value="${rlist.room_number }" name="room_number" id="roomnum_${loop.count}" disabled="disabled">
 							</td>
 							<td>
-								<input type="text" value="${rlist.room_check }" name="room_check" id="roomchk_${loop.count}" disabled="disabled">
+								<c:if test="${rlist.room_check == 0}">
+									<input type="text" value="예약없음" name="room_check" id="roomchk_${loop.count}" disabled="disabled">
+								</c:if><!-- oracle 쪽에서 튕 -->
+								<c:if test="${rlist.room_check == 1}">
+									<input type="text" value="예약중" name="room_check" id="roomchk_${loop.count}" disabled="disabled">
+								</c:if>
 							</td>
 							<td>
-								<input type="button" value="수정" onclick="r_modify('roomnum_${loop.count}','roomchk_${loop.count}')">
-								<input type="button" value="삭제" onclick="">
+								<input type="button" value="수정" id="roommodify_${loop.count}" onclick="r_modify('roomnum_${loop.count}')">
+								<input type="submit" value="삭제" id="roomdelete_${loop.count}">
+								<input type="submit" value="수정완료" id="roomodiconfirm_${loop.count}" style="display : none">
+								<input type="button" value="취소" id="modifycancel_${loop.count}" style="display : none" onclick="r_modify_cancel('roomnum_${loop.count}')">
 							</td>
 						</tr>
+						</form>
 					</c:forEach>
 				</table>
 				

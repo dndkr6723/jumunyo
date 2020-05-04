@@ -76,6 +76,10 @@ public interface MainService {
 	
 	public List<ReplyVO> reply_list(RestaurantVO rvo);
 	
+	public String room_delete(RoomVO rmvo);
+	
+	public void room_modify(RoomVO rmvo);
+	
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
