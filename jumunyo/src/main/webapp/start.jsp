@@ -44,6 +44,11 @@
 	<input type="submit" value="매장 리뷰페이지로 갑시다 ㅎㅎ">
 </form>
 
+<form action="go_revenue_table">
+	<input type="submit" value="매장 매출현황 가자~~">
+</form>
+
+
 
 </body>
 </html>

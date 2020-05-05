@@ -219,6 +219,7 @@
  	<select id="go_roomlist" resultMap="roommap">
  		SELECT * FROM rooms
  		WHERE restaurant_id=#{restaurant_id}
+ 		ORDER BY room_id ASC;
  	</select>
  	
  	<select id="review_list" resultMap="reviewmap">
@@ -231,6 +232,12 @@
  		WHERE restaurant_id=#{restaurant_id}
  	</select>
  	
+ 	<select id="room_check" resultMap="roommap">
+ 		SELECT * FROM rooms
+ 		WHERE room_id = #{room_id}
+ 	</select>
+ 	
+ 	
  	<delete id="room_delete">
  		DELETE FROM rooms
  		where room_id = #{room_id}
@@ -241,6 +248,17 @@
 		SET room_number = #{room_number}
 		WHERE room_id = #{room_id}
 	</update>
+	
+	<insert id="room_add" parameterType="roomVo">
+		INSERT INTO rooms values (rooms_seq.NEXTVAL,#{room_number},#{restaurant_id},0)
+	</insert>
+	
+	<select id="menu_sales_default" parameterType="String" resultMap="ordermap">
+ 		SELECT * FROM orders
+ 		WHERE order_date between '${value} 00:00:00' and '${value} 23:59:59'
+ 	</select>
+	
+	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
  	

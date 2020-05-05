@@ -78,7 +78,11 @@ public interface MainService {
 	
 	public String room_delete(RoomVO rmvo);
 	
-	public void room_modify(RoomVO rmvo);
+	public String room_modify(RoomVO rmvo);
+	
+	public void room_add(RoomVO romvo);
+	
+	public void menu_sales_default(RestaurantVO rvo);
 	
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

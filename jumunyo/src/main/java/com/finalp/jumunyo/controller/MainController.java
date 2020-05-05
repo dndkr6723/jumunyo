@@ -304,24 +304,18 @@ public class MainController {
 	}
 	
 	@RequestMapping("room_delete") 
-	public String room_delete(RoomVO rmvo ,Model model, HttpServletRequest rq) throws Exception {
+	public String room_delete(RoomVO rmvo ,HttpSession session, Model model, HttpServletRequest rq) throws Exception {
 		// 좌석 아이디 값으로 좌석 삭제
-		String result = "";
+		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		List<RoomVO> rlist = service.go_roomlist(rvo);
+		model.addAttribute("rlist",rlist);
 		
-		if(rmvo.getRoom_check() == 1) {
-			result = "예약이 있는 테이블은 삭제 할 수 없습니다.";
+		String result = "";
+		result = service.room_delete(rmvo);
 			
-			model.addAttribute("result",result);
+		model.addAttribute("result",result);
 			
-			return "redirect:/go_roomlist";
-		} else {
-			service.room_delete(rmvo);
-			result = "삭제 성공!";
-			
-			model.addAttribute("result",result);
-			
-			return "redirect:/go_roomlist";
-		}
+		return "business/roomModify";
 	}
 	
 	
@@ -334,33 +328,34 @@ public class MainController {
 		model.addAttribute("rlist",rlist);
 		
 		String result = "";
-		String check1 = (String) rq.getAttribute("room_check");
-		String check = rq.getParameter("room_check");
-		System.out.println(check1);
-		
-		if(rq.equals("예약중")) {
-			result = "예약이 있는 테이블은 수정 할 수 없습니다.";
+		result = service.room_modify(rmvo);
 			
-			model.addAttribute("result",result);
+		model.addAttribute("result",result);
 			
-			return "business/roomModify";
-		} else {
-			service.room_modify(rmvo);
-			result = "수정 성공!";
-			
-			model.addAttribute("result",result);
-			
-			return "business/roomModify";
-		}
+		return "business/roomModify";
 	}
 	
 	@RequestMapping("room_add") 
-	public String room_add(Model model,HttpSession session) throws Exception {
+	public String room_add(RoomVO rmvo ,Model model,HttpSession session) throws Exception {
 		// 매장 세션 에서 매장 id 값 가져와서 좌석 등록 
+		service.room_add(rmvo);
 		
-		
-		return "business/roomModify";
+		return "redirect:/go_roomlist";
 	}
+	
+	
+	@RequestMapping("go_revenue_table") 
+	public String go_revenue_table(HttpSession session, Model model) throws Exception {
+		// 매장 세션 에서 매장 id 값 가져와서 매출현황 기본값 깔아주기(오늘/하루/전날대비 없음)
+		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		// 매장id로 order 테이블 내용 오늘날짜 1,2,3등 전부 대려오기
+		service.menu_sales_default(rvo);
+		
+		
+		return "business/revenueTable";
+	}
+	
 	
 	
  	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

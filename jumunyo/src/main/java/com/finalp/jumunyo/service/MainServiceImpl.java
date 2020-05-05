@@ -1,6 +1,7 @@
 package com.finalp.jumunyo.service;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -166,14 +167,58 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public String room_delete(RoomVO rmvo) {
-		my.delete("Main.room_delete",rmvo);
-		return null;
+		// room id 값으로 해당 좌석 데이터 삭제
+		RoomVO check = my.selectOne("Main.room_check", rmvo);
+		
+		if(check.getRoom_check()==1) {
+			return "예약이 있는 테이블은 삭제 할 수 없습니다.";
+		} else {
+			my.update("Main.room_delete",rmvo);
+			return "삭제완료";
+		}
 	}
 	
 	@Override
-	public void room_modify(RoomVO rmvo) {
-		my.delete("Main.room_modify",rmvo);
+	public String room_modify(RoomVO rmvo) {
+		// room id 값으로 해당 좌석 데이터 수정
+		RoomVO check = my.selectOne("Main.room_check", rmvo);
+		
+		if(check.getRoom_check()==1) {
+			return "예약이 있는 테이블은 수정 할 수 없습니다.";
+		} else {
+			my.update("Main.room_modify",rmvo);
+			return "수정완료";
+		}
 	}
+
+
+	@Override
+	public void room_add(RoomVO rmvo) {
+		// session 매장 id 값과 함께 매장 좌석 추가
+		my.insert("Main.room_add",rmvo);
+		
+	}
+
+
+	@Override
+	public void menu_sales_default(RestaurantVO rvo) {
+		// session 에서 매장 id 값 가져와서 매출현황 페이지 최고매출 디폴트 값 출력(오늘 하루)
+		
+		Date now_date = new Date(System.currentTimeMillis());
+		System.out.println(now_date);
+		SimpleDateFormat time_form_date = new SimpleDateFormat("yyyy/MM/dd/");
+		SimpleDateFormat time_form_second = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss");
+		String date_str = time_form_date.format(now_date);
+		System.out.println(time_form_date.format(now_date));
+		System.out.println(time_form_second.format(now_date));
+		
+		List<OrderVO> ovol = my.selectList("Main.menu_sales_default", date_str);
+		for(int i=0; i<ovol.size(); i++) {
+			System.out.println(ovol.get(i).getMenu_list());
+		}
+		
+	}
+
 
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 

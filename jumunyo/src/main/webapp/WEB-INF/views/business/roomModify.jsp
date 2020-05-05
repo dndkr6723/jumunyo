@@ -28,14 +28,14 @@
 		var ncell4 = nRow.insertCell();
 		
 		ncell1.innerHTML = lastidnum+1+" 번 테이블";
-		ncell2.innerHTML = "<form action='room_add'><input type='text' value='' name='room_num'>";
-		ncell3.innerHTML = "<input type='text' value='없음' name='room_check'>";
-		ncell4.innerHTML = "<input type='submit' value='등록'>"
-						   + "<input type='button' value='취소' onclick='cancel()'></form>";
+		ncell2.innerHTML = "<input type='text' value='' name='room_number' id='new_room_number'>";
+		ncell3.innerHTML = "<input type='text' value='예약없음' disabled='disabled'>";
+		ncell4.innerHTML = "<input type='button' value='등록' onclick='add_room()'>"
+						   + "<input type='button' value='취소' onclick='cancel()'>";
 		
 	}
  	
- 	function r_modify(num){
+ 	function r_modify(num){ // 수정버튼 눌렀을 시 
  		
  		var $num = document.getElementById(num);
  		$num.removeAttribute("disabled");
@@ -70,6 +70,13 @@
 		var tr = document.getElementById("room_table").getElementsByTagName("TBODY")[0];
 		tr.removeChild(tr.lastChild);
 	}
+	
+	function add_room(){
+		var r_num = document.getElementById("new_room_number").value;
+		document.getElementById("imsi_room_number").value = r_num;
+		document.getElementById("add_room_form").submit();
+	}
+	
 </script>
 
 </head>
@@ -142,6 +149,11 @@
 					</c:forEach>
 				</table>
 				
+				<!-- 신규등록용 임시 form -->
+				<form action="room_add" id="add_room_form">
+					<input type="hidden" value="${rvo.restaurant_id}" name="restaurant_id">
+					<input type="hidden" value="" name="room_number" id="imsi_room_number">
+				</form>
 				
 			</div>	
 		</div>
