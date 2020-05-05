@@ -82,8 +82,9 @@ public interface MainService {
 	
 	public void room_add(RoomVO romvo);
 	
-	public void menu_sales_default(RestaurantVO rvo);
+	public void menu_sales_top(RestaurantVO rvo);
 	
+	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo);
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 

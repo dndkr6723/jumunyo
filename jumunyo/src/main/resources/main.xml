@@ -111,7 +111,9 @@
 		<result property="order_id" column="order_id"/>
 		<result property="request" column="request"/>
 	</resultMap>
-
+	
+	
+	
  	<!-- <select id="select" parameterType="userVo" resultMap="usermap">		윗쪽의 id map 을  이쪽의  resultmap 에 대응
 		SELECT * FROM teltable55 where id = #{id}
 	</select> -->
@@ -253,12 +255,19 @@
 		INSERT INTO rooms values (rooms_seq.NEXTVAL,#{room_number},#{restaurant_id},0)
 	</insert>
 	
-	<select id="menu_sales_default" parameterType="String" resultMap="ordermap">
+	<select id="menu_sales_default" resultMap="ordermap">
  		SELECT * FROM orders
- 		WHERE order_date between '${value} 00:00:00' and '${value} 23:59:59'
+ 		WHERE order_date between to_date('${value} 00:00:00', 'YY/MM/DD HH24:MI:SS') and to_date('${value} 23:59:59', 'YY/MM/DD HH24:MI:SS')
  	</select>
 	
-	
+	<select id="menu_price" resultMap="menumap">
+ 		SELECT * FROM menus
+ 		WHERE menu_id = ${value}
+ 	</select>
+ 	
+ 	
+ 	
+ 	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
  	

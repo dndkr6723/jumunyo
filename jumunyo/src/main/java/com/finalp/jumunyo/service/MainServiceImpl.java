@@ -1,9 +1,12 @@
 package com.finalp.jumunyo.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,25 +204,149 @@ public class MainServiceImpl implements MainService {
 
 
 	@Override
-	public void menu_sales_default(RestaurantVO rvo) {
+	public void menu_sales_top(RestaurantVO rvo) {
 		// session 에서 매장 id 값 가져와서 매출현황 페이지 최고매출 디폴트 값 출력(오늘 하루)
+		String first_split [] = null;
+		String second_split [] = null;
+
+		HashMap<String, Integer> sales  = new HashMap<String, Integer>();
+		HashMap<String, Integer> mount_price = new HashMap<String, Integer>();
 		
+		// 오늘날짜 뽑기
 		Date now_date = new Date(System.currentTimeMillis());
-		System.out.println(now_date);
-		SimpleDateFormat time_form_date = new SimpleDateFormat("yyyy/MM/dd/");
-		SimpleDateFormat time_form_second = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss");
+		SimpleDateFormat time_form_date = new SimpleDateFormat("yy/MM/dd");
+		SimpleDateFormat time_form_second = new SimpleDateFormat("yy/MM/dd/ HH:mm:ss");
 		String date_str = time_form_date.format(now_date);
-		System.out.println(time_form_date.format(now_date));
-		System.out.println(time_form_second.format(now_date));
 		
+		// 오늘 날짜의 order 전부 뽑기
 		List<OrderVO> ovol = my.selectList("Main.menu_sales_default", date_str);
+		
+		// menu id 를 키값으로 수량을 누적하는 hasp 맵 작성
 		for(int i=0; i<ovol.size(); i++) {
-			System.out.println(ovol.get(i).getMenu_list());
+			first_split = ovol.get(i).getMenu_list().split(",");
+			
+			for(int j=0; j<first_split.length; j++) {
+				second_split = first_split[j].split("x");
+				
+				if(sales.containsKey(second_split[0])) {
+					sales.put(second_split[0], (sales.get(second_split[0]) + Integer.parseInt(second_split[1])));
+				} else {
+					sales.put(second_split[0], Integer.parseInt(second_split[1]));
+				}
+			}
 		}
 		
+		// 오늘 팔린 각각 메뉴의 수량x가격
+		Set<String> keys = sales.keySet();
+
+		for (String key : keys) {
+			int value = sales.get(key); 
+			System.out.println(key +":" + value);
+			MenuVO mvo = my.selectOne("Main.menu_price",key);
+			Integer sum = mvo.getMenu_price()*value;
+			System.out.println(sum);
+			mount_price.put(key,sum);
+
+		}
+		
+		
+		
 	}
+	
+	@Override
+	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo) {
+		// 시간대별 매출 default
+		int a = 0; //09~10:59
+		int b = 0; //11~12:59
+		int c = 0;; //13~14:59
+		int d = 0;; //15~16:59 
+		int e = 0;; //17~18:59
+		int f = 0;; //19~20:59
+		int g = 0;; //21~22:59
+		
+		// 오늘날짜 뽑기
+		Date now_date = new Date(System.currentTimeMillis());
+		SimpleDateFormat time_form_date = new SimpleDateFormat("yy/MM/dd");
+		SimpleDateFormat time_form_second = new SimpleDateFormat("yy/MM/dd/ HH:mm:ss");
+		SimpleDateFormat time_form_hour = new SimpleDateFormat("HH");
+		String date_str = time_form_date.format(now_date);
+		
+		// 오늘날짜 시간대별로 뽑기
+		List<OrderVO> ovol = my.selectList("Main.menu_sales_default", date_str);
+		
+		
+		for(int i=0;i<ovol.size();i++) {
+			String time_str = time_form_hour.format(ovol.get(i).getOrder_date());
+			
+			switch (time_str) {
+			
+			case "09":
+				a = a + ovol.get(i).getOrder_price();
+				break;
+			case "10":
+				a = a + ovol.get(i).getOrder_price();
+				break;
+			case "11":
+				b = b + ovol.get(i).getOrder_price();
+				break;
+			case "12":
+				b = b + ovol.get(i).getOrder_price();
+				break;
+			case "13":
+				c = c + ovol.get(i).getOrder_price();
+				break;
+			case "14":
+				c = c + ovol.get(i).getOrder_price();
+				break;
+			case "15":
+				d = d + ovol.get(i).getOrder_price();
+				break;
+			case "16":
+				d = d + ovol.get(i).getOrder_price();
+				break;
+			case "17":
+				e = e + ovol.get(i).getOrder_price();
+				break;
+			case "18":
+				e = e + ovol.get(i).getOrder_price();
+				break;
+			case "19":
+				f = f + ovol.get(i).getOrder_price();
+				break;
+			case "20":
+				f = f + ovol.get(i).getOrder_price();
+				break;
+			case "21":
+				g = g + ovol.get(i).getOrder_price();
+				break;
+			case "22":
+				g = g + ovol.get(i).getOrder_price();
+				break;
+			default:
+				g = g + ovol.get(i).getOrder_price();
+				break;
+			}
+			
+		}
+		
+		int sum = a+b+c+d+e+f+g;
+		
+		HashMap<String, Integer> time_sales = new HashMap<>();
+		time_sales.put("1", a);
+		time_sales.put("2", b);
+		time_sales.put("3", c);
+		time_sales.put("4", d);
+		time_sales.put("5", e);
+		time_sales.put("6", f);
+		time_sales.put("7", g);
+		time_sales.put("8", sum);
 
-
+		return time_sales;
+		
+		
+	}
+	
+	
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 }
