@@ -134,13 +134,15 @@ function test() {
 									
 									<tr>
 										<td>
-										${top.value[1] }
+										총 갯수
+										${top.value[2] }
 										</td>
 									</tr>
 									
 									<tr>
 										<td>
-										몇원 들어가는곳
+										총 금액
+										${top.value[1] }
 										</td>
 									</tr>
 								</table>

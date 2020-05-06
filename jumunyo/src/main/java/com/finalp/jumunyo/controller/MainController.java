@@ -351,7 +351,11 @@ public class MainController {
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
 		
 		// 매장id로 order 테이블 내용 오늘날짜 1,2,3등 전부 대려오기
-		HashMap<String, Integer[]> top = service.menu_sales_top(rvo);
+		HashMap<String, Integer[]> imsi = service.menu_sales_top(rvo);
+		HashMap<String, Integer[]> top = new HashMap<String, Integer[]>();
+		top.put("1", imsi.get("1"));
+		top.put("2", imsi.get("2"));
+		top.put("3", imsi.get("3"));
 		
 		model.addAttribute("top",top);
 		
