@@ -4,6 +4,7 @@ package com.finalp.jumunyo.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finalp.jumunyo.service.MainService;
 import com.finalp.jumunyo.vo.CategoryVO;
@@ -351,14 +353,21 @@ public class MainController {
 		// 매장id로 order 테이블 내용 오늘날짜 1,2,3등 전부 대려오기
 		HashMap<String, Integer[]> top = service.menu_sales_top(rvo);
 		
-		HashMap<String, Integer> time_sales = service.menu_sales_time(rvo);
-		
-		model.addAttribute("time_sales",time_sales);
+		model.addAttribute("top",top);
 		
 		return "business/revenueTable";
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("go_chart_data") 
+	public HashMap<String, Integer> go_chart_data(HttpSession session, Model model) throws Exception {
+		// 매장 세션 에서 매장 id 값 가져와서 매출현황 기본값 깔아주기(오늘/하루/전날대비 없음)
+		
+		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		HashMap<String, Integer> time_sales = service.menu_sales_time(rvo);
+		
+		return time_sales;
+	}
 	
 	
 	

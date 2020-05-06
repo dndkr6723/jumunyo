@@ -255,24 +255,25 @@ public class MainServiceImpl implements MainService {
 		
 		List<Entry<String, Integer>> list_entries = new ArrayList<Entry<String, Integer>>(mount_price.entrySet());
 
-		// 비교함수 Comparator를 사용하여 오름차순으로 정렬
+		// 비교함수 Comparator를 사용하여 내림차순으로 정렬
 		Collections.sort(list_entries, new Comparator<Entry<String, Integer>>() {
 			// compare로 값을 비교
 			public int compare(Entry<String, Integer> obj1, Entry<String, Integer> obj2) {
-				// 오름 차순 정렬
+				// 내림 차순 정렬
 				return obj2.getValue().compareTo(obj1.getValue());
 			}
 		});
 
-		System.out.println("오름 차순 정렬");
-		// 결과 출력
+		// 마지막 result 맵에 담아서 controller로
 		int count = 1;
 		for(Entry<String, Integer> entry : list_entries) {
 			Integer b = Integer.parseInt(entry.getKey());
 			Integer[] a = {b,entry.getValue(),sales.get(entry.getKey())};
+			// [메뉴의 id, 메뉴가격X수량, 메뉴의 수량]
 			result.put(""+count, a);
 			count++;
 		}
+		
 		
 		return result;
 		

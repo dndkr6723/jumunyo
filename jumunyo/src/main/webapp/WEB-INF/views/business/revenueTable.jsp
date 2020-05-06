@@ -9,37 +9,60 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-	google.charts.load('current',{'packages':['corechart']});
-	google.charts.setOnLoadCallback(drawVisualization)
+	
+function test() {
+    $.ajax({
+        url: "go_chart_data",
+        type: "post",
+        data: "",
+        dataType: "json",
+        contentType: "application/json",
+        success: function(data) {
+        	
+            alert("성공");
+            var ts = data;
+           	console.log(ts["1"]);
+           	
+           	google.charts.load('current',{'packages':['corechart']});
+           	google.charts.setOnLoadCallback(drawVisualization)
+           	
+           	function drawVisualization(){
+        		var data = google.visualization.arrayToDataTable([
+        			['시간','오늘','(전날/전월)대비'],
+        			['09~11',ts["1"],30],
+        			['11~13',ts["2"],30],
+        			['13~15',ts["3"],30],
+        			['15~17',ts["4"],30],
+        			['17~19',ts["5"],30],
+        			['19~21',ts["6"],30],
+        			['21~23',ts["7"],30]
+        		]);
+        		
+        		var options = {
+        			title : '시간대별 매출액',
+        			vAxis : {title:'금액'},
+        			hAxis : {title:'시간별'},
+        			seriesType : 'bars',
+        			series : {5: {type:'line'}},
+        			animation: {
+                        startup: true,
+                        duration: 1000,
+                        easing: 'linear' }
+        		};
+        		
+        		var chart = new google.visualization.ComboChart(document.getElementById('chart'));
+        		chart.draw(data,options);
+        	}
+            
+        },
+        error: function(errorThrown) {
+            alert(errorThrown.statusText);
+        }
+    });
+}
 
 	
-	function drawVisualization(){
-		var data = google.visualization.arrayToDataTable([
-			['시간','오늘','(전날/전월)대비'],
-			['09~11',100,30],
-			['11~13',120,30],
-			['13~15',130,30],
-			['15~17',105,30],
-			['17~19',85,30],
-			['19~21',71,30],
-			['21~23',120,30]
-		]);
-		
-		var options = {
-			title : '시간대별 매출액',
-			vAxis : {title:'금액'},
-			hAxis : {title:'시간별'},
-			seriesType : 'bars',
-			series : {5: {type:'line'}},
-			animation: {
-                startup: true,
-                duration: 1000,
-                easing: 'linear' }
-		};
-		
-		var chart = new google.visualization.ComboChart(document.getElementById('chart'));
-		chart.draw(data,options);
-	}
+	
 </script>
 
 
@@ -86,10 +109,22 @@
 					<table>
 						<tr><th colspan="3">최고 매출 상품!</th></tr>
 						<tr>
-							<%-- <c:forEach var="" items=""> --%>
+							<c:forEach var="top" items="${top }" varStatus="loop">
 							<td>
 								<table>
-									<tr><th>1st</th></tr>
+									<tr><th>
+										<c:choose>
+											<c:when test="${loop.count == 1 }">
+												1st
+											</c:when>
+											<c:when test="${loop.count == 2 }">
+												2nd
+											</c:when>
+											<c:when test="${loop.count == 3 }">
+												3th
+											</c:when>
+										</c:choose>
+									</th></tr>
 									
 									<tr>
 										<td>
@@ -99,7 +134,7 @@
 									
 									<tr>
 										<td>
-										몇개 들어가는 곳
+										${top.value[1] }
 										</td>
 									</tr>
 									
@@ -110,7 +145,7 @@
 									</tr>
 								</table>
 							</td>
-							<%-- </c:forEach> --%>
+							</c:forEach>
 						</tr>
 					</table>
 				</div>
@@ -120,12 +155,12 @@
 						<div>시간대별 매출액</div>
 						<div>날짜고르기</div>
 						<div>전날대비</div>
+						<button onclick="test()" type="button">그래프 확인!</button>
 					</div>
 					
 					<div id="chart" style="width:900px; height:500px;"><!--  차트나오는 div -->
 					
 					</div>
-					${time_sales.get("1") / time_sales.get("8") }
 				</div>
 				<div>총거래역, 총매출액 나오는곳</div>
 				
@@ -133,6 +168,10 @@
 		</div>
 	</div>
 </div>
+
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 
 
 </body>
