@@ -346,18 +346,33 @@ public class MainController {
 	
 	
 	@RequestMapping("go_revenue_table") 
-	public String go_revenue_table(HttpSession session, Model model) throws Exception {
-		// 매장 세션 에서 매장 id 값 가져와서 매출현황 기본값 깔아주기(오늘/하루/전날대비 없음)
+	public String go_revenue_table(HttpSession session, HttpServletRequest rq, Model model) throws Exception {
+		// 매장 세션 에서 매장 id 값 가져와서 매출현황 깔아주기(매출 탑 3)
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		String term = rq.getParameter("date_term");
 		
-		// 매장id로 order 테이블 내용 오늘날짜 1,2,3등 전부 대려오기
-		HashMap<String, Integer[]> imsi = service.menu_sales_top(rvo);
-		HashMap<String, Integer[]> top = new HashMap<String, Integer[]>();
+		int term_select = 0; // 기간 검사용
+		if(term == null) {
+			term_select = 1;
+		} else {
+			if(term.equals("하루")) {
+				term_select = 1;
+			}else if(term.equals("일주일")) {
+				term_select = 2;
+			}else if(term.equals("한달")) {
+				term_select = 3;
+			}
+		}
+		
+		// 매장id로 order 테이블 내용 1,2,3등 전부 대려오기
+		HashMap<String, Object[]> imsi = service.menu_sales_top(rvo,term_select);
+		HashMap<String, Object[]> top = new HashMap<String, Object[]>();
 		top.put("1", imsi.get("1"));
 		top.put("2", imsi.get("2"));
 		top.put("3", imsi.get("3"));
 		
 		model.addAttribute("top",top);
+		model.addAttribute("term",term);
 		
 		return "business/revenueTable";
 	}
@@ -372,7 +387,6 @@ public class MainController {
 		
 		return time_sales;
 	}
-	
 	
 	
  	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

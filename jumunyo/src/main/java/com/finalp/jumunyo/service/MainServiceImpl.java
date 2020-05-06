@@ -208,23 +208,47 @@ public class MainServiceImpl implements MainService {
 
 
 	@Override
-	public HashMap<String, Integer[]> menu_sales_top(RestaurantVO rvo) {
+	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo, int term_select) {
 		// session 에서 매장 id 값 가져와서 매출현황 페이지 최고매출 디폴트 값 출력(오늘 하루)
 		String first_split [] = null;
 		String second_split [] = null;
 
 		Map<String, Integer> sales  = new HashMap<String, Integer>();
 		Map<String, Integer> mount_price = new HashMap<String, Integer>();
-		HashMap<String, Integer []> result = new HashMap<String, Integer[]>();
+		HashMap<String, Object[]> name_img = new HashMap<String, Object[]>();
+		HashMap<String, Object[]> result = new HashMap<String, Object[]>();
 		
 		// 오늘날짜 뽑기
 		Date now_date = new Date(System.currentTimeMillis());
+		Date ago_date = new Date(System.currentTimeMillis()); // 예전날짜 넣을 date
 		SimpleDateFormat time_form_date = new SimpleDateFormat("yy/MM/dd");
 		SimpleDateFormat time_form_second = new SimpleDateFormat("yy/MM/dd/ HH:mm:ss");
-		String date_str = time_form_date.format(now_date);
+		String date_str = time_form_date.format(now_date); // 오늘하루
 		
-		// 오늘 날짜의 order 전부 뽑기
-		List<OrderVO> ovol = my.selectList("Main.menu_sales_default", date_str);
+		System.out.println("나는 서비스단 : " +term_select);
+		System.out.println("나는 오늘 날짜 : " + now_date);
+		HashMap<String, String> time = new HashMap<>();// xml에 term 조건 주기위해 해쉬맵 이용
+		if(term_select==1) {
+			time.put("term", "one");	//하루
+		}else if(term_select==2) {
+			ago_date.setDate(ago_date.getDate()-6);
+			String ago_str = time_form_date.format(ago_date);
+			System.out.println("나는 일주일전 날짜 : " + ago_str);
+			
+			time.put("ago_str", ago_str);
+			time.put("term", "two");	//일주일
+		}else if(term_select==3) {
+			ago_date.setDate(ago_date.getDate()-29);
+			String ago_str = time_form_date.format(ago_date);
+			System.out.println("나는 한달전 날짜 : " + ago_str);
+			
+			time.put("ago_str", ago_str);
+			time.put("term", "three");	//한달
+		}
+		time.put("date_str", date_str);
+		
+		// 해당 term 동안의 날짜동안의 order 데이터 다 댈고오기
+		List<OrderVO> ovol = my.selectList("Main.menu_sales_default", time);
 		
 		// menu id 를 키값으로 수량을 누적하는 hasp 맵 작성
 		for(int i=0; i<ovol.size(); i++) {
@@ -246,11 +270,12 @@ public class MainServiceImpl implements MainService {
 
 		for (String key : keys) {
 			int value = sales.get(key); 
-			System.out.println(key +":" + value);
 			MenuVO mvo = my.selectOne("Main.menu_price",key);
 			Integer sum = mvo.getMenu_price()*value;
-			System.out.println(sum);
-			mount_price.put(key,sum);
+			mount_price.put(key,sum); // 총금액 맵 채우고
+			
+			Object [] nameimg = {mvo.getMenu_name(),mvo.getMenu_image()};
+			name_img.put(key, nameimg); // 이미지랑 메뉴이름 맵 채우고
 		}
 		
 		List<Entry<String, Integer>> list_entries = new ArrayList<Entry<String, Integer>>(mount_price.entrySet());
@@ -263,17 +288,17 @@ public class MainServiceImpl implements MainService {
 				return obj2.getValue().compareTo(obj1.getValue());
 			}
 		});
-
+		
 		// 마지막 result 맵에 담아서 controller로
 		int count = 1;
 		for(Entry<String, Integer> entry : list_entries) {
-			Integer b = Integer.parseInt(entry.getKey());
-			Integer[] a = {b,entry.getValue(),sales.get(entry.getKey())};
+			Integer id = Integer.parseInt(entry.getKey());
+			Object[] nameimg = name_img.get(entry.getKey());
+			Object[] imsi = {id, entry.getValue(), sales.get(entry.getKey()), nameimg[0], nameimg[1]};
 			// [메뉴의 id, 메뉴가격X수량, 메뉴의 수량]
-			result.put(""+count, a);
+			result.put(""+count, imsi);
 			count++;
 		}
-		
 		
 		return result;
 		

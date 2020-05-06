@@ -255,9 +255,17 @@
 		INSERT INTO rooms values (rooms_seq.NEXTVAL,#{room_number},#{restaurant_id},0)
 	</insert>
 	
-	<select id="menu_sales_default" resultMap="ordermap">
+	<select id="menu_sales_default" parameterType="hashmap" resultMap="ordermap">
  		SELECT * FROM orders
- 		WHERE order_date between to_date('${value} 00:00:00', 'YY/MM/DD HH24:MI:SS') and to_date('${value} 23:59:59', 'YY/MM/DD HH24:MI:SS')
+ 		<if test="term.equals('one')">
+	 		WHERE order_date between to_date('${date_str} 00:00:00', 'YY/MM/DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY/MM/DD HH24:MI:SS')
+ 		</if>
+ 		<if test="term.equals('two')">
+	 		WHERE order_date between to_date('${ago_str} 00:00:00', 'YY/MM/DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY/MM/DD HH24:MI:SS')
+ 		</if>
+ 		<if test="term.equals('three')">
+	 		WHERE order_date between to_date('${ago_str} 00:00:00', 'YY/MM/DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY/MM/DD HH24:MI:SS')
+ 		</if>
  	</select>
 	
 	<select id="menu_price" resultMap="menumap">

@@ -61,8 +61,12 @@ function test() {
     });
 }
 
-	
-	
+</script>
+
+<script>
+	function select_term(){
+		document.getElementById("date_term_form").submit();
+	}
 </script>
 
 
@@ -95,13 +99,32 @@ function test() {
 					</div>
 					
 					<div>
-					
-						<select name="date_term">
-							<option value="하루">하루</option>
-							<option value="한달">한달</option>
-							<option value="일년">일년</option>
-						</select>
-					
+						<form action="go_revenue_table" id="date_term_form">
+							<select name="date_term" id="date_term" onchange="select_term()">
+							<c:choose>
+								<c:when test="${term == null }">
+									<option value="하루" selected="selected">하루</option>
+									<option value="일주일">일주일</option>
+									<option value="한달">한달</option>
+								</c:when>
+								<c:when test="${term.equals('하루')}">
+									<option value="하루" selected="selected">하루</option>
+									<option value="일주일">일주일</option>
+									<option value="한달">한달</option>
+								</c:when>
+								<c:when test="${term.equals('일주일')}">
+									<option value="하루">하루</option>
+									<option value="일주일" selected="selected">일주일</option>
+									<option value="한달">한달</option>
+								</c:when>
+								<c:when test="${term.equals('한달')}">
+									<option value="하루">하루</option>
+									<option value="일주일">일주일</option>
+									<option value="한달" selected="selected">한달</option>
+								</c:when>
+							</c:choose>
+							</select>
+						</form>
 					</div>
 				</div>
 				
@@ -129,6 +152,14 @@ function test() {
 									<tr>
 										<td>
 										이미지 들어가는 곳
+										%{top.value[4]}
+										</td>
+									</tr>
+									
+									<tr>
+										<td>
+										이름들어가는곳
+										${top.value[3]}
 										</td>
 									</tr>
 									
