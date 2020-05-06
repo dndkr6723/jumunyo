@@ -82,7 +82,7 @@ public interface MainService {
 	
 	public void room_add(RoomVO romvo);
 	
-	public void menu_sales_top(RestaurantVO rvo);
+	public HashMap<String, Integer[]> menu_sales_top(RestaurantVO rvo);
 	
 	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo);
 	

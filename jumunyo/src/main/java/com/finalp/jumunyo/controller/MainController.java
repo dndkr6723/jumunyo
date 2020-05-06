@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -350,7 +349,7 @@ public class MainController {
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
 		
 		// 매장id로 order 테이블 내용 오늘날짜 1,2,3등 전부 대려오기
-		service.menu_sales_top(rvo);
+		HashMap<String, Integer[]> top = service.menu_sales_top(rvo);
 		
 		HashMap<String, Integer> time_sales = service.menu_sales_time(rvo);
 		

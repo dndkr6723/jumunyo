@@ -1,12 +1,16 @@
 package com.finalp.jumunyo.service;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,13 +208,14 @@ public class MainServiceImpl implements MainService {
 
 
 	@Override
-	public void menu_sales_top(RestaurantVO rvo) {
+	public HashMap<String, Integer[]> menu_sales_top(RestaurantVO rvo) {
 		// session 에서 매장 id 값 가져와서 매출현황 페이지 최고매출 디폴트 값 출력(오늘 하루)
 		String first_split [] = null;
 		String second_split [] = null;
 
-		HashMap<String, Integer> sales  = new HashMap<String, Integer>();
-		HashMap<String, Integer> mount_price = new HashMap<String, Integer>();
+		Map<String, Integer> sales  = new HashMap<String, Integer>();
+		Map<String, Integer> mount_price = new HashMap<String, Integer>();
+		HashMap<String, Integer []> result = new HashMap<String, Integer[]>();
 		
 		// 오늘날짜 뽑기
 		Date now_date = new Date(System.currentTimeMillis());
@@ -246,10 +251,30 @@ public class MainServiceImpl implements MainService {
 			Integer sum = mvo.getMenu_price()*value;
 			System.out.println(sum);
 			mount_price.put(key,sum);
-
 		}
 		
+		List<Entry<String, Integer>> list_entries = new ArrayList<Entry<String, Integer>>(mount_price.entrySet());
+
+		// 비교함수 Comparator를 사용하여 오름차순으로 정렬
+		Collections.sort(list_entries, new Comparator<Entry<String, Integer>>() {
+			// compare로 값을 비교
+			public int compare(Entry<String, Integer> obj1, Entry<String, Integer> obj2) {
+				// 오름 차순 정렬
+				return obj2.getValue().compareTo(obj1.getValue());
+			}
+		});
+
+		System.out.println("오름 차순 정렬");
+		// 결과 출력
+		int count = 1;
+		for(Entry<String, Integer> entry : list_entries) {
+			Integer b = Integer.parseInt(entry.getKey());
+			Integer[] a = {b,entry.getValue(),sales.get(entry.getKey())};
+			result.put(""+count, a);
+			count++;
+		}
 		
+		return result;
 		
 	}
 	
