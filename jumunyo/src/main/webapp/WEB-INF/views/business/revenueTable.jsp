@@ -7,69 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-	
-function test() {
-    $.ajax({
-        url: "go_chart_data",
-        type: "post",
-        data: "",
-        dataType: "json",
-        contentType: "application/json",
-        success: function(data) {
-        	
-            alert("성공");
-            var ts = data;
-           	console.log(ts["1"]);
-           	
-           	google.charts.load('current',{'packages':['corechart']});
-           	google.charts.setOnLoadCallback(drawVisualization)
-           	
-           	function drawVisualization(){
-        		var data = google.visualization.arrayToDataTable([
-        			['시간','오늘','(전날/전월)대비'],
-        			['09~11',ts["1"],30],
-        			['11~13',ts["2"],30],
-        			['13~15',ts["3"],30],
-        			['15~17',ts["4"],30],
-        			['17~19',ts["5"],30],
-        			['19~21',ts["6"],30],
-        			['21~23',ts["7"],30]
-        		]);
-        		
-        		var options = {
-        			title : '시간대별 매출액',
-        			vAxis : {title:'금액'},
-        			hAxis : {title:'시간별'},
-        			seriesType : 'bars',
-        			series : {5: {type:'line'}},
-        			animation: {
-                        startup: true,
-                        duration: 1000,
-                        easing: 'linear' }
-        		};
-        		
-        		var chart = new google.visualization.ComboChart(document.getElementById('chart'));
-        		chart.draw(data,options);
-        	}
-            
-        },
-        error: function(errorThrown) {
-            alert(errorThrown.statusText);
-        }
-    });
-}
-
-</script>
-
-<script>
-	function select_term(){
-		document.getElementById("date_term_form").submit();
-	}
-</script>
-
-
 
 </head>
 <body>
@@ -95,7 +34,7 @@ function test() {
 			<div> <!-- 본문 배경 div -->
 				<div> <!-- 오늘/하루 나오는 div -->
 					<div>
-						<input type="date" id="start_date" name="start_date">
+						<input type="date" id="start_date" name="start_date"/>
 					</div>
 					
 					<div>
@@ -152,7 +91,7 @@ function test() {
 									<tr>
 										<td>
 										이미지 들어가는 곳
-										%{top.value[4]}
+										${top.value[4]}
 										</td>
 									</tr>
 									
@@ -186,8 +125,18 @@ function test() {
 				<div><!-- 시간대별 매출액 나오는곳 -->
 					<div> <!-- flex -->
 						<div>시간대별 매출액</div>
-						<div>날짜고르기</div>
-						<div>전날대비</div>
+						
+						<div><input type="date" id="select_date" name="select_date" value=""/></div>
+						
+						<div>
+							<select name="compare_date" id="compare_date">
+								<option value="없음" selected="selected">대비없음</option>
+								<option value="전날">전날 대비</option>
+								<option value="일주일">일주일 평균대비</option>
+								<option value="한달">한달 평균대비</option>
+							</select>
+						</div>
+						
 						<button onclick="test()" type="button">그래프 확인!</button>
 					</div>
 					
@@ -202,10 +151,75 @@ function test() {
 	</div>
 </div>
 
+<script type="text/javascript">
 
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+function test() {
+	var select_date = {"select_date" : $("#select_date").val(), "compare_date" : $("#compare_date option:selected").val()};
+	console.log($("#compare_date option:selected").val());
+	
+    $.ajax({
+        url: "go_chart_data",
+        type: "post",
+        data: select_date,
+        async:false,
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+        success: function(data) {
+        	
+            alert("성공");
+            var ts = data;
+           	console.log(ts["1"]);
+           	
+           	google.charts.load('current',{'packages':['corechart']});
+           	google.charts.setOnLoadCallback(drawVisualization)
+           	
+           	function drawVisualization(){
+        		var data = google.visualization.arrayToDataTable([
+        			['시간','오늘','(전날/전월)대비'],
+        			['09~11',ts["1"],30],
+        			['11~13',ts["2"],30],
+        			['13~15',ts["3"],30],
+        			['15~17',ts["4"],30],
+        			['17~19',ts["5"],30],
+        			['19~21',ts["6"],30],
+        			['21~23',ts["7"],30]
+        		]);
+        		
+        		var options = {
+        			title : '시간대별 매출액',
+        			vAxis : {title:'금액'},
+        			hAxis : {title:'시간별'},
+        			seriesType : 'bars',
+        			series : {5: {type:'line'}},
+        			animation: {
+                        startup: true,
+                        duration: 1000,
+                        easing: 'linear' }
+        		};
+        		
+        		var chart = new google.visualization.ComboChart(document.getElementById('chart'));
+        		chart.draw(data,options);
+        	}
+            
+        },
+        error: function(errorThrown) {
+            alert(errorThrown.statusText);
+        }
+    });
+}
 
+</script>
 
+<script>
+	function select_term(){
+		document.getElementById("date_term_form").submit();
+	}
+</script>
+
+<script>
+	var todate = new Date().toISOString().substring(0,10);
+	document.getElementById("select_date").value = todate;
+</script>
 
 </body>
 </html>

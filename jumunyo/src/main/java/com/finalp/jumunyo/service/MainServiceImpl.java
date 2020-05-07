@@ -1,5 +1,6 @@
 package com.finalp.jumunyo.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -225,25 +226,21 @@ public class MainServiceImpl implements MainService {
 		SimpleDateFormat time_form_second = new SimpleDateFormat("yy/MM/dd/ HH:mm:ss");
 		String date_str = time_form_date.format(now_date); // 오늘하루
 		
-		System.out.println("나는 서비스단 : " +term_select);
-		System.out.println("나는 오늘 날짜 : " + now_date);
 		HashMap<String, String> time = new HashMap<>();// xml에 term 조건 주기위해 해쉬맵 이용
 		if(term_select==1) {
 			time.put("term", "one");	//하루
 		}else if(term_select==2) {
 			ago_date.setDate(ago_date.getDate()-6);
 			String ago_str = time_form_date.format(ago_date);
-			System.out.println("나는 일주일전 날짜 : " + ago_str);
 			
 			time.put("ago_str", ago_str);
 			time.put("term", "two");	//일주일
 		}else if(term_select==3) {
 			ago_date.setDate(ago_date.getDate()-29);
 			String ago_str = time_form_date.format(ago_date);
-			System.out.println("나는 한달전 날짜 : " + ago_str);
 			
 			time.put("ago_str", ago_str);
-			time.put("term", "three");	//한달
+			time.put("term", "two");	//한달
 		}
 		time.put("date_str", date_str);
 		
@@ -305,7 +302,7 @@ public class MainServiceImpl implements MainService {
 	}
 	
 	@Override
-	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo) {
+	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo, String sdate,String cdate) {
 		// 시간대별 매출 default
 		int a = 0; //09~10:59
 		int b = 0; //11~12:59
@@ -315,15 +312,62 @@ public class MainServiceImpl implements MainService {
 		int f = 0;; //19~20:59
 		int g = 0;; //21~22:59
 		
-		// 오늘날짜 뽑기
-		Date now_date = new Date(System.currentTimeMillis());
-		SimpleDateFormat time_form_date = new SimpleDateFormat("yy/MM/dd");
-		SimpleDateFormat time_form_second = new SimpleDateFormat("yy/MM/dd/ HH:mm:ss");
-		SimpleDateFormat time_form_hour = new SimpleDateFormat("HH");
-		String date_str = time_form_date.format(now_date);
+		// xml 에 보낼 값을 담을 해쉬맵 생성
+		HashMap<String, String> date_values = new HashMap<String, String>();
 		
-		// 오늘날짜 시간대별로 뽑기
-		List<OrderVO> ovol = my.selectList("Main.menu_sales_default", date_str);
+		SimpleDateFormat time_form_hour = new SimpleDateFormat("HH");
+		SimpleDateFormat string_to_date = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat date_to_string = new SimpleDateFormat("yy-MM-dd");
+		Date select_date = null; // select_date를 String 에서 date로 전환할때 담을 공간
+		try {
+			select_date = string_to_date.parse(sdate);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		sdate = date_to_string.format(select_date);
+		String [] imsi = sdate.split("-");
+		String compare_date ="";
+		if(cdate.equals("없음")) {
+			
+			compare_date = date_to_string.format(select_date); //새롭게 정제된 cdate
+			
+			System.out.println("서비스단에서 없음선택");
+			System.out.println(compare_date);
+			
+		}else if(cdate.equals("전날")) {
+			
+			select_date.setDate(select_date.getDate()-1);
+			compare_date = date_to_string.format(select_date);
+			
+			System.out.println("서비스단에서 전날선택");
+			System.out.println(compare_date);
+			
+		}else if(cdate.equals("일주일")) {
+			
+			select_date.setDate(select_date.getDate()-6);
+			compare_date = date_to_string.format(select_date);
+			
+			System.out.println("서비스단에서 일주일선택");
+			System.out.println(compare_date);
+			
+		}else if(cdate.equals("한달")) {
+			
+			select_date.setDate(select_date.getDate()-29);
+			compare_date = date_to_string.format(select_date);
+			
+			System.out.println("서비스단에서 한달선택");
+			System.out.println(compare_date);
+		}
+		System.out.println(sdate);
+		System.out.println(compare_date);
+		date_values.put("sdate", sdate);
+		date_values.put("compare_date",compare_date);
+		
+		
+		// 받아온 날짜의 시간대별로 뽑기
+		List<OrderVO> ovol = my.selectList("Main.menu_sales_graph", date_values);
 		
 		
 		for(int i=0;i<ovol.size();i++) {

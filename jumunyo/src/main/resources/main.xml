@@ -263,9 +263,11 @@
  		<if test="term.equals('two')">
 	 		WHERE order_date between to_date('${ago_str} 00:00:00', 'YY/MM/DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY/MM/DD HH24:MI:SS')
  		</if>
- 		<if test="term.equals('three')">
-	 		WHERE order_date between to_date('${ago_str} 00:00:00', 'YY/MM/DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY/MM/DD HH24:MI:SS')
- 		</if>
+ 	</select>
+ 	
+ 	<select id="menu_sales_graph" parameterType="hashmap" resultMap="ordermap">
+ 		SELECT * FROM orders
+	 	WHERE order_date between to_date('${compare_date} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${sdate} 23:59:59', 'YY-MM-DD HH24:MI:SS')
  	</select>
 	
 	<select id="menu_price" resultMap="menumap">

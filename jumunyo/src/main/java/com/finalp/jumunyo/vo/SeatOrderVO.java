@@ -5,7 +5,7 @@ import java.util.Date;
 public class SeatOrderVO {
 	
 	private int seat_order_id;
-	private Date reservation_time;
+	private String reservation_time;
 	private int restaurant_id;
 	private int user_id;
 	private int room_id;
@@ -19,10 +19,10 @@ public class SeatOrderVO {
 	public void setSeat_order_id(int seat_order_id) {
 		this.seat_order_id = seat_order_id;
 	}
-	public Date getReservation_time() {
+	public String getReservation_time() {
 		return reservation_time;
 	}
-	public void setReservation_time(Date reservation_time) {
+	public void setReservation_time(String reservation_time) {
 		this.reservation_time = reservation_time;
 	}
 	public int getRestaurant_id() {

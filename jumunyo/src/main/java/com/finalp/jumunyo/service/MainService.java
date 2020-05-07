@@ -84,7 +84,7 @@ public interface MainService {
 	
 	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo,int term_select);
 	
-	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo);
+	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo,String sdate,String cdate);
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 

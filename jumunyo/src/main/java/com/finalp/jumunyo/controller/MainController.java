@@ -1,12 +1,10 @@
 package com.finalp.jumunyo.controller;
 
-
-
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finalp.jumunyo.service.MainService;
@@ -377,13 +376,16 @@ public class MainController {
 		return "business/revenueTable";
 	}
 	
-	@ResponseBody
-	@RequestMapping("go_chart_data") 
-	public HashMap<String, Integer> go_chart_data(HttpSession session, Model model) throws Exception {
-		// 매장 세션 에서 매장 id 값 가져와서 매출현황 기본값 깔아주기(오늘/하루/전날대비 없음)
-		
+
+	@RequestMapping(value = "go_chart_data", method = RequestMethod.POST)
+	public @ResponseBody HashMap<String, Integer> go_chart_data(@RequestParam(required = false)String select_date, @RequestParam(required = false)String compare_date
+			,HttpSession session,HttpServletResponse rs, HttpServletRequest rq, Model model) throws Exception {
+		// 그래프 보기 누르면 받아온 날짜의 데이터 가공해서 오기
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
-		HashMap<String, Integer> time_sales = service.menu_sales_time(rvo);
+		String sdate = select_date;
+		String cdate = compare_date;
+		HashMap<String, Integer> time_sales = service.menu_sales_time(rvo,sdate,cdate);
+		
 		
 		return time_sales;
 	}
