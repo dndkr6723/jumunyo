@@ -27,7 +27,7 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				사업자 1:1 문의
+				${rvo.restaurant_name } 사업자 1:1 문의
 			</div>
 			
 			<div>

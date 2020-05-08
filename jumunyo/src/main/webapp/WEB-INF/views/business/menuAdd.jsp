@@ -24,7 +24,7 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				(매장명) 메뉴추가/수정
+				${rvo.restaurant_name } 메뉴추가/수정
 			</div>
 			
 			<div>

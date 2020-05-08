@@ -286,11 +286,28 @@ public class MainController {
 	public String review_list(Model model,HttpSession session) throws Exception {
 		// 매장의 id 값으로 해당 매장의 리뷰 정보와 리뷰의 댓글들 전부 출력
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		System.out.println("컨트롤러 왔다");
+		HashMap<String, Object[]> review_reply = service.review_list(rvo);
+		System.out.println("다시 컨트롤러로 돌아왔다");
+		List<ReviewVO> rvlist = null;
+		List<ReplyVO> rplist = null;
 		
-		List<ReviewVO> rvlist = service.review_list(rvo);
-		List<ReplyVO> rplist = service.reply_list(rvo);
+		for(int i=0; i<review_reply.size(); i++) {
+			Object [] imsi = review_reply.get(""+i);
+			ReviewVO rvvo = (ReviewVO) imsi[0];
+			ReplyVO rpvo = (ReplyVO) imsi[1];
+			rvlist.add(i, rvvo);
+			rplist.add(i, rpvo);
+		}
 		
-		model.addAttribute("rvlist",rvlist).addAttribute("rplist",rplist);
+		for(int i=0; i<rvlist.size(); i++) {
+			System.out.println(rvlist.get(i).getReview_content());
+		}
+		for(int i=0; i<rplist.size(); i++) {
+			System.out.println(rplist.get(i).getReply_content());
+		}
+		
+		model.addAttribute("rvlist",rvlist).addAttribute("rplist");
 		
 		/*List<VisitorsBookBean> visitorsBook = vbDao.selectVisitorsBook();
         if(!visitorsBook.isEmpty()){

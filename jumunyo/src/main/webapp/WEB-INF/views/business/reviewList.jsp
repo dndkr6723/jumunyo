@@ -14,11 +14,11 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				매장명 리뷰관리
+				${rvo.restaurant_name } 리뷰관리
 			</div>
 			
 			<div>
-				종합평점
+				매장 평균 평점 : ${rvo.restaurant_grade }
 			</div>
 		</div>
 		
@@ -35,13 +35,13 @@
 								<div></div> <!-- 왼쪽 파란색 선꾸미기용 div 상하 100%-->
 								<div> <!-- 실제 리뷰 담기는 div -->
 									<div><!-- flex 이름,별점,시간 div 담는 div -->
-										<div>닉네임</div>
-										<div>별점</div>
-										<div>작성시간</div>
+										<div>${rvlist.user_id }</div>
+										<div>${rvlist.review_grade }</div>
+										<div>${rvlist.review_date }</div>
 									</div>
 									
 									<div><!-- 리뷰 내용들어가는 div -->
-										리뷰내용
+										${rvlist.review_content }
 									</div>
 									
 								</div>

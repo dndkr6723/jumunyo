@@ -22,7 +22,7 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				매장명 거래내역
+				${rvo.restaurant_name } 거래내역
 			</div>
 			
 			<div>

@@ -164,6 +164,7 @@
  	<select id="question_list" resultMap="questionmap">
  		SELECT * FROM questions
  		where user_id_send = #{user_id} or user_id_receive = #{user_id}
+ 		order by question_date desc;
  	</select>
  	
  	<select id="getQuestionCategory" resultMap="questioncategorymap">
@@ -178,6 +179,7 @@
  	<select id="dealorder_list" resultMap="ordermap">
  		SELECT * FROM orders
  		where restaurant_id = #{restaurant_id}
+ 		order by order_date desc;
  	</select>
  	
  	
@@ -227,11 +229,12 @@
  	<select id="review_list" resultMap="reviewmap">
  		SELECT * FROM reviews
  		WHERE restaurant_id=#{restaurant_id}
+ 		order by review_date desc;
  	</select>
  	
- 	<select id="reply_list" resultMap="replymap">
+ 	<select id="reply_one" parameterType="int" resultMap="replymap">
  		SELECT * FROM replies
- 		WHERE restaurant_id=#{restaurant_id}
+ 		WHERE review_id = #{value}
  	</select>
  	
  	<select id="room_check" resultMap="roommap">

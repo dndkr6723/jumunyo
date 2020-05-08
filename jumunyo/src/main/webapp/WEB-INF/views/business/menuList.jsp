@@ -16,7 +16,7 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				(매장명) 메뉴관리
+				${rvo.restaurant_name } 메뉴관리
 			</div>
 			
 			<div>

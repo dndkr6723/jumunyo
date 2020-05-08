@@ -96,7 +96,7 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				(매장명) 좌석/관리
+				${rvo.restaurant_name } 좌석/관리
 			</div>
 			
 			<div>

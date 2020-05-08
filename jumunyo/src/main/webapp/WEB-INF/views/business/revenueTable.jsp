@@ -23,7 +23,7 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				(매장명) 매출 현황
+				${rvo.restaurant_name } 매출 현황
 			</div>
 			
 			<div>

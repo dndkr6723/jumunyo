@@ -13,7 +13,7 @@
 	<div id="content_div">
 		<div id="upper_div">
 			<div>
-				매장명 예약관리
+				${rvo.restaurant_name } 예약관리
 			</div>
 			
 			<div>

@@ -72,9 +72,7 @@ public interface MainService {
 	
 	public List<RoomVO> go_roomlist(RestaurantVO rvo);
 	
-	public List<ReviewVO> review_list(RestaurantVO rvo);
-	
-	public List<ReplyVO> reply_list(RestaurantVO rvo);
+	public HashMap<String, Object[]> review_list(RestaurantVO rvo);
 	
 	public String room_delete(RoomVO rmvo);
 	
