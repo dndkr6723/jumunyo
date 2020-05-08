@@ -349,6 +349,7 @@ public class MainController {
 		// 매장 세션 에서 매장 id 값 가져와서 매출현황 깔아주기(매출 탑 3)
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
 		String term = rq.getParameter("date_term");
+		String date = rq.getParameter("start_date");
 		
 		int term_select = 0; // 기간 검사용
 		if(term == null) {
@@ -364,7 +365,7 @@ public class MainController {
 		}
 		
 		// 매장id로 order 테이블 내용 1,2,3등 전부 대려오기
-		HashMap<String, Object[]> imsi = service.menu_sales_top(rvo,term_select);
+		HashMap<String, Object[]> imsi = service.menu_sales_top(rvo,term_select,date);
 		HashMap<String, Object[]> top = new HashMap<String, Object[]>();
 		top.put("1", imsi.get("1"));
 		top.put("2", imsi.get("2"));
@@ -372,6 +373,7 @@ public class MainController {
 		
 		model.addAttribute("top",top);
 		model.addAttribute("term",term);
+		model.addAttribute("date",date);
 		
 		return "business/revenueTable";
 	}

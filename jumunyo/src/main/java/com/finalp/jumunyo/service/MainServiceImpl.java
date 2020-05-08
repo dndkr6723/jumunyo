@@ -209,35 +209,50 @@ public class MainServiceImpl implements MainService {
 
 
 	@Override
-	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo, int term_select) {
+	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo, int term_select, String date) {
 		// session 에서 매장 id 값 가져와서 매출현황 페이지 최고매출 디폴트 값 출력(오늘 하루)
 		String first_split [] = null;
 		String second_split [] = null;
 
-		Map<String, Integer> sales  = new HashMap<String, Integer>();
-		Map<String, Integer> mount_price = new HashMap<String, Integer>();
-		HashMap<String, Object[]> name_img = new HashMap<String, Object[]>();
-		HashMap<String, Object[]> result = new HashMap<String, Object[]>();
+		Map<String, Integer> sales  = new HashMap<String, Integer>(); // 메뉴 별 수량 담는 맵
+		Map<String, Integer> mount_price = new HashMap<String, Integer>();// 메뉴 별 총매출액 담는 맵
+		HashMap<String, Object[]> name_img = new HashMap<String, Object[]>();// 메뉴 별 이미지와 이름 담는 맵
+		HashMap<String, Object[]> result = new HashMap<String, Object[]>();// 메뉴 별 결과를 담는 맵
 		
-		// 오늘날짜 뽑기
-		Date now_date = new Date(System.currentTimeMillis());
-		Date ago_date = new Date(System.currentTimeMillis()); // 예전날짜 넣을 date
-		SimpleDateFormat time_form_date = new SimpleDateFormat("yy/MM/dd");
-		SimpleDateFormat time_form_second = new SimpleDateFormat("yy/MM/dd/ HH:mm:ss");
-		String date_str = time_form_date.format(now_date); // 오늘하루
+		SimpleDateFormat string_to_date = new SimpleDateFormat("yyyy-MM-dd"); // 날아온 date 값을  String -> date로 바꾸기위해
+		SimpleDateFormat date_to_string = new SimpleDateFormat("yy-MM-dd"); // 정제한 date 값을 다시 xml에 날리기위해 String으로
+		
+		Date select_date = null; // date를 String 에서 date로 전환할때 담을 공간
+		Date ago_date = null; // term 의 기간이 계산된 예전날짜를 넣을 공간
+		String date_str = null; // xml에 보낼 date를 string 으로 담을 공간
+		
+		// 기준이될 select date , ago date 정제
+		if(date != null) {
+			try {
+				select_date = string_to_date.parse(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			ago_date = select_date;
+			date_str = date_to_string.format(select_date);
+		} else if(date == null) {
+			select_date = new Date(System.currentTimeMillis());
+			ago_date = new Date(System.currentTimeMillis());
+			date_str = date_to_string.format(select_date);
+		}
 		
 		HashMap<String, String> time = new HashMap<>();// xml에 term 조건 주기위해 해쉬맵 이용
 		if(term_select==1) {
 			time.put("term", "one");	//하루
 		}else if(term_select==2) {
 			ago_date.setDate(ago_date.getDate()-6);
-			String ago_str = time_form_date.format(ago_date);
+			String ago_str = date_to_string.format(ago_date);
 			
 			time.put("ago_str", ago_str);
 			time.put("term", "two");	//일주일
 		}else if(term_select==3) {
 			ago_date.setDate(ago_date.getDate()-29);
-			String ago_str = time_form_date.format(ago_date);
+			String ago_str = date_to_string.format(ago_date);
 			
 			time.put("ago_str", ago_str);
 			time.put("term", "two");	//한달
@@ -303,17 +318,18 @@ public class MainServiceImpl implements MainService {
 	
 	@Override
 	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo, String sdate,String cdate) {
-		// 시간대별 매출 default
-		int a = 0; //09~10:59
-		int b = 0; //11~12:59
-		int c = 0;; //13~14:59
-		int d = 0;; //15~16:59 
-		int e = 0;; //17~18:59
-		int f = 0;; //19~20:59
-		int g = 0;; //21~22:59
+		// 시간대별 매출그래프 로직
+		int a = 0; int A = 0; //09~10:59 소문자는 고른날, 대문자는 대비날짜
+		int b = 0; int B = 0; //11~12:59
+		int c = 0; int C = 0; //13~14:59
+		int d = 0; int D = 0; //15~16:59 
+		int e = 0; int E = 0; //17~18:59
+		int f = 0; int F = 0; //19~20:59
+		int g = 0; int G = 0; //21~22:59
 		
 		// xml 에 보낼 값을 담을 해쉬맵 생성
 		HashMap<String, String> date_values = new HashMap<String, String>();
+		HashMap<String, String> select_values = new HashMap<String, String>();
 		
 		SimpleDateFormat time_form_hour = new SimpleDateFormat("HH");
 		SimpleDateFormat string_to_date = new SimpleDateFormat("yyyy-MM-dd");
@@ -327,105 +343,59 @@ public class MainServiceImpl implements MainService {
 		}
 		
 		sdate = date_to_string.format(select_date);
-		String [] imsi = sdate.split("-");
 		String compare_date ="";
+		
 		if(cdate.equals("없음")) {
-			
 			compare_date = date_to_string.format(select_date); //새롭게 정제된 cdate
-			
-			System.out.println("서비스단에서 없음선택");
-			System.out.println(compare_date);
-			
 		}else if(cdate.equals("전날")) {
-			
-			select_date.setDate(select_date.getDate()-1);
+			select_date.setDate(select_date.getDate()-1); // cdate 를 비교날짜에 맞는 date로 정제
 			compare_date = date_to_string.format(select_date);
-			
-			System.out.println("서비스단에서 전날선택");
-			System.out.println(compare_date);
-			
 		}else if(cdate.equals("일주일")) {
-			
 			select_date.setDate(select_date.getDate()-6);
 			compare_date = date_to_string.format(select_date);
-			
-			System.out.println("서비스단에서 일주일선택");
-			System.out.println(compare_date);
-			
 		}else if(cdate.equals("한달")) {
-			
 			select_date.setDate(select_date.getDate()-29);
 			compare_date = date_to_string.format(select_date);
-			
-			System.out.println("서비스단에서 한달선택");
-			System.out.println(compare_date);
 		}
-		System.out.println(sdate);
-		System.out.println(compare_date);
-		date_values.put("sdate", sdate);
+		date_values.put("sdate", sdate); 
 		date_values.put("compare_date",compare_date);
-		
+		select_values.put("sdate", sdate);
 		
 		// 받아온 날짜의 시간대별로 뽑기
-		List<OrderVO> ovol = my.selectList("Main.menu_sales_graph", date_values);
+		List<OrderVO> ovol_select = my.selectList("Main.menu_sales_graph_select",select_values); // 정한날짜 데이터
+		List<OrderVO> ovol_compare = my.selectList("Main.menu_sales_graph_compare", date_values); // 대비 데이터	
 		
-		
-		for(int i=0;i<ovol.size();i++) {
-			String time_str = time_form_hour.format(ovol.get(i).getOrder_date());
-			
+		// 고른날짜의 시간별 매출액정제
+		for(int i=0;i<ovol_select.size();i++) {
+			String time_str = time_form_hour.format(ovol_select.get(i).getOrder_date());
+			int time_int = Integer.parseInt(time_str);
+			time_str = Integer.toString((time_int+1)/2);
+			// switch 문을 간결하게 하기위해 시간값 정제
 			switch (time_str) {
 			
-			case "09":
-				a = a + ovol.get(i).getOrder_price();
+			case "5":
+				a = a + ovol_select.get(i).getOrder_price();
+				break;
+			case "6":
+				b = b + ovol_select.get(i).getOrder_price();
+				break;
+			case "7":
+				c = c + ovol_select.get(i).getOrder_price();
+				break;
+			case "8":
+				d = d + ovol_select.get(i).getOrder_price();
+				break;
+			case "9":
+				e = e + ovol_select.get(i).getOrder_price();
 				break;
 			case "10":
-				a = a + ovol.get(i).getOrder_price();
+				f = f + ovol_select.get(i).getOrder_price();
 				break;
 			case "11":
-				b = b + ovol.get(i).getOrder_price();
-				break;
-			case "12":
-				b = b + ovol.get(i).getOrder_price();
-				break;
-			case "13":
-				c = c + ovol.get(i).getOrder_price();
-				break;
-			case "14":
-				c = c + ovol.get(i).getOrder_price();
-				break;
-			case "15":
-				d = d + ovol.get(i).getOrder_price();
-				break;
-			case "16":
-				d = d + ovol.get(i).getOrder_price();
-				break;
-			case "17":
-				e = e + ovol.get(i).getOrder_price();
-				break;
-			case "18":
-				e = e + ovol.get(i).getOrder_price();
-				break;
-			case "19":
-				f = f + ovol.get(i).getOrder_price();
-				break;
-			case "20":
-				f = f + ovol.get(i).getOrder_price();
-				break;
-			case "21":
-				g = g + ovol.get(i).getOrder_price();
-				break;
-			case "22":
-				g = g + ovol.get(i).getOrder_price();
-				break;
-			default:
-				g = g + ovol.get(i).getOrder_price();
+				g = g + ovol_select.get(i).getOrder_price();
 				break;
 			}
-			
 		}
-		
-		int sum = a+b+c+d+e+f+g;
-		
 		HashMap<String, Integer> time_sales = new HashMap<>();
 		time_sales.put("1", a);
 		time_sales.put("2", b);
@@ -434,10 +404,55 @@ public class MainServiceImpl implements MainService {
 		time_sales.put("5", e);
 		time_sales.put("6", f);
 		time_sales.put("7", g);
-		time_sales.put("8", sum);
-
-		return time_sales;
 		
+		// 비교날짜의 시간별 매출액정제
+		for(int i=0;i<ovol_compare.size();i++) {
+			String time_str = time_form_hour.format(ovol_compare.get(i).getOrder_date());
+			int time_int = Integer.parseInt(time_str);
+			time_str = Integer.toString((time_int+1)/2);
+			// switch 문을 간결하게 하기위해 시간값 정제
+			switch (time_str) {
+					
+			case "5":
+				A = A + ovol_compare.get(i).getOrder_price();
+				break;
+			case "6":
+				B = B + ovol_compare.get(i).getOrder_price();
+				break;
+			case "7":
+				C = C + ovol_compare.get(i).getOrder_price();
+				break;
+			case "8":
+				D = D + ovol_compare.get(i).getOrder_price();
+				break;
+			case "9":
+				E = E + ovol_compare.get(i).getOrder_price();
+				break;
+			case "10":
+				F = F + ovol_compare.get(i).getOrder_price();
+				break;
+			case "11":
+				G = G + ovol_compare.get(i).getOrder_price();
+				break;
+			}	
+		}
+		if(cdate.equals("없음")) {
+			A=0; B=0; C=0; D=0; E=0; F=0; G=0;
+		}if(cdate.equals("일주일")) {
+			A = A/7; B = B/7; C = C/7; D = D/7;
+			E = E/7; F = F/7; G = G/7;
+		}if(cdate.equals("한달")) {
+			A = A/30; B = B/30; C = C/30; D = D/30;
+			E = E/30; F = F/30; G = G/30;
+		}
+		time_sales.put("11", A);
+		time_sales.put("12", B);
+		time_sales.put("13", C);
+		time_sales.put("14", D);
+		time_sales.put("15", E);
+		time_sales.put("16", F);
+		time_sales.put("17", G);
+		return time_sales;
 		
 	}
 	

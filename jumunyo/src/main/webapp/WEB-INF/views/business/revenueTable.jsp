@@ -7,6 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script>
+	var todate = new Date().toISOString().substring(0,10);
+	document.getElementById("start_date").value = todate;
+</script>
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -33,12 +38,19 @@
 			
 			<div> <!-- 본문 배경 div -->
 				<div> <!-- 오늘/하루 나오는 div -->
+						<form action="go_revenue_table" id="date_term_form">
 					<div>
-						<input type="date" id="start_date" name="start_date"/>
+						<c:choose>
+							<c:when test="${date == null }">
+								<input type="date" id="start_date" name="start_date" onchange="select_term()"/>
+							</c:when>
+							<c:when test="${date != null }">
+								<input type="date" id="start_date" name="start_date" value = "${date }" onchange="select_term()"/>
+							</c:when>
+						</c:choose>
 					</div>
 					
 					<div>
-						<form action="go_revenue_table" id="date_term_form">
 							<select name="date_term" id="date_term" onchange="select_term()">
 							<c:choose>
 								<c:when test="${term == null }">
@@ -63,8 +75,8 @@
 								</c:when>
 							</c:choose>
 							</select>
-						</form>
 					</div>
+						</form>
 				</div>
 				
 				<div>
@@ -176,13 +188,13 @@ function test() {
            	function drawVisualization(){
         		var data = google.visualization.arrayToDataTable([
         			['시간','오늘','(전날/전월)대비'],
-        			['09~11',ts["1"],30],
-        			['11~13',ts["2"],30],
-        			['13~15',ts["3"],30],
-        			['15~17',ts["4"],30],
-        			['17~19',ts["5"],30],
-        			['19~21',ts["6"],30],
-        			['21~23',ts["7"],30]
+        			['09~11',ts["1"],ts["11"]],
+        			['11~13',ts["2"],ts["12"]],
+        			['13~15',ts["3"],ts["13"]],
+        			['15~17',ts["4"],ts["14"]],
+        			['17~19',ts["5"],ts["15"]],
+        			['19~21',ts["6"],ts["16"]],
+        			['21~23',ts["7"],ts["17"]]
         		]);
         		
         		var options = {
@@ -211,15 +223,16 @@ function test() {
 </script>
 
 <script>
+	var todate = new Date().toISOString().substring(0,10);
+	document.getElementById("select_date").value = todate;
+</script>
+
+<script>
 	function select_term(){
 		document.getElementById("date_term_form").submit();
 	}
 </script>
 
-<script>
-	var todate = new Date().toISOString().substring(0,10);
-	document.getElementById("select_date").value = todate;
-</script>
 
 </body>
 </html>
