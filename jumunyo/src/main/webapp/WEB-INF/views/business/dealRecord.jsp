@@ -45,19 +45,19 @@
 						<th>이용좌석</th>
 						<th>금액</th>
 					</tr>
-					<c:forEach var="olist" items="${olist }">
+					<c:forEach var="dealorder_list" items="${dealorder_list }">
 					
 						<tr>
 							<td>
-								${olist.order_id }
+								${dealorder_list.order_id }
 							</td>
 							
 							<td>
-								${olist.order_type }
+								${dealorder_list.order_type }
 							</td>
 							
 							<td>
-								${olist.order_date }
+								${dealorder_list.order_date }
 							</td>
 							
 							<td>
@@ -65,7 +65,7 @@
 							</td>
 							
 							<td>
-								${olist.order_price }
+								${dealorder_list.order_price }
 							</td>
 							
 						</tr>
@@ -93,6 +93,25 @@
 							</div>
 						<input type="submit" value="검색">
 					</form>
+				</div>
+				
+				<div> <!-- 페이징 div 임시 -->
+					<c:if test="${paging.startPage != 1 }">
+						<a href="dealorder_list?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+					</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a href="dealorder_list?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+					<c:if test="${paging.endPage != paging.lastPage}">
+						<a href="dealorder_list?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+					</c:if>
 				</div>
 				
 			</div>

@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.finalp.jumunyo.util.PagingVO;
 import com.finalp.jumunyo.vo.CategoryVO;
 import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
@@ -159,23 +159,30 @@ public class MainServiceImpl implements MainService {
 	}
 
 
+	@SuppressWarnings({ "null", "unused" })
 	@Override
 	public HashMap<String, Object[]> review_list(RestaurantVO rvo) {
 		// 매장 id 값으로 해당 매장의 리뷰 전부 출력
 		HashMap<String, Object[]> result = new HashMap<>(); // 매장의 리뷰와 그 리뷰의 댓글을 넣을 해쉬맵
-		Object [] review_reply = {}; // result 해쉬맵에 담기위해 리뷰와 대응하는 리뷰댓글 넣을 배열
+		Object [] review_reply = {'a','b'}; // result 해쉬맵에 담기위해 리뷰와 대응하는 리뷰댓글 넣을 배열
 		System.out.println("서비스단  시작");
 		List<ReviewVO> rvlist = my.selectList("Main.review_list",rvo);
 		System.out.println("리뷰 리스트 부름");
+		
 		for(int i=0; i<rvlist.size(); i++) {
 			int reviews_id = rvlist.get(i).getReview_id();
+			System.out.println("이것이 리뷰 아이디다"+reviews_id);
 			ReplyVO rpvo = my.selectOne("Main.reply_one",reviews_id); // 리뷰의 아이디 값에 대응하는 리뷰 댓글 한개 가져오기
-			System.out.println(rpvo.getReply_content());
 			ReviewVO rvvo = rvlist.get(i);
-			review_reply[0] = rvvo; // review_reply 배열에 각각 review 정보와
-			review_reply[1] = rpvo; // 그에따른 댓글 정보를 담음
+			if(rpvo != null) { // 댓글이 존재 한다면
+				review_reply[0] = rvvo; // review_reply 배열에 각각 review 정보와
+				review_reply[1] = rpvo; // 그에따른 댓글 정보를 담음
+			}else if(rpvo == null){
+				review_reply[0] = rvvo;
+				review_reply[1] = "0";
+			}
 			
-			result.put(""+i, review_reply);
+			result.put(""+(i+1), review_reply);
 		}
 		System.out.println(result.get("1"));
 		System.out.println(result.get("2"));
@@ -466,6 +473,22 @@ public class MainServiceImpl implements MainService {
 		time_sales.put("17", G);
 		return time_sales;
 		
+	}
+
+
+	@Override
+	public int dealOrder_count(RestaurantVO rrvo) {
+		return my.selectOne("Main.countDealRecord",rrvo.getRestaurant_id());
+	}
+
+
+	@Override
+	public List<OrderVO> dealOrder_paging(PagingVO pgvo, RestaurantVO rrvo) {
+		HashMap<String, Object> imsi = new HashMap<>();
+		imsi.put("start", pgvo.getStart());
+		imsi.put("end", pgvo.getEnd());
+		imsi.put("restaurant_id", rrvo.getRestaurant_id());
+		return my.selectList("Main.selectDealRecord",imsi);
 	}
 	
 	

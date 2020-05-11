@@ -164,7 +164,7 @@
  	<select id="question_list" resultMap="questionmap">
  		SELECT * FROM questions
  		where user_id_send = #{user_id} or user_id_receive = #{user_id}
- 		order by question_date desc;
+ 		ORDER BY question_date DESC
  	</select>
  	
  	<select id="getQuestionCategory" resultMap="questioncategorymap">
@@ -176,11 +176,11 @@
  			#{question_content},'없음',#{question_check},sysdate,#{user_id_receive})
  	</select>
  	
- 	<select id="dealorder_list" resultMap="ordermap">
+ 	<!-- <select id="dealorder_list" resultMap="ordermap">
  		SELECT * FROM orders
  		where restaurant_id = #{restaurant_id}
- 		order by order_date desc;
- 	</select>
+ 		order by order_date desc
+ 	</select> -->
  	
  	
  	<select id="order_search_detail" parameterType="hashmap" resultMap="ordermap">
@@ -199,6 +199,7 @@
  	<select id="menu_list" resultMap="menumap">
  		SELECT * FROM menus
  		where restaurant_id = #{restaurant_id}
+ 		ORDER BY question_date DESC
  	</select>
  	
  	<select id="go_menu_modify" resultMap="menumap">
@@ -223,13 +224,12 @@
  	<select id="go_roomlist" resultMap="roommap">
  		SELECT * FROM rooms
  		WHERE restaurant_id=#{restaurant_id}
- 		ORDER BY room_id ASC;
+ 		ORDER BY room_id ASC
  	</select>
  	
  	<select id="review_list" resultMap="reviewmap">
  		SELECT * FROM reviews
  		WHERE restaurant_id=#{restaurant_id}
- 		order by review_date desc;
  	</select>
  	
  	<select id="reply_one" parameterType="int" resultMap="replymap">
@@ -277,12 +277,32 @@
  		SELECT * FROM orders
 	 	WHERE order_date between to_date('${compare_date} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${sdate} 23:59:59', 'YY-MM-DD HH24:MI:SS')
  	</select>
+ 	
 	<select id="menu_price" resultMap="menumap">
  		SELECT * FROM menus
  		WHERE menu_id = ${value}
  	</select>
- 	
- 	
+
+
+ 	<!-- 페이징 처리 후 게시글 조회 -->
+ 	<select id="countDealRecord" resultType="int">
+		SELECT COUNT(*) FROM orders
+		WHERE restaurant_id = #{value}
+	</select>
+	
+	<select id="selectDealRecord" parameterType="hashmap" resultMap="ordermap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT * 
+							FROM orders
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY order_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
  	
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

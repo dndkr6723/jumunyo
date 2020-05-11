@@ -1,5 +1,6 @@
 package com.finalp.jumunyo.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.finalp.jumunyo.service.MainService;
+import com.finalp.jumunyo.util.PagingVO;
 import com.finalp.jumunyo.vo.CategoryVO;
 import com.finalp.jumunyo.vo.MenuVO;
 import com.finalp.jumunyo.vo.OrderVO;
@@ -164,7 +166,7 @@ public class MainController {
 		return "redirect:/question_list";
 	}
 	
-	@RequestMapping("dealorder_list") // 사장님 매장id값으로 거래내역 출력
+	/*@RequestMapping("dealorder_list") // 사장님 매장id값으로 거래내역 출력
 	public String dealorder_list(RestaurantVO rvo,HttpSession session,Model model) throws Exception {
 		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
 		
@@ -173,7 +175,7 @@ public class MainController {
 		model.addAttribute("olist",olist);
 		
 		return "business/dealRecord";
-	}
+	}*/
 	
 	@RequestMapping(value="order_search_detail", method = RequestMethod.POST)
 	public String order_search_detail(HttpServletRequest rq ,HttpSession session, OrderVO ovo ,Model model) throws Exception {
@@ -286,28 +288,34 @@ public class MainController {
 	public String review_list(Model model,HttpSession session) throws Exception {
 		// 매장의 id 값으로 해당 매장의 리뷰 정보와 리뷰의 댓글들 전부 출력
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		System.out.println("다시시작한다");
 		System.out.println("컨트롤러 왔다");
 		HashMap<String, Object[]> review_reply = service.review_list(rvo);
 		System.out.println("다시 컨트롤러로 돌아왔다");
-		List<ReviewVO> rvlist = null;
-		List<ReplyVO> rplist = null;
+		List<ReviewVO> rvlist = new ArrayList<>();
+		List<ReplyVO> rplist = new ArrayList<>();
 		
-		for(int i=0; i<review_reply.size(); i++) {
-			Object [] imsi = review_reply.get(""+i);
-			ReviewVO rvvo = (ReviewVO) imsi[0];
-			ReplyVO rpvo = (ReplyVO) imsi[1];
-			rvlist.add(i, rvvo);
-			rplist.add(i, rpvo);
+		if(review_reply.get("1")!=null) {
+			for(int i=0; i<review_reply.size(); i++) {
+				Object [] imsi = review_reply.get(""+(i+1));
+				ReplyVO rpvo = null;
+				ReviewVO rvvo = (ReviewVO) imsi[0];
+				if(!imsi[1].equals("0")) {
+					rpvo = (ReplyVO) imsi[1];
+				}
+				rvlist.add(i, rvvo);
+				rplist.add(i, rpvo);
+			}
+			
+			for(int i=0; i<rvlist.size(); i++) {
+				System.out.println(rvlist.get(i).getReview_content());
+			}
+			for(int i=0; i<rplist.size(); i++) {
+				System.out.println(rplist.get(i).getReply_content());
+			}
 		}
 		
-		for(int i=0; i<rvlist.size(); i++) {
-			System.out.println(rvlist.get(i).getReview_content());
-		}
-		for(int i=0; i<rplist.size(); i++) {
-			System.out.println(rplist.get(i).getReply_content());
-		}
-		
-		model.addAttribute("rvlist",rvlist).addAttribute("rplist");
+		System.out.println("보낸다");
 		
 		/*List<VisitorsBookBean> visitorsBook = vbDao.selectVisitorsBook();
         if(!visitorsBook.isEmpty()){
@@ -407,6 +415,26 @@ public class MainController {
 		
 		
 		return time_sales;
+	}
+	
+	@RequestMapping("dealorder_list") // 페이징 dealorder 임시 위와 합칠것
+	public String dealorder_list(PagingVO pagingVO,HttpSession session, Model model, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
+		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
+		int total = service.dealOrder_count(rrvo);
+		System.out.println(total);
+		
+		if(nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if(cntPerPage == null) {}
+			cntPerPage = "10";
+		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		System.out.println(pagingVO.toString());
+		model.addAttribute("paging", pagingVO);
+		model.addAttribute("dealorder_list", service.dealOrder_paging(pagingVO,rrvo));
+		return "business/dealRecord";
 	}
 	
 	
