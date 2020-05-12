@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<script type="text/javascript" src="scripts/moments.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script
@@ -15,6 +16,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 
 </head>
+
 <body>
 <!-- 매장 거래내역 페이지 입니다. -->
 
@@ -121,7 +123,6 @@
 </body>
 
 <script>
-
     $('#search_detail_btn').click(function(){
             $('#search_detail_modal').modal('show');
     });

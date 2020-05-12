@@ -342,12 +342,12 @@ public class MainController {
 		// 매장의 id 값으로 해당 매장의 좌석 정보 다 출력
 		
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
-		List<RoomVO> rlist = service.go_roomlist(rvo);
-		model.addAttribute("rlist",rlist);
 		
 		String result = "";
 		result = service.room_modify(rmvo);
 			
+		List<RoomVO> rlist = service.go_roomlist(rvo);
+		model.addAttribute("rlist",rlist);
 		model.addAttribute("result",result);
 			
 		return "business/roomModify";
@@ -380,6 +380,10 @@ public class MainController {
 			}else if(term.equals("한달")) {
 				term_select = 3;
 			}
+		}
+		
+		if(date == null) {
+			date = "널";
 		}
 		
 		// 매장id로 order 테이블 내용 1,2,3등 전부 대려오기

@@ -199,7 +199,7 @@
  	<select id="menu_list" resultMap="menumap">
  		SELECT * FROM menus
  		where restaurant_id = #{restaurant_id}
- 		ORDER BY question_date DESC
+ 		ORDER BY menu_id DESC
  	</select>
  	
  	<select id="go_menu_modify" resultMap="menumap">
@@ -295,7 +295,7 @@
 			FROM (
 				SELECT ROWNUM RN, A.* 
 					FROM (
-							SELECT * 
+							SELECT *
 							FROM orders
 							WHERE restaurant_id = #{restaurant_id}
 							ORDER BY order_date DESC

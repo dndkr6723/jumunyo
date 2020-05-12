@@ -48,7 +48,6 @@
 						<th>제목</th>
 						<th>작성자</th>
 						<th>작성일</th>
-						<th>확인여부</th>
 					</tr>
 					
 				<c:forEach var="qlist" items="${qlist}" varStatus="loop">
@@ -74,12 +73,9 @@
 						<td>
 							${qlist.question_date }
 						</td>
-						<td>
-							${qlist.question_check }
-						</td>
 					</tr>
 					<tr>
-						<td colspan="5">
+						<td colspan="4">
 					
 					<!-- 여기 모달때문에 만든 임시 trtd -->
 				<div id="question_detail${loop.count}" class="modal">

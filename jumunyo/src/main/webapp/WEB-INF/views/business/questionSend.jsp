@@ -61,7 +61,7 @@
 									<input type="text" name="question_content">	
 									<input type="hidden" value="${uvo.user_id }" name="user_id_send">
 									<input type="hidden" value="0" name="user_id_receive">
-									<input type="hidden" value="답변안함" name="question_check">
+									<input type="hidden" value="답변대기" name="question_check">
 								</td>
 							</tr>
 							<tr>

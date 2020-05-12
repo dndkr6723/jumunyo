@@ -238,8 +238,10 @@ public class MainServiceImpl implements MainService {
 		Date ago_date = null; // term 의 기간이 계산된 예전날짜를 넣을 공간
 		String date_str = null; // xml에 보낼 date를 string 으로 담을 공간
 		
+		System.out.println(date);
+		
 		// 기준이될 select date , ago date 정제
-		if(date != null) {
+		if(!date.equals("널")) {
 			try {
 				select_date = string_to_date.parse(date);
 			} catch (ParseException e) {
@@ -247,7 +249,7 @@ public class MainServiceImpl implements MainService {
 			}
 			ago_date = select_date;
 			date_str = date_to_string.format(select_date);
-		} else if(date == null) {
+		} else if(date.equals("널")) {
 			select_date = new Date(System.currentTimeMillis());
 			ago_date = new Date(System.currentTimeMillis());
 			date_str = date_to_string.format(select_date);
