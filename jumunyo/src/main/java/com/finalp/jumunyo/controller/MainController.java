@@ -288,17 +288,14 @@ public class MainController {
 	public String review_list(Model model,HttpSession session) throws Exception {
 		// 매장의 id 값으로 해당 매장의 리뷰 정보와 리뷰의 댓글들 전부 출력
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
-		System.out.println("다시시작한다");
-		System.out.println("컨트롤러 왔다");
 		HashMap<String, Object[]> review_reply = service.review_list(rvo);
-		System.out.println("다시 컨트롤러로 돌아왔다");
 		List<ReviewVO> rvlist = new ArrayList<>();
 		List<ReplyVO> rplist = new ArrayList<>();
 		
 		if(review_reply.get("1")!=null) {
 			for(int i=0; i<review_reply.size(); i++) {
 				Object [] imsi = review_reply.get(""+(i+1));
-				ReplyVO rpvo = null;
+				ReplyVO rpvo = new ReplyVO();
 				ReviewVO rvvo = (ReviewVO) imsi[0];
 				if(!imsi[1].equals("0")) {
 					rpvo = (ReplyVO) imsi[1];
@@ -307,15 +304,11 @@ public class MainController {
 				rplist.add(i, rpvo);
 			}
 			
-			for(int i=0; i<rvlist.size(); i++) {
-				System.out.println(rvlist.get(i).getReview_content());
-			}
-			for(int i=0; i<rplist.size(); i++) {
-				System.out.println(rplist.get(i).getReply_content());
-			}
 		}
 		
-		System.out.println("보낸다");
+		List<UserVO> ulist = service.user_list(); // 유저닉네임 참조를 위해 유저 목록 
+		
+		model.addAttribute("rvlist",rvlist).addAttribute("rplist",rplist).addAttribute("ulist",ulist);
 		
 		/*List<VisitorsBookBean> visitorsBook = vbDao.selectVisitorsBook();
         if(!visitorsBook.isEmpty()){

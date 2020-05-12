@@ -86,6 +86,10 @@ public interface MainService {
 	public int dealOrder_count (RestaurantVO rrvo);
 	
 	public List<OrderVO> dealOrder_paging(PagingVO pgvo, RestaurantVO rvo);
+	
+	public List<UserVO> user_list();
+	
+	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 }

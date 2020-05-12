@@ -158,7 +158,7 @@
  	<select id="entrance_request" parameterType="restaurantVo" resultMap="restaurantmap">
  		insert into restaurants values(restaurants_seq.nextval,#{user_id},#{restaurant_name},#{restaurant_tell}
  		,#{restaurant_address},#{restaurant_owner},#{restaurant_businessnumber},#{restaurant_businessnumber_img}
- 		,#{category_id},1,0,sysdate,1,1)
+ 		,#{category_id},0,0,sysdate,1,1)
  	</select>
  	
  	<select id="question_list" resultMap="questionmap">
@@ -232,7 +232,7 @@
  		WHERE restaurant_id=#{restaurant_id}
  	</select>
  	
- 	<select id="reply_one" parameterType="int" resultMap="replymap">
+ 	<select id="reply_one" resultMap="replymap">
  		SELECT * FROM replies
  		WHERE review_id = #{value}
  	</select>
@@ -280,7 +280,7 @@
  	
 	<select id="menu_price" resultMap="menumap">
  		SELECT * FROM menus
- 		WHERE menu_id = ${value}
+ 		WHERE menu_id = #{value}
  	</select>
 
 
@@ -304,6 +304,9 @@
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
  	
+ 	<select id="user_list" resultMap="usermap">
+		SELECT * FROM users
+	</select>
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
  	
