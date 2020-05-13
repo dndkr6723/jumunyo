@@ -11,6 +11,7 @@ import com.finalp.jumunyo.vo.QuestionCategoryVO;
 import com.finalp.jumunyo.vo.QuestionVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
 import com.finalp.jumunyo.vo.RoomVO;
+import com.finalp.jumunyo.vo.SeatOrderVO;
 import com.finalp.jumunyo.vo.UserVO;
 
 public interface MainService {
@@ -49,7 +50,8 @@ public interface MainService {
 	
 	public void entrance_request(RestaurantVO rvo);
 	
-	public List<QuestionVO> question_list(UserVO uuvo);
+	public int question_list_count(UserVO uuvo);
+	public List<QuestionVO> question_list_paging(PagingVO pagingVO, UserVO uuvo);
 	
 	public List<QuestionCategoryVO> getQuestionCategory();
 	
@@ -61,7 +63,8 @@ public interface MainService {
 	public int order_search_detail_count(HashMap<String, Object> hm);
 	public List<OrderVO> order_search_detail_paging(PagingVO pgvo, HashMap<String, Object> hm);
 	
-	public List<MenuVO> menu_list(RestaurantVO rvo);
+	public int menu_list_count(RestaurantVO rvo);
+	public List<MenuVO> menu_list_paging(PagingVO pgvo, RestaurantVO rvo);
 	
 	public MenuVO go_menu_modify(MenuVO mvo);
 	
@@ -72,6 +75,9 @@ public interface MainService {
 	public void menu_delete(MenuVO mvo);
 	
 	public List<RoomVO> go_roomlist(RestaurantVO rvo);
+	
+	public int reservation_list_count(RestaurantVO rvo);
+	public List<SeatOrderVO> reservation_list_paging(PagingVO pgvo, RestaurantVO rvo);
 	
 	public HashMap<String, Object[]> review_list(RestaurantVO rvo);
 	

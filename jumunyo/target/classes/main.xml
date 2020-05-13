@@ -161,12 +161,26 @@
  		,#{category_id},0,0,sysdate,1,1)
  	</select>
  	
- 	<select id="question_list" resultMap="questionmap">
- 		SELECT * FROM questions
- 		where user_id_send = #{user_id} or user_id_receive = #{user_id}
- 		ORDER BY question_date DESC
- 	</select>
+ 	<select id="question_list_count" resultType="int">
+		SELECT COUNT(*) FROM questions
+		WHERE user_id_send = #{value} or user_id_receive = #{value}
+	</select>
+	
+	<select id="question_list_paging" parameterType="hashmap" resultMap="questionmap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM questions
+							WHERE user_id_send = #{user_id} or user_id_receive = #{user_id}
+							ORDER BY question_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
  	
+ 	<!-- question_list 페이징 -->
  	<select id="getQuestionCategory" resultMap="questioncategorymap">
  		SELECT * FROM question_categories
  	</select>
@@ -225,12 +239,27 @@
 		WHERE RN BETWEEN #{start} AND #{end}
  	</select>
  	
- 	<select id="menu_list" resultMap="menumap">
- 		SELECT * FROM menus
- 		where restaurant_id = #{restaurant_id}
- 		ORDER BY menu_id DESC
- 	</select>
+ 	 <!-- menu_list 페이징 -->
+ 	<select id="menu_list_count" resultType="int">
+		SELECT COUNT(*) FROM menus
+		WHERE restaurant_id = #{value}
+	</select>
  	
+ 	<select id="menu_list_paging" parameterType="hashmap" resultMap="menumap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM menus
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY menu_id DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	
  	<select id="go_menu_modify" resultMap="menumap">
  		SELECT * FROM menus
  		where menu_id=#{menu_id}
@@ -250,6 +279,26 @@
  		WHERE menu_id=#{menu_id}
  	</select>
  	
+ 	<select id="reservation_list_count" resultType="int">
+		SELECT COUNT(*) FROM seat_orders
+		WHERE restaurant_id = #{value}
+	</select>
+	
+	<select id="reservation_list_paging" parameterType="hashmap" resultMap="seatordermap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM seat_orders
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY seat_order_id DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	
  	<select id="go_roomlist" resultMap="roommap">
  		SELECT * FROM rooms
  		WHERE restaurant_id=#{restaurant_id}
@@ -318,6 +367,11 @@
  	
  	<select id="user_list" resultMap="usermap">
 		SELECT * FROM users
+	</select>
+	
+	<select id="select_user" resultMap="usermap">
+		SELECT * FROM users
+		WHERE user_id = #{value}
 	</select>
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

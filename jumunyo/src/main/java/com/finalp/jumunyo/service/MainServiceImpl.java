@@ -26,6 +26,7 @@ import com.finalp.jumunyo.vo.ReplyVO;
 import com.finalp.jumunyo.vo.RestaurantVO;
 import com.finalp.jumunyo.vo.ReviewVO;
 import com.finalp.jumunyo.vo.RoomVO;
+import com.finalp.jumunyo.vo.SeatOrderVO;
 import com.finalp.jumunyo.vo.UserVO;
 
 @Repository
@@ -79,12 +80,21 @@ public class MainServiceImpl implements MainService {
 		// 입점신청
 		my.insert("Main.entrance_request", rvo);
 	}
-
-
+	
 	@Override
-	public List<QuestionVO> question_list(UserVO uuvo) {
-		// 현재 접속한 사람의 1:1 문의 리스트 가져오기
-		return my.selectList("Main.question_list",uuvo);
+	public int question_list_count(UserVO uuvo) {
+		// 현재 접속한 사람의 1:1 문의 리스트 페이징 카운트
+		return my.selectOne("Main.question_list_count",uuvo.getUser_id());
+	}
+	
+	@Override
+	public List<QuestionVO> question_list_paging(PagingVO pgvo, UserVO uuvo) {
+		// 현재 접속한 사람의 1:1 문의 리스트 가져오기 페이징
+		HashMap<String, Object> imsi = new HashMap<>();
+		imsi.put("start", pgvo.getStart());
+		imsi.put("end", pgvo.getEnd());
+		imsi.put("user_id", uuvo.getUser_id());
+		return my.selectList("Main.question_list_paging",imsi);
 	}
 
 
@@ -157,13 +167,22 @@ public class MainServiceImpl implements MainService {
 
 		return my.selectList("Main.order_search_detail_paging",hm);
 	}
-
+	
 	@Override
-	public List<MenuVO> menu_list(RestaurantVO rvo) {
-		// 매장 id 값으로 매장 메뉴 전체 출력
-		return my.selectList("Main.menu_list",rvo);
+	public int menu_list_count(RestaurantVO rvo) {
+		// 매장 id 값으로 매장 메뉴 전체 갯수 페이징 카운트
+		return my.selectOne("Main.menu_list_count",rvo.getRestaurant_id());
 	}
-
+	
+	@Override
+	public List<MenuVO> menu_list_paging(PagingVO pgvo, RestaurantVO rvo) {
+		// 매장 id 값으로 매장 메뉴 전체 페이징
+		HashMap<String, Object> imsi = new HashMap<>();
+		imsi.put("start", pgvo.getStart());
+		imsi.put("end", pgvo.getEnd());
+		imsi.put("restaurant_id", rvo.getRestaurant_id());
+		return my.selectList("Main.menu_list_paging",imsi);
+	}
 
 	@Override
 	public MenuVO go_menu_modify(MenuVO mvo) {
@@ -193,6 +212,24 @@ public class MainServiceImpl implements MainService {
 		my.delete("Main.menu_delete",mvo);
 		
 	}
+	
+	@Override
+	public int reservation_list_count(RestaurantVO rvo) {
+		// 매장의 id 값으로 해당 매장 리스트 페이징 카운트
+		return my.selectOne("Main.reservation_list_count",rvo.getRestaurant_id());
+	}
+	
+	@Override
+	public List<SeatOrderVO> reservation_list_paging(PagingVO pgvo, RestaurantVO rvo) {
+		// 매장의 id 값으로 해당 매장 리스트 페이징
+		HashMap<String, Object> imsi = new HashMap<>();
+		imsi.put("start", pgvo.getStart());
+		imsi.put("end", pgvo.getEnd());
+		imsi.put("restaurant_id", rvo.getRestaurant_id());
+
+		return my.selectList("Main.reservation_list_paging",imsi);
+	}
+
 
 
 	@Override
@@ -540,12 +577,6 @@ public class MainServiceImpl implements MainService {
 	}
 
 
-	
-
-
-	
-	
-	
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 }

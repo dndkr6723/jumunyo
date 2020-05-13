@@ -33,30 +33,38 @@
 						<th>이용좌석</th>
 						<th>이용회원</th>
 						<th>연락처</th>
-						<th>현황</th>
 						<th>비고</th>
+						<th>현황</th>
 					</tr>
-					<c:forEach var="olist" items="${olist }">
+					<c:forEach var="solist" items="${solist }">
 					
 						<tr>
 							<td>
-								${olist.order_id }
+								${solist.reservation_time }
 							</td>
 							
 							<td>
-								${olist.order_type }
+								${solist.room_id }
+							</td>
+							
+						<c:forEach var="ulist" items="${ulist }">
+						<c:if test="${solist.user_id == ulist.user_id }">
+							<td>	
+								${ulist.user_name }
 							</td>
 							
 							<td>
-								${olist.order_date }
+								${ulist.user_tell }
+							</td>
+						</c:if>	
+						</c:forEach>
+							
+							<td>
+								${solist.request }
 							</td>
 							
 							<td>
-								<%-- ${olist.seat_order_id } --%> 예약자리
-							</td>
-							
-							<td>
-								${olist.order_price }
+								여기 이용 현황
 							</td>
 							
 						</tr>

@@ -1,6 +1,5 @@
 package com.finalp.jumunyo.controller;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -148,13 +147,25 @@ public class MainController {
 	}
 	
 	@RequestMapping("question_list") // 현재접속한 사람의 1:1문의 가져오기
-	public String question_list(UserVO uvo,HttpSession session,Model model) throws Exception {
+	public String question_list(UserVO uvo,HttpSession session,Model model,PagingVO pagingVO, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
 			UserVO uuvo = (UserVO) session.getAttribute("uvo");
 			
-			List<QuestionVO> list = service.question_list(uuvo);
+			// 카테고리 참조를 위한 카테고리 불러오기
 			List<QuestionCategoryVO> qcvo = service.getQuestionCategory();
+			// 페이징
+			int total = service.question_list_count(uuvo);
 			
-			model.addAttribute("qlist",list).addAttribute("qcvo",qcvo);
+			if(nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "10";
+			} else if(nowPage == null) {
+				nowPage = "1";
+			} else if(cntPerPage == null) {}
+				cntPerPage = "10";
+			pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			model.addAttribute("paging", pagingVO);
+			model.addAttribute("qlist", service.question_list_paging(pagingVO,uuvo));
+			model.addAttribute("qcvo",qcvo);
 			
 		return "business/questionList";
 	}
@@ -224,21 +235,29 @@ public class MainController {
 	}
 	
 	@RequestMapping("menu_list") 
-	public String menu_list(MenuVO mvo ,HttpSession session,Model model) throws Exception {
+	public String menu_list(MenuVO mvo ,HttpSession session,Model model, PagingVO pagingVO, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
 		// 매장 id 값으로 매장 메뉴 출력
 		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
-		
-		List<MenuVO> mlist = (List<MenuVO>) service.menu_list(rrvo);
-		
-		model.addAttribute("mlist",mlist);
-		
+		// 페이징
+			int total = service.menu_list_count(rrvo);
+			
+			if(nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "10";
+			} else if(nowPage == null) {
+				nowPage = "1";
+			} else if(cntPerPage == null) {}
+				cntPerPage = "10";
+			pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			model.addAttribute("paging", pagingVO);
+			model.addAttribute("mlist", service.menu_list_paging(pagingVO,rrvo));
+			
 		return "business/menuList";
 	}
 	
 	@RequestMapping("go_menu_add") 
 	public String menu_add() throws Exception {
 		// 메뉴 리스트 페이지에서 menuAdd 페이지로 이동
-		
 		return "business/menuAdd";
 	}
 	
@@ -297,18 +316,26 @@ public class MainController {
 	}
 	
 	@RequestMapping("reservation_list") 
-	public String reservation_list(Model model,HttpSession session) throws Exception {
+	public String reservation_list(Model model,HttpSession session, PagingVO pagingVO, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
 		// 매장의 id 값으로 해당 매장의 예약정보 전부 출력
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
 		
-		/*List<SeatOrderVO> solist = service.seatorder_list(rvo);
-		List<OrderVO> olist = (List<OrderVO>) service.dealorder_list(rvo);*/
-		//olist에서 reservation_time 빼오기 
-		// 좌석의 아이디가 작은순으로 테이블번호 1~10 등등 붙이기
-		// user_id 값으로 user_name, user_tell 구하기
+		// 페이징
+		int total = service.reservation_list_count(rvo);
 		
+		if(nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if(cntPerPage == null) {}
+			cntPerPage = "10";
+		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", pagingVO);
+		model.addAttribute("mlist", service.reservation_list_paging(pagingVO,rvo));
+		model.addAttribute("ulist",service.user_list());
 		
-		return "business/roomModify";
+		return "business/reservationList";
 	}
 	
 	@RequestMapping("review_list") 
