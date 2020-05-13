@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"
+    import = "java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +50,6 @@
 						<th>금액</th>
 					</tr>
 					<c:forEach var="dealorder_list" items="${dealorder_list }">
-					
 						<tr>
 							<td>
 								${dealorder_list.order_id }
@@ -59,7 +60,7 @@
 							</td>
 							
 							<td>
-								${dealorder_list.order_date }
+								<fmt:formatDate value="${dealorder_list.order_date }" pattern="yyyy년 MM월 dd일 HH:mm"/>
 							</td>
 							
 							<td>

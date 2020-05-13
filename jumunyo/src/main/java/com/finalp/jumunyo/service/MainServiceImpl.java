@@ -100,20 +100,63 @@ public class MainServiceImpl implements MainService {
 		my.insert("Main.question_send",qvo);
 		
 	}
+	
+	@Override
+	public int dealOrder_count(RestaurantVO rrvo) {
+		// 사장님 매장id값으로 거래내역 카운트하기 (페이징용)
+		return my.selectOne("Main.countDealRecord",rrvo.getRestaurant_id());
+	}
 
 	@Override
-	public List<OrderVO> dealorder_list(RestaurantVO rvo) {
+	public List<OrderVO> dealOrder_paging(PagingVO pgvo, RestaurantVO rrvo) {
 		// 사장님 매장id값으로 거래내역 모두 출력
-		return my.selectList("Main.dealorder_list",rvo);
+		HashMap<String, Object> imsi = new HashMap<>();
+		imsi.put("start", pgvo.getStart());
+		imsi.put("end", pgvo.getEnd());
+		imsi.put("restaurant_id", rrvo.getRestaurant_id());
+		return my.selectList("Main.selectDealRecord",imsi);
 	}
 
 
 	@Override
-	public List<OrderVO> order_search_detail(HashMap<String, Object> hm) {
-		// 거래내역 조건 검색
-		return my.selectList("Main.order_search_detail",hm);
+	public int order_search_detail_count(HashMap<String, Object> hm) {
+		// 사장님 매장id값으로 거래내역 상세조회 카운트하기 (페이징용)
+		HashMap<String, Object> imsi = hm;
+		
+		String far_time = (String)imsi.get("far_time");
+		String last_time = (String)imsi.get("last_time");
+		String min_price = (String)imsi.get("min_price");
+		String max_price = (String)imsi.get("max_price");
+		
+		if(far_time.equals("")) {
+			imsi.replace("far_time", "0001-01-01");
+		}
+		if(last_time.equals("")) {
+			imsi.replace("last_time", "9999-12-31");
+		}
+		
+		if(min_price.equals("")) {
+			imsi.replace("min_price", "0");
+		}
+		if(max_price.equals("")) {
+			imsi.replace("max_price", "999999999");
+		}
+		if(imsi.get("order_type1")==null) {
+			imsi.replace("order_type1", "all");
+		}
+		return my.selectOne("Main.order_search_detail_count",hm);
 	}
 
+	@Override
+	public List<OrderVO> order_search_detail_paging(PagingVO pgvo, HashMap<String, Object> hm) {
+		// 사장님 매장id값으로 거래내역 상세조회 조건 출력
+		HashMap<String, Object> imsi = hm;
+		
+		hm.put("start", pgvo.getStart());
+		hm.put("end", pgvo.getEnd());
+
+		return my.selectList("Main.order_search_detail_paging",hm);
+	}
 
 	@Override
 	public List<MenuVO> menu_list(RestaurantVO rvo) {
@@ -255,7 +298,7 @@ public class MainServiceImpl implements MainService {
 			date_str = date_to_string.format(select_date);
 		}
 		
-		HashMap<String, String> time = new HashMap<>();// xml에 term 조건 주기위해 해쉬맵 이용
+		HashMap<String, Object> time = new HashMap<>();// xml에 term 조건 주기위해 해쉬맵 이용
 		if(term_select==1) {
 			time.put("term", "one");	//하루
 		}else if(term_select==2) {
@@ -273,8 +316,20 @@ public class MainServiceImpl implements MainService {
 		}
 		time.put("date_str", date_str);
 		
+		int restaurant_id = rvo.getRestaurant_id();
+		time.put("restaurant_id",restaurant_id);
+		
 		// 해당 term 동안의 날짜동안의 order 데이터 다 댈고오기
 		List<OrderVO> ovol = my.selectList("Main.menu_sales_default", time);
+		
+		// 해당 날짜 동안의 총 거래내역 수
+		int total_mount = ovol.size();
+		
+		// 해당 날짜 동안의 총 거래내역 금액
+		int total_price = 0;
+		for(int i=0; i<ovol.size(); i++) {
+			total_price += ovol.get(i).getOrder_price();
+		}
 		
 		// menu id 를 키값으로 수량을 누적하는 hasp 맵 작성
 		for(int i=0; i<ovol.size(); i++) {
@@ -325,10 +380,13 @@ public class MainServiceImpl implements MainService {
 			result.put(""+count, imsi);
 			count++;
 		}
+		Object [] total = {total_mount, total_price};
+		result.put("total",total);
 		
 		return result;
 		
 	}
+	
 	
 	@Override
 	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo, String sdate,String cdate) {
@@ -342,8 +400,8 @@ public class MainServiceImpl implements MainService {
 		int g = 0; int G = 0; //21~22:59
 		
 		// xml 에 보낼 값을 담을 해쉬맵 생성
-		HashMap<String, String> date_values = new HashMap<String, String>();
-		HashMap<String, String> select_values = new HashMap<String, String>();
+		HashMap<String, Object> date_values = new HashMap<String, Object>();
+		HashMap<String, Object> select_values = new HashMap<String, Object>();
 		
 		SimpleDateFormat time_form_hour = new SimpleDateFormat("HH");
 		SimpleDateFormat string_to_date = new SimpleDateFormat("yyyy-MM-dd");
@@ -374,6 +432,12 @@ public class MainServiceImpl implements MainService {
 		date_values.put("sdate", sdate); 
 		date_values.put("compare_date",compare_date);
 		select_values.put("sdate", sdate);
+		
+		int restaurant_id = rvo.getRestaurant_id();
+		date_values.put("restaurant_id",restaurant_id);
+		select_values.put("restaurant_id",restaurant_id);
+		
+		
 		
 		// 받아온 날짜의 시간대별로 뽑기
 		List<OrderVO> ovol_select = my.selectList("Main.menu_sales_graph_select",select_values); // 정한날짜 데이터
@@ -470,27 +534,16 @@ public class MainServiceImpl implements MainService {
 		
 	}
 
-
-	@Override
-	public int dealOrder_count(RestaurantVO rrvo) {
-		return my.selectOne("Main.countDealRecord",rrvo.getRestaurant_id());
-	}
-
-
-	@Override
-	public List<OrderVO> dealOrder_paging(PagingVO pgvo, RestaurantVO rrvo) {
-		HashMap<String, Object> imsi = new HashMap<>();
-		imsi.put("start", pgvo.getStart());
-		imsi.put("end", pgvo.getEnd());
-		imsi.put("restaurant_id", rrvo.getRestaurant_id());
-		return my.selectList("Main.selectDealRecord",imsi);
-	}
-
-
 	@Override
 	public List<UserVO> user_list() {
 		return my.selectList("Main.user_list");
 	}
+
+
+	
+
+
+	
 	
 	
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

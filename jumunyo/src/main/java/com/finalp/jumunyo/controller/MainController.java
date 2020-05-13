@@ -1,5 +1,6 @@
 package com.finalp.jumunyo.controller;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -166,19 +167,27 @@ public class MainController {
 		return "redirect:/question_list";
 	}
 	
-	/*@RequestMapping("dealorder_list") // 사장님 매장id값으로 거래내역 출력
-	public String dealorder_list(RestaurantVO rvo,HttpSession session,Model model) throws Exception {
+	@RequestMapping("dealorder_list")
+	public String dealorder_list(PagingVO pagingVO,HttpSession session, Model model, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
+		// 사장님 매장id값으로 거래내역 출력
 		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
+		int total = service.dealOrder_count(rrvo);
 		
-		List<OrderVO> olist = (List<OrderVO>) service.dealorder_list(rrvo);
-		
-		model.addAttribute("olist",olist);
-		
+		if(nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if(cntPerPage == null) {}
+			cntPerPage = "10";
+		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", pagingVO);
+		model.addAttribute("dealorder_list", service.dealOrder_paging(pagingVO,rrvo));
 		return "business/dealRecord";
-	}*/
+	}
 	
 	@RequestMapping(value="order_search_detail", method = RequestMethod.POST)
-	public String order_search_detail(HttpServletRequest rq ,HttpSession session, OrderVO ovo ,Model model) throws Exception {
+	public String order_search_detail(PagingVO pagingVO, HttpServletRequest rq ,HttpSession session, OrderVO ovo ,Model model, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
 		// 거래내역 조건별 검색
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
@@ -190,8 +199,26 @@ public class MainController {
 		hm.put("max_price", rq.getParameter("max_price"));
 		hm.put("order_type1", rq.getParameter("order_type1"));
 		
-		List<OrderVO> olist = service.order_search_detail(hm);
-		model.addAttribute("olist",olist);
+		System.out.println("far_time :" + rq.getParameter("far_time"));
+		System.out.println("last_time :" + rq.getParameter("last_time"));
+		System.out.println("min_time :" + rq.getParameter("min_time"));
+		System.out.println("max_time :" + rq.getParameter("max_time"));
+		System.out.println("order_type1 :" + rq.getParameter("order_type1"));
+		
+		int total = service.order_search_detail_count(hm);
+		System.out.println(total);
+		
+		if(nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if(cntPerPage == null) {}
+			cntPerPage = "10";
+		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
+		model.addAttribute("paging", pagingVO);
+		model.addAttribute("dealorder_list", service.order_search_detail_paging(pagingVO,hm));
 		
 		return "business/dealRecord";
 	}
@@ -393,9 +420,14 @@ public class MainController {
 		top.put("2", imsi.get("2"));
 		top.put("3", imsi.get("3"));
 		
+		// 총 판매수량, 금액 가져오기
+		Object[] total = imsi.get("total");
+		/*NumberFormat nf = NumberFormat.getNumberInstance();*/
+		
 		model.addAttribute("top",top);
 		model.addAttribute("term",term);
 		model.addAttribute("date",date);
+		model.addAttribute("total_mount",total[0]).addAttribute("total_price",total[1]);
 		
 		return "business/revenueTable";
 	}
@@ -410,28 +442,7 @@ public class MainController {
 		String cdate = compare_date;
 		HashMap<String, Integer> time_sales = service.menu_sales_time(rvo,sdate,cdate);
 		
-		
 		return time_sales;
-	}
-	
-	@RequestMapping("dealorder_list") // 페이징 dealorder 임시 위와 합칠것
-	public String dealorder_list(PagingVO pagingVO,HttpSession session, Model model, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
-		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
-		int total = service.dealOrder_count(rrvo);
-		System.out.println(total);
-		
-		if(nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "10";
-		} else if(nowPage == null) {
-			nowPage = "1";
-		} else if(cntPerPage == null) {}
-			cntPerPage = "10";
-		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
-		System.out.println(pagingVO.toString());
-		model.addAttribute("paging", pagingVO);
-		model.addAttribute("dealorder_list", service.dealOrder_paging(pagingVO,rrvo));
-		return "business/dealRecord";
 	}
 	
 	

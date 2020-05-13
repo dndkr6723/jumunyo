@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -149,14 +150,14 @@
 							</select>
 						</div>
 						
-						<button onclick="test()" type="button">그래프 확인!</button>
+						<button onclick="graph()" type="button">그래프 확인!</button>
 					</div>
 					
 					<div id="chart" style="width:900px; height:500px;"><!--  차트나오는 div -->
 					
 					</div>
 				</div>
-				<div>총거래역, 총매출액 나오는곳</div>
+				<div>총거래역 : ${total_mount } 회 / 총매출액 :<fmt:formatNumber value="${total_price }" type="currency"/></div>
 				
 			</div>	
 		</div>
@@ -165,7 +166,7 @@
 
 <script type="text/javascript">
 
-function test() {
+function graph() {
 	var select_date = {"select_date" : $("#select_date").val(), "compare_date" : $("#compare_date option:selected").val()};
 	console.log($("#compare_date option:selected").val());
 	
@@ -180,7 +181,6 @@ function test() {
         	
             alert("성공");
             var ts = data;
-           	console.log(ts["1"]);
            	
            	google.charts.load('current',{'packages':['corechart']});
            	google.charts.setOnLoadCallback(drawVisualization)

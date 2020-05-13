@@ -1,90 +1,103 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
-
-<style>
-
-#header{
-	height : 150px;
-	width : 100%;
-	background : yellow;
-	display: flex;
-}
-
-#sitename{
-	height : 150px;
-	width : 200px;
-	background : green;
-	text-align: center;
-}
-
-#businesspage{
-	height : 150px;
-	width : 200px;
-	background : yellow;
-	text-align: center;
-	margin-right:40%;
-}
-
-#restaurant_name {
-	height : 150px;
-	width : 200px;
-	background : green;
-	text-align: center;
-}
-
-#user_name{
-	height : 150px;
-	width : 200px;
-	background : yellow;
-	text-align: center;
-}
-
-#mypage{
-	height : 150px;
-	width : 200px;
-	background : green;
-	text-align: center;
-}
-
-#logout{
-	height : 150px;
-	width : 200px;
-	background : yellow;
-	text-align: center;
-}
-
-
-</style>
-
-
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="EUC-KR">
 <title>Insert title here</title>
+<style>
+.header {
+	width: 100%;
+	height: 50px;
+	background: linear-gradient(to bottom, #00D8FF, #8C8C8C, #E5D85C);
+}
+
+#logo {
+	float: left;
+	width: 40%;
+	margin: 0 10%;
+	line-height:50px;
+}
+
+#a1 {
+	font-size: 30px;
+	font-weight: bold;
+	color: #A566FF;
+	font-family: 'Nanum Pen Script', cursive;
+}
+
+#a2 {
+	font-size: 30px;
+	font-weight: bold;
+	color: #1DDB16;
+	font-family: 'Nanum Pen Script', cursive;
+}
+
+#a3 {
+	font-size: 30px;
+	font-weight: bold;
+	color: #003399;
+	font-family: 'Nanum Pen Script', cursive;
+}
+
+#a4 {
+	font-size: 30px;
+	color: #F29661;
+	font-family: 'Nanum Pen Script', cursive;
+}
+#bp {
+	font-size: 20px;
+	font-family: 'Nanum Pen Script', cursive;
+}
+.res-name {
+	float: left;
+	line-height:50px;
+	font-size: 20px;
+	width: 10%;
+}
+.operator {
+	float: left;
+	width:10%;
+	line-height:50px; 
+	
+}
+.logout {
+	line-height:50px;
+	float: left;
+	width:10%;
+}
+</style>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 <body>
-
-<div id="header">
-	<div id="sitename">
-		ì£¼ë¬¸ì´ìš”
+	<div class="header">
+			<div id="logo" onmouseover="logo1();" onmouseout="logo2();">
+				<a href="../index.jsp" style="text-decoration: none;"> 
+					<b id="a1">ÁÖ</b> 
+					<b id="a2">¹®</b> 
+					<b id="a3">ÀÌ</b> 
+					<b id="a4">¿ä</b>
+					<b id="bp">(»ç¾÷ÀÚ ÆäÀÌÁö)</b>
+				</a>
+			</div>
+		<div class="res-name">
+			<b>·Ô´ë¸®¾Æ Á¾·ÎÁöÁ¡</b>
+		</div>
+		<div class="operator">
+			<b>¿î¿µÀÚ</b>
+			<a>(</a>			
+			<a href="" style="text-decoration: none; color: red; font-size: 15px;">È«±æµ¿</a>
+			<a>)</a>
+		</div>
+		<div class="logout">
+			<a href="" style="text-decoration: none; font-size: 20px;"><b>·Î±×¾Æ¿ô</b></a>
+		</div>
 	</div>
-	<div id="businesspage">
-		ì‚¬ì—…ìí˜ì´ì§€
-	</div>
-	<div id="restaurant_name">
-		${rvo.restaurant_name }
-	</div>
-	<div id="user_name">
-		${uvo.user_name }
-	</div>
-	<div id="mypage">
-		ë‚´ì •ë³´
-	</div>
-	<div id="logout">
-		ë¡œê·¸ì•„ì›ƒ
-	</div>
-</div>
 
 </body>
 </html>

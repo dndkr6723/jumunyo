@@ -176,24 +176,53 @@
  			#{question_content},'없음',#{question_check},sysdate,#{user_id_receive})
  	</select>
  	
- 	<!-- <select id="dealorder_list" resultMap="ordermap">
- 		SELECT * FROM orders
- 		where restaurant_id = #{restaurant_id}
- 		order by order_date desc
- 	</select> -->
+ 	 	<!-- order_list 페이징 -->
+ 	<select id="countDealRecord" resultType="int">
+		SELECT COUNT(*) FROM orders
+		WHERE restaurant_id = #{value}
+	</select>
+	
+	<select id="selectDealRecord" parameterType="hashmap" resultMap="ordermap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM orders
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY order_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
  	
- 	
- 	<select id="order_search_detail" parameterType="hashmap" resultMap="ordermap">
- 		SELECT * FROM orders where restaurant_id = #{restaurant_id}
- 		<if test="far_time != '' and last_time != ''">
- 			and order_date between #{far_time} and #{last_time}
- 		</if>
- 		<if test="max_price != '' and min_price != ''">
+ 	 	 	<!-- order_list_detail 페이징 -->
+ 	<select id="order_search_detail_count" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) FROM orders where restaurant_id = #{restaurant_id}
+ 			and order_date between to_date('${far_time} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${last_time} 23:59:59', 'YY-MM-DD HH24:MI:SS')
  			and order_price between #{min_price} and #{max_price}
- 		</if>
  		<if test="order_type1 != 'all'">
  			and order_type = #{order_type1}
  		</if>
+	</select>
+	
+ 	<select id="order_search_detail_paging" parameterType="hashmap" resultMap="ordermap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM orders
+							WHERE restaurant_id = #{restaurant_id}
+					 			and order_date between to_date('${far_time} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${last_time} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+					 			and order_price between #{min_price} and #{max_price}
+					 		<if test="order_type1 != 'all'">
+					 			and order_type = #{order_type1}
+					 		</if>
+							ORDER BY order_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
  	</select>
  	
  	<select id="menu_list" resultMap="menumap">
@@ -266,43 +295,26 @@
  		<if test="term.equals('two')">
 	 		WHERE order_date between to_date('${ago_str} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY-MM-DD HH24:MI:SS')
  		</if>
+ 		AND restaurant_id = #{restaurant_id}
  	</select>
+ 	
  	
  	<select id="menu_sales_graph_select" parameterType="hashmap" resultMap="ordermap">
  		SELECT * FROM orders
 	 	WHERE order_date between to_date('${sdate} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${sdate} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+	 	AND restaurant_id = #{restaurant_id}
  	</select>
  	
  	<select id="menu_sales_graph_compare" parameterType="hashmap" resultMap="ordermap">
  		SELECT * FROM orders
 	 	WHERE order_date between to_date('${compare_date} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${sdate} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+	 	AND restaurant_id = #{restaurant_id}
  	</select>
  	
 	<select id="menu_price" resultMap="menumap">
  		SELECT * FROM menus
  		WHERE menu_id = #{value}
  	</select>
-
-
- 	<!-- 페이징 처리 후 게시글 조회 -->
- 	<select id="countDealRecord" resultType="int">
-		SELECT COUNT(*) FROM orders
-		WHERE restaurant_id = #{value}
-	</select>
-	
-	<select id="selectDealRecord" parameterType="hashmap" resultMap="ordermap">
-		SELECT * 
-			FROM (
-				SELECT ROWNUM RN, A.* 
-					FROM (
-							SELECT *
-							FROM orders
-							WHERE restaurant_id = #{restaurant_id}
-							ORDER BY order_date DESC
-						 ) A
-					)
-		WHERE RN BETWEEN #{start} AND #{end}
-	</select>
  	
  	<select id="user_list" resultMap="usermap">
 		SELECT * FROM users

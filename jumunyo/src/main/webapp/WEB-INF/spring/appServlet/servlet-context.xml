@@ -13,6 +13,18 @@
 	<annotation-driven />
 	
 	<default-servlet-handler/>
+	
+	<!-- 인터셉터 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/jumunyo/**"/>
+			<exclude-mapping path="/jumunyo/order_search_detail"/>
+			<beans:bean class="com.finalp.jumunyo.common.DealorderInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	<!-- 에러페이지 bean -->
+	<!-- <beans:bean class="com.finalp.jumunyo.common.CommonExceptionHandler"/> -->
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />

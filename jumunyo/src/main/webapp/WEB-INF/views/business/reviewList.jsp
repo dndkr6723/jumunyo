@@ -66,6 +66,7 @@
 							<c:if test="${rplist[status.index].reply_content == null }">
 								<div> <!-- 아직 사장님이 댓글 안달아서 버튼 나옴 -->
 									<input type="button" value="댓글 작성하기">
+									
 								</div>
 							</c:if>
 							

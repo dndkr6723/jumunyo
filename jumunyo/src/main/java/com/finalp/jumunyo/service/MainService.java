@@ -55,9 +55,11 @@ public interface MainService {
 	
 	public void question_send(QuestionVO qvo);
 	
-	public List<OrderVO> dealorder_list(RestaurantVO rvo);
+	public int dealOrder_count (RestaurantVO rrvo);
+	public List<OrderVO> dealOrder_paging(PagingVO pgvo, RestaurantVO rvo);
 	
-	public List<OrderVO> order_search_detail(HashMap<String, Object> hm);
+	public int order_search_detail_count(HashMap<String, Object> hm);
+	public List<OrderVO> order_search_detail_paging(PagingVO pgvo, HashMap<String, Object> hm);
 	
 	public List<MenuVO> menu_list(RestaurantVO rvo);
 	
@@ -82,10 +84,6 @@ public interface MainService {
 	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo,int term_select,String date);
 	
 	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo,String sdate,String cdate);
-	
-	public int dealOrder_count (RestaurantVO rrvo);
-	
-	public List<OrderVO> dealOrder_paging(PagingVO pgvo, RestaurantVO rvo);
 	
 	public List<UserVO> user_list();
 	
