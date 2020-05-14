@@ -1,6 +1,8 @@
 package com.finalp.jumunyo.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -197,24 +199,39 @@ public class MainController {
 		return "business/dealRecord";
 	}
 	
-	@RequestMapping(value="order_search_detail", method = RequestMethod.POST)
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/order_search_detail", method = {RequestMethod.POST,RequestMethod.GET})
 	public String order_search_detail(PagingVO pagingVO, HttpServletRequest rq ,HttpSession session, OrderVO ovo ,Model model, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
 		// 거래내역 조건별 검색
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
+		String first_search = (String) rq.getParameter("first_search");
+		System.out.println(first_search);
 		
-		hm.put("restaurant_id",rrvo.getRestaurant_id());
-		hm.put("far_time", rq.getParameter("far_time"));
-		hm.put("last_time", rq.getParameter("last_time"));
-		hm.put("min_price", rq.getParameter("min_price"));
-		hm.put("max_price", rq.getParameter("max_price"));
-		hm.put("order_type1", rq.getParameter("order_type1"));
+		// 모달창을 띄워서 검색하면 first_search 값을 보냄. 그냥 페이징으로 왔으면 session 찾아서 진행
+		if(first_search == null) {
+			System.out.println(session.getAttribute("o_search_detail"));
+			hm = (HashMap<String, Object>)session.getAttribute("o_search_detail");
+		} else if(first_search.equals("first_search")) {
+			hm.put("restaurant_id",rrvo.getRestaurant_id());
+			hm.put("far_time", rq.getParameter("far_time"));
+			hm.put("last_time", rq.getParameter("last_time"));
+			hm.put("min_price", rq.getParameter("min_price"));
+			hm.put("max_price", rq.getParameter("max_price"));
+			hm.put("order_type1", rq.getParameter("order_type1"));
+			
+			session.setAttribute("o_search_detail", hm); // 검색후 페이징을 위한 검색 조건 세션띄우기
+		}
 		
+		System.out.println("여기는 request");
 		System.out.println("far_time :" + rq.getParameter("far_time"));
 		System.out.println("last_time :" + rq.getParameter("last_time"));
-		System.out.println("min_time :" + rq.getParameter("min_time"));
-		System.out.println("max_time :" + rq.getParameter("max_time"));
+		System.out.println("min_price :" + rq.getParameter("min_price"));
+		System.out.println("max_price :" + rq.getParameter("max_price"));
 		System.out.println("order_type1 :" + rq.getParameter("order_type1"));
+		
+		System.out.println("여기는 hm맵");
+		System.out.println("min_price : " + hm.get("min_price"));
 		
 		int total = service.order_search_detail_count(hm);
 		System.out.println(total);
@@ -379,12 +396,13 @@ public class MainController {
 	public String room_delete(RoomVO rmvo ,HttpSession session, Model model, HttpServletRequest rq) throws Exception {
 		// 좌석 아이디 값으로 좌석 삭제
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
-		List<RoomVO> rlist = service.go_roomlist(rvo);
-		model.addAttribute("rlist",rlist);
 		
 		String result = "";
 		result = service.room_delete(rmvo);
+		
+		List<RoomVO> rlist = service.go_roomlist(rvo);
 			
+		model.addAttribute("rlist",rlist);
 		model.addAttribute("result",result);
 			
 		return "business/roomModify";
@@ -437,7 +455,12 @@ public class MainController {
 		}
 		
 		if(date == null) {
-			date = "널";
+			System.out.println(date);
+			Date now_date = new Date(System.currentTimeMillis());
+			SimpleDateFormat date_to_string = new SimpleDateFormat("yy-MM-dd");
+			date = date_to_string.format(now_date);
+			System.out.println("지금 날짜 안골랐으니 현재날짜로 임의로 넣었다");
+			System.out.println(date);
 		}
 		
 		// 매장id로 order 테이블 내용 1,2,3등 전부 대려오기

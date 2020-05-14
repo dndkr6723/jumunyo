@@ -8,11 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<script>
-	var todate = new Date().toISOString().substring(0,10);
-	document.getElementById("start_date").value = todate;
-</script>
-
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -43,7 +38,7 @@
 					<div>
 						<c:choose>
 							<c:when test="${date == null }">
-								<input type="date" id="start_date" name="start_date" onchange="select_term()"/>
+								<input type="date" id="start_date" name="start_date" value ="" onchange="select_term()"/>
 							</c:when>
 							<c:when test="${date != null }">
 								<input type="date" id="start_date" name="start_date" value = "${date }" onchange="select_term()"/>
@@ -225,6 +220,11 @@ function graph() {
 <script>
 	var todate = new Date().toISOString().substring(0,10);
 	document.getElementById("select_date").value = todate;
+</script>
+
+<script>
+	var todate = new Date().toISOString().substring(0,10);
+	document.getElementById("start_date").value = todate;
 </script>
 
 <script>

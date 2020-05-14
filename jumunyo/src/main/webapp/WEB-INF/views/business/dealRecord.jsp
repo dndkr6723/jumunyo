@@ -94,10 +94,12 @@
 								<input type="radio" id="reservation" name="order_type1" value="예약"> 예약
 								<input type="radio" id="all" name="order_type1" value="all"> 전체
 							</div>
+						<input type="hidden" value="first_search" name="first_search">
 						<input type="submit" value="검색">
 					</form>
 				</div>
 				
+				<c:if test="${o_search_detail == null }"> <!-- 조건 없이 검색할때 뜨는 페이징 -->
 				<div> <!-- 페이징 div 임시 -->
 					<c:if test="${paging.startPage != 1 }">
 						<a href="dealorder_list?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
@@ -116,6 +118,28 @@
 						<a href="dealorder_list?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
 					</c:if>
 				</div>
+				</c:if>
+				
+				<c:if test="${o_search_detail != null }"> <!-- 조건 걸고 찾는 페이징 -->
+				<div>
+					<c:if test="${paging.startPage != 1 }">
+						<a href="order_search_detail?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+					</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a href="order_search_detail?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+					<c:if test="${paging.endPage != paging.lastPage}">
+						<a href="order_search_detail?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+					</c:if>
+				</div>
+				</c:if>
 				
 			</div>
 		</div>

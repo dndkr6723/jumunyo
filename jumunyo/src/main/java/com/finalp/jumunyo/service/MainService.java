@@ -1,5 +1,6 @@
 package com.finalp.jumunyo.service;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,7 +88,7 @@ public interface MainService {
 	
 	public void room_add(RoomVO romvo);
 	
-	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo,int term_select,String date);
+	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo,int term_select,String date) throws ParseException;
 	
 	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo,String sdate,String cdate);
 	

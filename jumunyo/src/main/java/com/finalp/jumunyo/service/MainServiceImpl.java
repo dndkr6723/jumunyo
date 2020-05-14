@@ -301,7 +301,7 @@ public class MainServiceImpl implements MainService {
 
 
 	@Override
-	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo, int term_select, String date) {
+	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo, int term_select, String date) throws ParseException {
 		// session 에서 매장 id 값 가져와서 매출현황 페이지 최고매출 디폴트 값 출력(오늘 하루)
 		String first_split [] = null;
 		String second_split [] = null;
@@ -318,21 +318,20 @@ public class MainServiceImpl implements MainService {
 		Date ago_date = null; // term 의 기간이 계산된 예전날짜를 넣을 공간
 		String date_str = null; // xml에 보낼 date를 string 으로 담을 공간
 		
-		System.out.println(date);
+		String ddd = date;
+		System.out.println(ddd);
 		
 		// 기준이될 select date , ago date 정제
-		if(!date.equals("널")) {
-			try {
-				select_date = string_to_date.parse(date);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+		if(!ddd.equals("널")) {
+			select_date = string_to_date.parse(date);
 			ago_date = select_date;
 			date_str = date_to_string.format(select_date);
-		} else if(date.equals("널")) {
+			System.out.println("나는 낫널");
+		} else if(ddd.equals("널")) {
 			select_date = new Date(System.currentTimeMillis());
 			ago_date = new Date(System.currentTimeMillis());
 			date_str = date_to_string.format(select_date);
+			System.out.println("나는 널");
 		}
 		
 		HashMap<String, Object> time = new HashMap<>();// xml에 term 조건 주기위해 해쉬맵 이용

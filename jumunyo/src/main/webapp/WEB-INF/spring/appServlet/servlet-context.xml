@@ -17,8 +17,8 @@
 	<!-- 인터셉터 -->
 	<interceptors>
 		<interceptor>
-			<mapping path="/jumunyo/**"/>
-			<exclude-mapping path="/jumunyo/order_search_detail"/>
+			<mapping path="/**"/>
+			<exclude-mapping path="/order_search_detail"/>
 			<beans:bean class="com.finalp.jumunyo.common.DealorderInterceptor"/>
 		</interceptor>
 	</interceptors>
