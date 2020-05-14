@@ -206,11 +206,9 @@ public class MainController {
 		HashMap<String, Object> hm = new HashMap<String, Object>();
 		RestaurantVO rrvo = (RestaurantVO) session.getAttribute("rvo");
 		String first_search = (String) rq.getParameter("first_search");
-		System.out.println(first_search);
 		
 		// 모달창을 띄워서 검색하면 first_search 값을 보냄. 그냥 페이징으로 왔으면 session 찾아서 진행
 		if(first_search == null) {
-			System.out.println(session.getAttribute("o_search_detail"));
 			hm = (HashMap<String, Object>)session.getAttribute("o_search_detail");
 		} else if(first_search.equals("first_search")) {
 			hm.put("restaurant_id",rrvo.getRestaurant_id());
@@ -223,18 +221,7 @@ public class MainController {
 			session.setAttribute("o_search_detail", hm); // 검색후 페이징을 위한 검색 조건 세션띄우기
 		}
 		
-		System.out.println("여기는 request");
-		System.out.println("far_time :" + rq.getParameter("far_time"));
-		System.out.println("last_time :" + rq.getParameter("last_time"));
-		System.out.println("min_price :" + rq.getParameter("min_price"));
-		System.out.println("max_price :" + rq.getParameter("max_price"));
-		System.out.println("order_type1 :" + rq.getParameter("order_type1"));
-		
-		System.out.println("여기는 hm맵");
-		System.out.println("min_price : " + hm.get("min_price"));
-		
 		int total = service.order_search_detail_count(hm);
-		System.out.println(total);
 		
 		if(nowPage == null && cntPerPage == null) {
 			nowPage = "1";
@@ -349,17 +336,30 @@ public class MainController {
 			cntPerPage = "10";
 		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		model.addAttribute("paging", pagingVO);
-		model.addAttribute("mlist", service.reservation_list_paging(pagingVO,rvo));
+		model.addAttribute("relist", service.reservation_list_paging(pagingVO,rvo));
 		model.addAttribute("ulist",service.user_list());
 		
 		return "business/reservationList";
 	}
 	
 	@RequestMapping("review_list") 
-	public String review_list(Model model,HttpSession session) throws Exception {
+	public String review_list(Model model,HttpSession session, PagingVO pagingVO, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
 		// 매장의 id 값으로 해당 매장의 리뷰 정보와 리뷰의 댓글들 전부 출력
 		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
-		HashMap<String, Object[]> review_reply = service.review_list(rvo);
+		
+		int total = service.review_list_count(rvo);
+				
+		if(nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if(cntPerPage == null) {}
+			cntPerPage = "5";
+		pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
+		HashMap<String, Object[]> review_reply = service.review_list_paging(pagingVO,rvo);
+		
 		List<ReviewVO> rvlist = new ArrayList<>();
 		List<ReplyVO> rplist = new ArrayList<>();
 		
@@ -379,6 +379,7 @@ public class MainController {
 		
 		List<UserVO> ulist = service.user_list(); // 유저닉네임 참조를 위해 유저 목록 
 		
+		model.addAttribute("paging", pagingVO);
 		model.addAttribute("rvlist",rvlist).addAttribute("rplist",rplist).addAttribute("ulist",ulist);
 		
 		/*List<VisitorsBookBean> visitorsBook = vbDao.selectVisitorsBook();
@@ -391,6 +392,58 @@ public class MainController {
 		
 		return "business/reviewList";
 	}
+	
+	@RequestMapping(value = "reply_modify", method = RequestMethod.POST)
+	public @ResponseBody String reply_modify(@RequestParam(required = false)String reply_content, @RequestParam(required = false)String new_reply_content
+			,HttpSession session,HttpServletResponse rs, HttpServletRequest rq, Model model) throws Exception {
+		// 이전 댓글의 내용을 가지고 사장님 리뷰 댓글 수정
+		String rp_content = reply_content;
+		String nrp_content = new_reply_content;
+		
+		String result = service.reply_modify(rp_content,nrp_content);
+		
+		if(result.equals("성공")) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	@RequestMapping(value = "reply_delete", method = RequestMethod.POST)
+	public @ResponseBody String reply_delete(@RequestParam(required = false)String reply_content
+			,HttpSession session,HttpServletResponse rs, HttpServletRequest rq, Model model) throws Exception {
+		// 이전 댓글의 내용을 가지고 사장님 리뷰 댓글 수정
+		String rp_content = reply_content;
+		
+		String result = service.reply_delete(rp_content);
+		
+		if(result.equals("성공")) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	
+	@RequestMapping(value = "reply_add", method = RequestMethod.POST)
+	public @ResponseBody String reply_add(@RequestParam(required = false)String reply_content, @RequestParam(required = false)String review_id
+			,HttpSession session,HttpServletResponse rs, HttpServletRequest rq, Model model) throws Exception {
+		// 매장 id 와 리뷰 id 가지고 댓글 추가 
+		RestaurantVO rvo = (RestaurantVO) session.getAttribute("rvo");
+		
+		int rt_id = rvo.getRestaurant_id();
+		String rp_content = reply_content;
+		String rv_id = review_id;
+		
+		String result = service.reply_add(rt_id,rp_content,rv_id);
+		
+		if(result.equals("성공")) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
 	
 	@RequestMapping("room_delete") 
 	public String room_delete(RoomVO rmvo ,HttpSession session, Model model, HttpServletRequest rq) throws Exception {
@@ -454,13 +507,10 @@ public class MainController {
 			}
 		}
 		
-		if(date == null) {
-			System.out.println(date);
+		if(date == null) { // 처음 들어왔을때 날짜 값 default 주기
 			Date now_date = new Date(System.currentTimeMillis());
 			SimpleDateFormat date_to_string = new SimpleDateFormat("yy-MM-dd");
 			date = date_to_string.format(now_date);
-			System.out.println("지금 날짜 안골랐으니 현재날짜로 임의로 넣었다");
-			System.out.println(date);
 		}
 		
 		// 매장id로 order 테이블 내용 1,2,3등 전부 대려오기
@@ -472,7 +522,6 @@ public class MainController {
 		
 		// 총 판매수량, 금액 가져오기
 		Object[] total = imsi.get("total");
-		/*NumberFormat nf = NumberFormat.getNumberInstance();*/
 		
 		model.addAttribute("top",top);
 		model.addAttribute("term",term);

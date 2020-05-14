@@ -36,38 +36,36 @@
 						<th>비고</th>
 						<th>현황</th>
 					</tr>
-					<c:forEach var="solist" items="${solist }">
+					<c:forEach var="relist" items="${relist }">
 					
-						<tr>
-							<td>
-								${solist.reservation_time }
-							</td>
+					<tr>
+						<td>
+								${relist.reservation_time }
+						</td>
 							
-							<td>
-								${solist.room_id }
-							</td>
+						<td>
+								${relist.room_id }
+						</td>
 							
 						<c:forEach var="ulist" items="${ulist }">
-						<c:if test="${solist.user_id == ulist.user_id }">
-							<td>	
+						<c:if test="${relist.user_id == ulist.user_id }">
+						<td>	
 								${ulist.user_name }
-							</td>
+						</td>
 							
-							<td>
+						<td>
 								${ulist.user_tell }
-							</td>
+						</td>
 						</c:if>	
 						</c:forEach>
-							
-							<td>
+						<td>
 								${solist.request }
-							</td>
+						</td>
 							
-							<td>
+						<td>
 								여기 이용 현황
-							</td>
-							
-						</tr>
+						</td>
+					</tr>
 					</c:forEach>
 				</table>
 				

@@ -40,6 +40,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/KSH-Java-Web-AM-11-14--do_not_erease/ojdbc6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

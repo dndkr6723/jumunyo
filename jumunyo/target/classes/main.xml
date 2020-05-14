@@ -299,11 +299,24 @@
 	</select>
 	
 	
- 	<select id="go_roomlist" resultMap="roommap">
- 		SELECT * FROM rooms
- 		WHERE restaurant_id=#{restaurant_id}
- 		ORDER BY room_id ASC
- 	</select>
+ 	<select id="review_list_count" resultType="int">
+		SELECT COUNT(*) FROM reviews
+		WHERE restaurant_id = #{value}
+	</select>
+	
+	<select id="review_list_paging" parameterType="hashmap" resultMap="reviewmap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM reviews
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY review_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
  	
  	<select id="review_list" resultMap="reviewmap">
  		SELECT * FROM reviews
@@ -315,11 +328,30 @@
  		WHERE review_id = #{value}
  	</select>
  	
+ 	<select id="reply_modify" parameterType="hashmap" resultType="int">
+		UPDATE replies set reply_content=#{new_con}
+		WHERE reply_content=#{old_con}
+	</select>
+	
+	<select id="reply_delete" parameterType="string" resultType="int">
+		DELETE FROM replies
+		WHERE reply_content=#{value}
+	</select>
+	
+	<select id="reply_add" parameterType="hashmap" resultType="int">
+		INSERT INTO replies VALUES(#{review_id},#{restaurant_id},#{reply_content},sysdate)
+	</select>
+ 	
  	<select id="room_check" resultMap="roommap">
  		SELECT * FROM rooms
  		WHERE room_id = #{room_id}
  	</select>
  	
+ 	<select id="go_roomlist" resultMap="roommap">
+ 		SELECT * FROM rooms
+ 		WHERE restaurant_id=#{restaurant_id}
+ 		ORDER BY room_id ASC
+ 	</select>
  	
  	<delete id="room_delete">
  		DELETE FROM rooms

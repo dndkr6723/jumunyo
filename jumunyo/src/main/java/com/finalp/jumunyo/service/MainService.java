@@ -58,41 +58,52 @@ public interface MainService {
 	
 	public void question_send(QuestionVO qvo);
 	
+	
 	public int dealOrder_count (RestaurantVO rrvo);
 	public List<OrderVO> dealOrder_paging(PagingVO pgvo, RestaurantVO rvo);
 	
+	
 	public int order_search_detail_count(HashMap<String, Object> hm);
 	public List<OrderVO> order_search_detail_paging(PagingVO pgvo, HashMap<String, Object> hm);
+	
 	
 	public int menu_list_count(RestaurantVO rvo);
 	public List<MenuVO> menu_list_paging(PagingVO pgvo, RestaurantVO rvo);
 	
 	public MenuVO go_menu_modify(MenuVO mvo);
-	
 	public void menu_add(MenuVO mvo);
-	
 	public void menu_modify(MenuVO mvo);
-	
 	public void menu_delete(MenuVO mvo);
 	
+	
 	public List<RoomVO> go_roomlist(RestaurantVO rvo);
+	
 	
 	public int reservation_list_count(RestaurantVO rvo);
 	public List<SeatOrderVO> reservation_list_paging(PagingVO pgvo, RestaurantVO rvo);
 	
-	public HashMap<String, Object[]> review_list(RestaurantVO rvo);
+	
+	public int review_list_count(RestaurantVO rvo);
+	public HashMap<String, Object[]> review_list_paging(PagingVO pgvo, RestaurantVO rvo);
+	public String reply_modify(String rp_content, String nrp_content);
+	public String reply_delete(String rp_content);
+	public String reply_add(int rt_id, String rp_content, String rv_id);
+	
 	
 	public String room_delete(RoomVO rmvo);
-	
 	public String room_modify(RoomVO rmvo);
-	
 	public void room_add(RoomVO romvo);
 	
-	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo,int term_select,String date) throws ParseException;
 	
+	public HashMap<String, Object[]> menu_sales_top(RestaurantVO rvo,int term_select,String date) throws ParseException;
 	public HashMap<String, Integer> menu_sales_time(RestaurantVO rvo,String sdate,String cdate);
 	
+	
 	public List<UserVO> user_list();
+
+
+
+
 	
 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

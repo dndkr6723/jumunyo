@@ -163,7 +163,6 @@
 
 function graph() {
 	var select_date = {"select_date" : $("#select_date").val(), "compare_date" : $("#compare_date option:selected").val()};
-	console.log($("#compare_date option:selected").val());
 	
     $.ajax({
         url: "go_chart_data",
@@ -224,7 +223,10 @@ function graph() {
 
 <script>
 	var todate = new Date().toISOString().substring(0,10);
-	document.getElementById("start_date").value = todate;
+	var date_value = document.getElementById("start_date").value;
+	if(date_value == ""){
+		document.getElementById("start_date").value = todate;
+	}
 </script>
 
 <script>

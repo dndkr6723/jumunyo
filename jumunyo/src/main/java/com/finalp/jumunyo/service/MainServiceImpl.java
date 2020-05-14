@@ -230,21 +230,23 @@ public class MainServiceImpl implements MainService {
 		return my.selectList("Main.reservation_list_paging",imsi);
 	}
 
-
-
 	@Override
-	public List<RoomVO> go_roomlist(RestaurantVO rvo) {
-		// 매장 id 값으로 매장 좌석정보 전부출력
-		return my.selectList("Main.go_roomlist",rvo);
+	public int review_list_count(RestaurantVO rvo) {
+		// 매장 id값으로 해당 리뷰 글 페이징 카운트
+		return my.selectOne("Main.review_list_count",rvo.getRestaurant_id());
 	}
-
-
-	@SuppressWarnings({ "null", "unused" })
+	
 	@Override
-	public HashMap<String, Object[]> review_list(RestaurantVO rvo) {
-		// 매장 id 값으로 해당 매장의 리뷰 전부 출력
+	public HashMap<String, Object[]> review_list_paging(PagingVO pgvo, RestaurantVO rvo) {
+		// 매장 id 값으로 해당 매장의 리뷰 전부 페이징
+		HashMap<String, Object> imsi = new HashMap<>();
+		imsi.put("start", pgvo.getStart());
+		imsi.put("end", pgvo.getEnd());
+		imsi.put("restaurant_id", rvo.getRestaurant_id());
+		
+		List<ReviewVO> rvlist = my.selectList("Main.review_list_paging",imsi);
+		
 		HashMap<String, Object[]> result = new HashMap<>(); // 매장의 리뷰와 그 리뷰의 댓글을 넣을 해쉬맵
-		List<ReviewVO> rvlist = my.selectList("Main.review_list",rvo);
 		
 		for(int i=0; i<rvlist.size(); i++) {
 			Object [] review_reply = {"a","b"}; // result 해쉬맵에 담기위해 리뷰와 대응하는 리뷰댓글 넣을 배열
@@ -263,6 +265,74 @@ public class MainServiceImpl implements MainService {
 		}
 		
 		return result;
+	}
+	
+	
+	@Override
+	public String reply_modify(String rp_content, String nrp_content) {
+		// 이전 댓글 값으로 댓글 수정하기 
+		String old_con = rp_content;
+		String new_con = nrp_content;
+		
+		HashMap<String, String> imsi = new HashMap<>();
+		imsi.put("old_con", old_con);
+		imsi.put("new_con", new_con);
+		
+		int result = my.update("Main.reply_modify",imsi);
+		String result2 ="";
+		
+		if(result == 1) {
+			result2 = "성공";
+		} else {
+			result2 = "실패";
+		}
+		return result2;
+	}
+	
+	@Override
+	public String reply_delete(String rp_content) {
+		// 이전 댓글 내용과 일치하는 댓글 삭제
+		String content = rp_content;
+		
+		int result = my.delete("Main.reply_delete",content);
+		String result2 ="";
+		
+		if(result == 1) {
+			result2 = "성공";
+		} else {
+			result2 = "실패";
+		}
+		return result2;
+	}
+	
+	@Override
+	public String reply_add(int rt_id, String rp_content, String rv_id) {
+		// 매장 id, review_id 가지고 댓글 등록
+		int restaurant_id = rt_id;
+		String reply_content = rp_content;
+		String review_id = rv_id;
+		
+		HashMap<String, Object> imsi = new HashMap<>();
+		imsi.put("restaurant_id", restaurant_id);
+		imsi.put("reply_content", reply_content);
+		imsi.put("review_id", review_id);
+		
+		int result = my.insert("Main.reply_add",imsi);
+		String result2 ="";
+		
+		if(result == 1) {
+			result2 = "성공";
+		} else {
+			result2 = "실패";
+		}
+		return result2;
+		
+	}
+	
+	@Override
+	public List<RoomVO> go_roomlist(RestaurantVO rvo) {
+		// 매장 id 값으로 매장 좌석정보 전부출력
+		return my.selectList("Main.go_roomlist",rvo);
 	}
 
 	@Override
@@ -318,21 +388,11 @@ public class MainServiceImpl implements MainService {
 		Date ago_date = null; // term 의 기간이 계산된 예전날짜를 넣을 공간
 		String date_str = null; // xml에 보낼 date를 string 으로 담을 공간
 		
-		String ddd = date;
-		System.out.println(ddd);
-		
 		// 기준이될 select date , ago date 정제
-		if(!ddd.equals("널")) {
-			select_date = string_to_date.parse(date);
-			ago_date = select_date;
-			date_str = date_to_string.format(select_date);
-			System.out.println("나는 낫널");
-		} else if(ddd.equals("널")) {
-			select_date = new Date(System.currentTimeMillis());
-			ago_date = new Date(System.currentTimeMillis());
-			date_str = date_to_string.format(select_date);
-			System.out.println("나는 널");
-		}
+		select_date = string_to_date.parse(date);
+		ago_date = select_date;
+		date_str = date_to_string.format(select_date);
+		
 		
 		HashMap<String, Object> time = new HashMap<>();// xml에 term 조건 주기위해 해쉬맵 이용
 		if(term_select==1) {
@@ -574,6 +634,7 @@ public class MainServiceImpl implements MainService {
 	public List<UserVO> user_list() {
 		return my.selectList("Main.user_list");
 	}
+
 
 
 		 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
