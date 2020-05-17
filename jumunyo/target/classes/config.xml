@@ -18,6 +18,7 @@
 	</typeAliases>
 
 	<mappers>
-		<mapper resource="main.xml" />
+		<mapper resource="Customer.xml"/>
+		<mapper resource="Business.xml"/>
 	</mappers>
 </configuration>

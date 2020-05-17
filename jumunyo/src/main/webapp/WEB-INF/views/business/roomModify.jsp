@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../CSS/roomModify.css">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script
@@ -27,11 +28,11 @@
 		var ncell3 = nRow.insertCell();
 		var ncell4 = nRow.insertCell();
 		
-		ncell1.innerHTML = lastidnum+1+" 번 테이블";
-		ncell2.innerHTML = "<input type='text' value='' name='room_number' id='new_room_number'>";
-		ncell3.innerHTML = "<input type='text' value='예약없음' disabled='disabled'>";
-		ncell4.innerHTML = "<input type='button' value='등록' onclick='add_room()'>"
-						   + "<input type='button' value='취소' onclick='cancel()'>";
+		ncell1.innerHTML = "<input type='text' value='"+lastidnum+1+"' 번 테이블' name='room_number' id='new_room_number' class='td1' >";
+		ncell2.innerHTML = "<input type='text' value='' name='room_number' id='new_room_number' class='td2' >";
+		ncell3.innerHTML = "<input type='text' value='예약없음' disabled='disabled' class='td3' >";
+		ncell4.innerHTML = "<input type='button' value='등록' onclick='add_room()' class='td4' >"
+						   + "<input type='button' value='취소' onclick='cancel()' class='td5'>";				
 		
 	}
  	
@@ -51,8 +52,19 @@
 	 	document.getElementById("roommodify_"+loop_num).style="display : none";
 	 	document.getElementById("roomdelete_"+loop_num).style="display : none";
 	 	document.getElementById("roomodiconfirm_"+loop_num).style="display : block";
+	 	document.getElementById("roomodiconfirm_"+loop_num).style="float: left";
+	 	document.getElementById("roomodiconfirm_"+loop_num).style="width: 45%";
+	 	document.getElementById("roomodiconfirm_"+loop_num).style="height: 42px";
+	 	document.getElementById("roomodiconfirm_"+loop_num).style="margin: 4px";
+	 	document.getElementById("roomodiconfirm_"+loop_num).style="background: #00D8FF";
+	 	document.getElementById("roomodiconfirm_"+loop_num).style="border-radius: 5px";
 	 	document.getElementById("modifycancel_"+loop_num).style="display : block";
-	 	
+	 	document.getElementById("modifycancel_"+loop_num).style="float: left";
+	 	document.getElementById("modifycancel_"+loop_num).style="width: 45%";
+	 	document.getElementById("modifycancel_"+loop_num).style="height: 42px";
+	 	document.getElementById("modifycancel_"+loop_num).style="margin: 4px";
+	 	document.getElementById("modifycancel_"+loop_num).style="background: #FFE08C";
+	 	document.getElementById("modifycancel_"+loop_num).style="border-radius: 5px";	
  	}
  	
  	// 수정 취소 눌렀을 때 로직
@@ -91,74 +103,92 @@
 		</script>
 	</c:when>
 </c:choose>
-
-<div id="window_div">
+<jsp:include page="../include/businessHeader.jsp" />
+	<div class="menuBar">
+	<jsp:include page="../include/menuBar.jsp" />
+	</div>
+<div id="window_div" class="orderhistory">
 	<div id="content_div">
 		<div id="upper_div">
-			<div>
-				${rvo.restaurant_name } 좌석/관리
-			</div>
-			
-			<div>
-				사장님 문의게시판
-			</div>
+			<h1>${rvo.restaurant_name } 좌석/관리</h1>
 		</div>
 		
-		<div id="under_div"> <!-- 이건 flex -->
-			<div>
-				여기는 사이드 메뉴바
-			</div>
-			
-			<div>
+		<div id="under_div" class="orderhistorys"> <!-- 이건 flex -->
+		<table border="1" id="room_table" class="tablehead" style="border-style: solid;">
+			<tr>
+						
+				<th><div class="orderId">
+					<b>테이블 번호</b>
+				</div></th>
+				<th><div class="title">
+					<b>테이블 좌석수</b>
+				</div></th>
+				<th><div class="trans-kinds">
+					<b>예약 여부</b>
+				</div></th>		
+				<th><div class="created">								
+				<input type="button" value="신규등로" id="r_add" onclick="add_tr()"
+				style="width: 150px; height: 40px; background: red; border-radius: 10px;">												
+				</div></th>	
 				
-				<table border="1" id="room_table">
-					
-						<tr>
-							<th>테이블 번호</th>
-							<th>테이블 좌석수</th>
-							<th>예약 여부</th>
-							<th><input type="button" value="신규등록" id="r_add" onclick="add_tr()"></th>
-						</tr>
-					
+			</tr>
+						
 					<c:forEach var="rlist" items="${rlist }" varStatus="loop">
 						<form action="room_delete" id="room_form${loop.count}">
-						<tr id="tr_${loop.count}">
-							<td>
-								<input type="hidden" value="${rlist.room_id }" name="room_id" id="roomid_${loop.count}">
-								${loop.count} 번 테이블
+						<tr id="tr_${loop.count}" class="tabletr">
+						
+							<td class="orderId">
+								<input type="hidden" value="${rlist.room_id }" name="room_id" id="roomid_${loop.count}">								
+								<input type="text" value="${loop.count} 번 테이블" name="table_name" disabled="disabled" class="td1"
+							>
 							</td>
-							<td>
-								<input type="text" value="${rlist.room_number }" name="room_number" id="roomnum_${loop.count}" disabled="disabled">
+							<td class="title">						
+								<input type="text" value="${rlist.room_number }" name="room_number" id="roomnum_${loop.count}" disabled="disabled" class="td2"
+							>
 							</td>
-							<td>
-								<c:if test="${rlist.room_check == 0}">
-									<input type="text" value="예약없음" name="room_check" id="roomchk_${loop.count}" disabled="disabled">
+							<td class="trans-kinds">
+								<c:if test="${rlist.room_check == 0}">								
+									<input type="text" value="예약없음" name="room_check" id="roomchk_${loop.count}" disabled="disabled" class="td3"
+									>
 								</c:if><!-- oracle 쪽에서 튕 -->
 								<c:if test="${rlist.room_check == 1}">
-									<input type="text" value="예약중" name="room_check" id="roomchk_${loop.count}" disabled="disabled">
+									<input type="text" value="예약중" name="room_check" id="roomchk_${loop.count}" disabled="disabled" class="td3"
+									>
 								</c:if>
 							</td>
-							<td>
-								<input type="button" value="수정" id="roommodify_${loop.count}" onclick="r_modify('roomnum_${loop.count}')">
-								<input type="submit" value="삭제" id="roomdelete_${loop.count}">
-								<input type="submit" value="수정완료" id="roomodiconfirm_${loop.count}" style="display : none">
-								<input type="button" value="취소" id="modifycancel_${loop.count}" style="display : none" onclick="r_modify_cancel('roomnum_${loop.count}')">
+							<td class="created">
+								<input type="button" value="수정" id="roommodify_${loop.count}" onclick="r_modify('roomnum_${loop.count}')" class="td4"
+								>
+								<input type="submit" value="삭제" id="roomdelete_${loop.count}" class="td5"
+								>
+								<input type="submit" value="수정완료" id="roomodiconfirm_${loop.count}"
+								style="display : none;">
+								<input type="button" value="취소" id="modifycancel_${loop.count}" onclick="r_modify_cancel('roomnum_${loop.count}')"
+								style="float: left; width: 45%; height: 42px; margin: 4px; background: #FFE08C; border-radius: 5px; display : none;">
 							</td>
+						
 						</tr>
 						</form>
 					</c:forEach>
-				</table>
 				
+				</table>
 				<!-- 신규등록용 임시 form -->
+				
 				<form action="room_add" id="add_room_form">
 					<input type="hidden" value="${rvo.restaurant_id}" name="restaurant_id">
 					<input type="hidden" value="" name="room_number" id="imsi_room_number">
 				</form>
 				
+				
 			</div>	
+			
 		</div>
+		<hr />
+		<div class="paging"> <!-- 페이징 위치 -->
+				1. 2. 3. 4. 5
+				</div>
 	</div>
-</div>
+
 
 
 </body>

@@ -1,82 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../CSS/questionSend.css">
 </head>
 <body>
 <!-- 1:1문의 보내기 페이지 입니다. -->
-
-<div id="window_div">
-	<div id="content_div">
-		<div id="upper_div">
-			<div>
-				${rvo.restaurant_name } 사업자 1:1 문의
-			</div>
-			
-			<div>
-				사장님 문의게시판
-			</div>
-		</div>
-		
-		<div id="under_div"> <!-- 이건 flex -->
-			<div>
-				여기는 사이드 메뉴바
-			</div>
-			
-			<div> <!-- 메인 구현부 -->
+		<div class="modals">
 				<form action="question_send">
-					<table border="1">
-							<tr>
-								<th>1:1문의 작성</th>
-							</tr>
-							<tr><td>상세분류</td></tr>
-							<tr>
-								<td>
-									<div>
-										<select name="question_category_id">
-											<c:forEach var="qclist" items="${qclist }">
-												<option value="${qclist.question_category_id }">${qclist.question_category_name }</option>
-											</c:forEach>
-										</select>
-									</div>
-								</td>
-							</tr>
-							<tr><td>제목</td></tr>
-							<tr>
-								<td>
-									<input type="text" name="question_title">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									문의내용
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="text" name="question_content">	
-									<input type="hidden" value="${uvo.user_id }" name="user_id_send">
-									<input type="hidden" value="0" name="user_id_receive">
-									<input type="hidden" value="답변대기" name="question_check">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input type="submit" value="보내기">
-									<input type="reset" value="취소">
-								</td>
-							</tr>
-						</table>
+					<div class="title">
+						<h1 
+						style="text-align: center;">
+						1:1문의</h1> <!-- 매점명출력 -->
+					</div>
+					<div style="margin:30px 0 0 60px;"><b>상세 분류</b></div>
+					<div class="select">
+						<select name="question_category_id" style="width: 300px; height: 30px;">
+						<c:forEach var="qclist" items="${qclist }">
+						<option value="${qclist.question_category_id }">${qclist.question_category_name }</option>
+						</c:forEach>
+						</select>
+					</div>
+					<div style="margin: 0 60px;"><b>제목</b></div>
+					<div class="texttitle">
+						<input type="text" name="question_title" id="" 
+						style="width: 300px; height: 30px;" placeholder="제목을 작성 해주세요"/>
+					</div>
+					<div style="margin: 0 60px;"><b>문의 내용</b></div>					
+					<div class="textarea">					
+						<textarea name="question_context" cols="30" rows="10" style="width: 300px; height: 50px;" 
+						placeholder="내용을 작성 해주세요" ></textarea>			
+					</div>
+					<input type="hidden" value="${uvo.user_id }" name="user_id_send">
+					<input type="hidden" value="0" name="user_id_receive">
+					<input type="hidden" value="답변안함" name="question_check">
+					<div class="quest-submit">
+						<input type="submit" value="문의 답변" 
+						style="width: 300px; height: 30px; background: red; border-radius: 5px;" />
+						<br />
+						<br />
+						<input type="reset" value="답변 취소" 
+						style="width: 300px; height: 30px; background: #FFD8D8; border-radius: 5px;" />
+					</div>
 					</form>
-				
-			</div>
-		</div>
-	</div>
-</div>
-
+				</div>
 </body>
 </html>

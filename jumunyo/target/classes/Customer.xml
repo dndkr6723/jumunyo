@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Customer">
+	<!--type : sql실행후 반환되는 값들을  config.xml의 typeAlias태그에서 정한 vo빈에 저장한다 -->
+	<resultMap type="userVo" id="usermap">
+		<result property="user_id" column="user_id" />	<!-- 왼쪽의 property 는 dto의 전역변수 , 오른쪽의 column은 DB의 컬럼 -->
+		<result property="user_account" column="user_account" />
+		<result property="user_password" column="user_password" />
+		<result property="user_address" column="user_address" />
+		<result property="user_tell" column="user_tell" />
+		<result property="user_nickname" column="user_nickname" />
+		<result property="user_name" column="user_name" />
+		<result property="user_level" column="user_level" />
+		<result property="user_point" column="user_point" />
+		<result property="user_email" column="user_email" />
+		<result property="user_date" column="user_date" />
+	</resultMap>
+	
+	<resultMap type="categoryVo" id="categorymap">
+		<result property="category_id" column="category_id"/>
+		<result property="category_name" column="category_name"/>
+	</resultMap>
+	
+	<resultMap type="menuVo" id="menumap">
+		<result property="menu_id" column="menu_id"/>
+		<result property="menu_name" column="menu_name"/>
+		<result property="menu_price" column="menu_price"/>
+		<result property="menu_description" column="menu_description"/>
+		<result property="menu_image" column="menu_image"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+	</resultMap>
+	
+	<resultMap type="orderVo" id="ordermap">
+		<result property="order_id" column="order_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="order_price" column="order_price"/>
+		<result property="order_confirm" column="order_confirm"/>
+		<result property="order_date" column="order_date"/>
+		<result property="menu_list" column="menu_list"/>
+		<result property="order_type" column="order_type"/>
+		<result property="review_check" column="review_check"/>
+	</resultMap>
+	
+	<resultMap type="questioncategoryVo" id="questioncategorymap">
+		<result property="question_category_id" column="question_category_id"/>
+		<result property="question_category_name" column="question_category_name"/>
+	</resultMap>
+	
+	<resultMap type="questionVo" id="questionmap">
+		<result property="question_id" column="question_id"/>
+		<result property="question_category_id" column="question_category_id"/>
+		<result property="user_id_send" column="user_id_send"/>
+		<result property="question_title" column="question_title"/>
+		<result property="question_content" column="question_content"/>
+		<result property="question_image" column="question_image"/>
+		<result property="question_check" column="question_check"/>
+		<result property="question_date" column="question_date"/>
+		<result property="user_id_receive" column="user_id_receive"/>
+	</resultMap>
+	
+	<resultMap type="replyVo" id="replymap">
+		<result property="review_id" column="review_id"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="reply_content" column="reply_content"/>
+		<result property="reply_date" column="reply_date"/>
+	</resultMap>
+	
+	<resultMap type="restaurantVo" id="restaurantmap">
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="restaurant_name" column="restaurant_name"/>
+		<result property="restaurant_tell" column="restaurant_tell"/>
+		<result property="restaurant_address" column="restaurant_address"/>
+		<result property="restaurant_owner" column="restaurant_owner"/>
+		<result property="restaurant_businessnumber" column="restaurant_businessnumber"/>
+		<result property="restaurant_businessnumber_img" column="restaurant_businessnumber_img"/>
+		<result property="category_id" column="category_id"/>
+		<result property="restaurant_accept" column="restaurant_accept"/>
+		<result property="restaurant_grade" column="restaurant_grade"/>
+		<result property="restaurant_date" column="restaurant_date"/>
+		<result property="latitude" column="latitude"/>
+		<result property="longitude" column="longitude"/>
+	</resultMap>
+	
+	<resultMap type="reviewVo" id="reviewmap">
+		<result property="review_id" column="review_id"/>
+		<result property="review_content" column="review_content"/>
+		<result property="review_date" column="review_date"/>
+		<result property="review_grade" column="review_grade"/>
+		<result property="user_id" column="user_id"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="review_check" column="review_check"/>
+		<result property="review_img" column="review_img"/>
+	</resultMap>
+	
+	<resultMap type="roomVo" id="roommap">
+		<result property="room_id" column="room_id"/>
+		<result property="room_number" column="room_number"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="room_check" column="room_check"/>
+	</resultMap>
+	
+	<resultMap type="seatorderVo" id="seatordermap">
+		<result property="seat_order_id" column="seat_order_id"/>
+		<result property="reservation_time" column="reservation_time"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="room_id" column="room_id"/>
+		<result property="order_id" column="order_id"/>
+		<result property="request" column="request"/>
+	</resultMap>
+
+ 	<!-- <select id="select" parameterType="userVo" resultMap="usermap">		윗쪽의 id map 을  이쪽의  resultmap 에 대응
+		SELECT * FROM teltable55 where id = #{id}
+	</select> -->
+ 	
+ 	<select id="selectAll" resultMap="usermap">
+ 		SELECT * FROM users
+ 	</select>
+ 	
+ 	<!-- 위의  select는 견본이고  resultMap 에 적을 Vo 의 id 는 위에 쭉 적혀있습니다.
+ 		위에서 찾아서 써주시면 됩니다. 기본적으로 다 소문자로 ~~~~map 양식으로 되어있습니다.
+ 		
+ 		이 아래에 각자 sql문 적어주시면 됩니다. 자신의 이름 주석 '사이에'에 써주세요 -->
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 이보라 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	<!--로그인  -->
+ 	<select id="login" resultMap="usermap">
+ 	<!-- 
+ 	위에서 모두 반환타입을 usermap으로 일괄 설정함. 
+ 	참고) reslutType : 문자열타입 메소드를 호출했다면 반환값을 String 으로 작성 
+ 		 parameterType : 들어온 메소드의 인자 타입
+ 		  property:DO의 전역변수 ,  column : DB의 칼럼
+ 	resultMap 와 result: SQL 조회결과를 usermap에 저장
+ 	참고)  <![CDATA[...]]> : sql문의 >,<,= 등과 같은 연산자들을 xml에 작성하면 오류가 나기 때문에 sql문의 일부라는 것을 알려주기 위해 작성
+ 	-->
+ 		SELECT * FROM users WHERE user_account=#{user_account} AND user_password= #{user_password}
+ 		<!-- 레코드를 모두 반환하고 그중에서 뽑는 건 service에서 한다 -->
+ 	</select>
+ 	
+ 	<!-- 로그인2 -->
+ 	<select id="login2" resultMap="usermap">
+ 		SELECT * FROM users WHERE user_account=#{user_account}
+ 	</select>
+ 	
+ 	<!--회원가입 (아이디 중복 찾기) -->
+ 	<select id="accountCheck" resultMap="usermap">
+ 		SELECT * FROM users WHERE user_account=#{user_account}
+ 	</select>
+ 	
+ 	<!--회원가입 (닉네임 중복 찾기) -->
+ 	<select id="nicknameCheck" resultMap="usermap">
+ 		SELECT * FROM users WHERE user_nickname=#{user_nickname}
+ 	</select>
+ 	
+ 	<!--회원가입 (이메일 중복 찾기) -->
+ 	<select id="emailCheck" resultMap="usermap">
+ 		SELECT * FROM users WHERE user_email=#{user_email}
+ 	</select>
+ 	
+ 	<!--회원가입(내용 입력)  -->
+	<insert id="join" parameterType="com.finalp.jumunyo.vo.UserVO">
+		<selectKey keyProperty="user_id" resultType="int" order="BEFORE">
+			SELECT users_seq.nextval FROM dual
+		</selectKey>
+ 		INSERT INTO users(user_id,user_account,user_password,user_address,user_tell,user_nickname,user_name,user_email)
+ 		VALUES (#{user_id},#{user_account},#{user_password},#{user_address},#{user_tell},#{user_nickname},#{user_name},#{user_email})
+ 	</insert> 
+ 	
+ 	<!--아이디찾기  -->
+ 	<select id="accountFind" resultMap="usermap">
+ 		SELECT * FROM users WHERE user_email=#{user_email} AND user_name= #{user_name}
+ 	</select>
+ 	
+ 	<!--이메일과 아이디로 비밀번호 찾기 -->
+ 	<select id="passwordFind" resultMap="usermap">
+ 		SELECT * FROM users WHERE user_email=#{user_email} AND user_account=#{user_account}
+ 	</select>
+ 	
+ 	<!--랜덤 비밀번호 넣기 -->
+ 	<update id="randomPassword" parameterType="com.finalp.jumunyo.vo.UserVO" >
+ 		UPDATE users SET user_password=#{user_password} WHERE user_email=#{user_email} AND user_account=#{user_account}
+ 	</update>
+ 	
+ 	<!--회원의 예약중인 주문 찾기  -->
+ 	<select id="ordersList" resultMap="ordermap">
+ 		SELECT * FROM orders WHERE user_id=#{user_id} AND order_confirm LIKE '%이용전%'<!--  AND order_type LIKE '%좌석%'  -->
+ 	</select>
+ 	
+ 	<!--회원의 예약중인 주문에 restaurants,과거이용내역 테이블 찾기  -->
+ 	<select id="restaurantList" resultMap="restaurantmap">
+ 		SELECT * FROM restaurants WHERE restaurant_id=#{restaurant_id}
+ 	</select>
+ 	
+ 	<!--회원의 예약중인 주문 중에 menus 테이블 찾기  -->
+ 	<select id="menuList" resultMap="menumap">
+ 		SELECT * FROM menus WHERE restaurant_id=#{restaurant_id}
+ 	</select>
+ 	
+ 	<!-- 회원의 예약중인 주문 중에 seat_orders 테이블 찾기  -->
+ 	<select id="seatOrdersList" resultMap="seatordermap">
+ 		SELECT * FROM seat_orders WHERE order_id=#{order_id}
+ 	</select>
+ 	
+ 	<!--회원의 과거 이용내역 주문 찾기  -->
+ 	<select id="myPageOrderHistory" resultMap="ordermap">
+ 		SELECT * FROM orders WHERE user_id=#{user_id} AND order_confirm LIKE '%식사완료%'<!--  OR order_type LIKE '%배달%'  -->
+ 	</select>
+ 	
+ 	<!-- 회원의 review 테이블 -->
+ 	<select id="reviewsList" resultMap="reviewmap">
+ 		SELECT * FROM reviews WHERE user_id=#{user_id}
+ 	</select>
+ 	
+ 	<!--회원의 리뷰 작성  -->
+ 	<insert id="reviewInsert">	
+		<selectKey keyProperty="review_id" resultType="int" order="BEFORE">
+			SELECT reviews_seq.nextval FROM dual
+		</selectKey>
+ 		INSERT INTO reviews(review_id,review_content,review_date,review_grade,user_id,restaurant_id,review_check,review_img)
+ 		VALUES (#{review_id},#{review_content},sysdate,#{review_grade},#{user_id},#{restaurant_id},#{review_check},#{review_img})
+ 	</insert> 
+ 	
+ 	<!-- 회원의 1:1 문의 리스트 회원과 관리자가 보낸 내용 -->
+ 	 <select id="customerQuestionList" resultType="questionVo" >
+ 		SELECT * FROM questions WHERE user_id_send=#{user_id} OR user_id_receive=#{user_id}
+ 	</select>
+ 	
+ 	<!-- 회원의 1:1 문의 리스트 카테고리 이름 -->
+ 	 <select id="categoryName" resultType="questioncategoryVo" >
+ 		SELECT * FROM question_categories WHERE question_category_id=#{question_category_id}
+ 	</select>
+
+ 	<!--회원의 1:1문의 작성 작성  -->
+ 	<insert id="questionInsert">	
+		<selectKey keyProperty="question_id" resultType="int" order="BEFORE">
+			SELECT questions_seq.nextval FROM dual
+		</selectKey>
+ 		INSERT INTO questions(question_id,question_category_id,user_id_send,question_title,question_content,question_image,question_check,user_id_receive)
+ 		VALUES (#{question_id},#{question_category_id},#{user_id_send},#{question_title},#{question_content},#{question_image},#{question_check},#{user_id_receive})
+ 	</insert> 
+ 	
+	 <!-- 마이페이지 - 내정보보기 - 비밀번호확인 -->
+ 	<select id="mypageCheck" resultType="com.finalp.jumunyo.vo.UserVO" >
+ 		SELECT * FROM users WHERE user_account#{user_account} AND user_password#{user_password}
+ 	</select>
+ 	
+ 	<!-- 마이페이지 - 내정보보기 - 회원정보 수정하기1 -->
+ 	<update id="updateUser_nickname" parameterType="com.finalp.jumunyo.vo.UserVO" >
+ 		UPDATE users SET user_nickname=#{user_nickname} WHERE user_id=#{user_id}
+ 	</update>
+ 	
+ 	<!-- 마이페이지 - 내정보보기 - 회원정보 수정하기2 -->
+ 	<update id="updateUser_email" parameterType="com.finalp.jumunyo.vo.UserVO" >
+ 		UPDATE users SET user_email=#{user_email} WHERE user_id=#{user_id}
+ 	</update>
+ 	
+ 	<!-- 마이페이지 - 내정보보기 - 회원정보 수정하기3 -->
+ 	<update id="updateUser_password" parameterType="com.finalp.jumunyo.vo.UserVO" >
+ 		UPDATE users SET user_password=#{user_password} WHERE user_id=#{user_id}
+ 	</update>
+ 	
+ 	<!-- 마이페이지 - 내정보보기 - 회원정보 수정하기4 -->
+ 	<update id="updateUser_tell" parameterType="com.finalp.jumunyo.vo.UserVO" >
+ 		UPDATE users SET user_tell=#{user_tell} WHERE user_id=#{user_id}
+ 	</update>
+ 	
+ 	<!-- 마이페이지 - 내정보보기 - 회원정보 수정하기5 -->
+ 	<update id="updateUser_address" parameterType="com.finalp.jumunyo.vo.UserVO" >
+ 		UPDATE users SET user_address=#{user_address} WHERE user_id=#{user_id}
+ 	</update>
+ 	
+ 	<!--회원탈퇴  -->
+	 <delete id="deleteUser">
+	 	DELETE FROM users WHERE user_id=#{user_id}
+	 </delete> 	
+	 
+	 <!-- 회원정보수정 후 session 업데이트하기 -->
+ 	<select id="updateSession" resultMap="usermap">
+ 		SELECT * FROM users WHERE user_id=#{user_id}
+ 	</select>
+ 	
+ 	<!-- 입력으로 매장 검색   -->
+ 	<select id="searchRestaurantName" resultMap="restaurantmap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT * FROM restaurants WHERE restaurant_name LIKE '%${restaurant_name}%'
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!-- 카테고리로 매장 검색   -->
+ 	<select id="categorySearch" resultMap="restaurantmap">
+ 	SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT * FROM restaurants
+ 							<if test="category_id == ''"></if>
+ 							<if test="category_id != ''">
+ 								WHERE category_id = #{category_id}</if>
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!--리뷰수 카운트  -->
+ 	<select id="reviewsCounts" resultType="int">
+ 		select count(*) from reviews WHERE  restaurant_id=#{restaurant_id}
+ 	</select>
+ 
+ 	<!-- 리뷰,날짜,별점 순 정렬 갯수 (페이징) -->
+ 	<select id="countList1" resultType="int">
+		SELECT COUNT(*) FROM restaurants WHERE restaurant_name LIKE '%${restaurant_name}%'
+	</select>
+	
+	<!-- 검색  후 갯수 (페이징) -->
+	<select id="countList2" resultType="int">
+		SELECT COUNT(*) FROM restaurants WHERE restaurant_name LIKE '%${restaurant_name}%'
+	</select>
+	
+	<!-- 카테고리 클릭 후 갯수 (페이징) -->
+	<select id="countList3" resultType="int">
+		SELECT COUNT(*) FROM restaurants
+ 		<if test="category_id == ''"></if>
+ 		<if test="category_id != ''">
+ 			WHERE category_id = #{category_id}
+ 		</if>
+	</select>
+	
+ 	<!--별점순 정렬  -->
+ 	<select id="sortList1" resultMap="restaurantmap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							select * from restaurants WHERE restaurant_name LIKE '%${restaurant_name}%' AND category_id=#{category_id}
+	 						ORDER BY restaurant_grade desc
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!--날짜순 정렬  -->
+ 	<select id="sortList2" resultMap="restaurantmap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							select * from restaurants WHERE  restaurant_name LIKE '%${restaurant_name}%' AND category_id=#{category_id}
+	 						ORDER BY restaurant_date
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!--리뷰수 정렬  -->
+ 	<select id="sortList3" resultMap="restaurantmap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (				
+					 		SELECT * FROM restaurants  WHERE restaurant_name LIKE '%${restaurant_name}%' AND category_id=#{category_id}
+					 		ORDER BY (SELECT COUNT(review_id) FROM reviews WHERE restaurants.restaurant_id = reviews.restaurant_id) desc
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!--별점순 정렬  -->
+ 	<select id="sortList4" resultMap="restaurantmap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							select * from restaurants WHERE restaurant_name LIKE '%${restaurant_name}%'
+	 						ORDER BY restaurant_grade desc
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!--날짜순 정렬  -->
+ 	<select id="sortList5" resultMap="restaurantmap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							select * from restaurants WHERE  restaurant_name LIKE '%${restaurant_name}%'
+	 						ORDER BY restaurant_date
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!--리뷰수 정렬  -->
+ 	<select id="sortList6" resultMap="restaurantmap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (				
+					 		SELECT * FROM restaurants  WHERE restaurant_name LIKE '%${restaurant_name}%'
+					 		ORDER BY (SELECT COUNT(review_id) FROM reviews WHERE restaurants.restaurant_id = reviews.restaurant_id) desc
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 이보라 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 		
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 이종명 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	<select id="getOneStore" resultMap="restaurantmap" parameterType="int">
+ 		SELECT * FROM restaurants WHERE restaurant_id= #{restaurant_id}
+ 	</select> 
+ 	
+ 	<select id="getStoreMenu" resultMap="menumap" parameterType="int">
+ 		SELECT * FROM menus WHERE restaurant_id= #{restaurant_id}
+ 	</select>
+ 	
+ 	<select id="getStoreReview" resultMap="reviewmap" parameterType="int">
+ 		SELECT * FROM reviews WHERE restaurant_id= #{restaurant_id}
+ 	</select>
+ 	
+ 	<select id="getReviewReply" resultMap="replymap" parameterType="int">
+ 		SELECT * FROM replies WHERE review_id= #{review_id}
+ 	</select>
+ 	
+ 	<select id="getOneUser" resultMap="usermap" parameterType="string">
+ 		SELECT * FROM users WHERE user_name= #{user_name}
+ 	</select>
+ 	
+	<select id="getMaxOrderId" resultType="int">
+ 		SELECT MAX(order_id) FROM orders
+ 	</select>
+ 	
+ 	<select id="getMaxSeatId" resultType="int">
+ 		SELECT MAX(seat_order_id) FROM seat_orders
+ 	</select>
+ 	
+ 	<update id="ordering_insert" parameterType="OrderVO">
+ 		INSERT INTO orders (order_id, user_id, restaurant_id, order_price, order_confirm, menu_list,
+ 			order_type, review_check)
+ 		values (#{order_id}, #{user_id}, #{restaurant_id}, #{order_price}, #{order_confirm}, #{menu_list},
+ 			#{order_type}, #{review_check})
+ 	</update>
+ 	
+ 	
+ 	<update id="seat_order_insert" parameterType="SeatOrderVO">
+ 		INSERT INTO seat_orders values (
+ 			#{seat_order_id}, to_date(#{reservation_time}, 'YY-MM-DD HH24:MI:SS'), 
+ 			#{restaurant_id}, #{user_id}, #{room_id}, #{order_id}, #{request}
+ 		)
+ 	</update>
+ 	
+ 	<select id="getStoreRooms" resultMap="roommap" parameterType="int">
+ 		SELECT * FROM rooms WHERE restaurant_id= #{restaurant_id}
+ 	</select>
+ 	
+ 	<select id="getSeatOrders" resultMap="seatordermap" parameterType="int">
+ 		SELECT * FROM seat_orders WHERE restaurant_id= #{restaurant_id}
+ 	</select>
+ 	
+ 	<update id="roomReserve" parameterType="int">
+ 		UPDATE rooms SET room_check=1 WHERE room_id = #{room_id}
+ 	</update>
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 이종명 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 최원준 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 최원준 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	
+</mapper>

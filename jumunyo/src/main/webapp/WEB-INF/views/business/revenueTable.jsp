@@ -1,53 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+<link rel="stylesheet" type="text/css" href="../CSS/revenueTable.css">
+<script>
+	var todate = new Date().toISOString().substring(0,10);
+	document.getElementById("start_date").value = todate;
+</script>
 </head>
 <body>
 <!-- 매출 현황 페이지 입니다. -->
+	<jsp:include page="../include/businessHeader.jsp" />
+	<div class="menuBar">
+	<jsp:include page="../include/menuBar.jsp" />
+	</div>	
+	<div class="window_div">		
+			<h1>${rvo.restaurant_name } 매출 현황</h1>
 
-<div id="window_div">
-	<div id="content_div">
-		<div id="upper_div">
-			<div>
-				${rvo.restaurant_name } 매출 현황
-			</div>
-			
-			<div>
-				매출 현황표
-			</div>
-		</div>
-		
-		<div id="under_div"> <!-- 이건 flex -->
-			<div>
-				여기는 사이드 메뉴바
-			</div>
-			
-			<div> <!-- 본문 배경 div -->
-				<div> <!-- 오늘/하루 나오는 div -->
+			<div class="date1"> <!-- 오늘/하루 나오는 div -->
 						<form action="go_revenue_table" id="date_term_form">
-					<div>
+					<div class="dateinput">
 						<c:choose>
 							<c:when test="${date == null }">
-								<input type="date" id="start_date" name="start_date" value ="" onchange="select_term()"/>
+								<input type="date" id="start_date" name="start_date" onchange="select_term()"
+								style="width: 150px; height: 30px; border-radius: 10px; border: 1px solid #BDBDBD;"/>
 							</c:when>
 							<c:when test="${date != null }">
-								<input type="date" id="start_date" name="start_date" value = "${date }" onchange="select_term()"/>
+								<input type="date" id="start_date" name="start_date" value = "${date }" onchange="select_term()"
+								style="width: 150px; height: 30px; border-radius: 10px; border: 1px solid #BDBDBD;"/>
 							</c:when>
 						</c:choose>
 					</div>
 					
-					<div>
-							<select name="date_term" id="date_term" onchange="select_term()">
+					<div class="dateselect">
+							<select name="date_term" id="date_term" 
+							style="width: 150px; height: 30px; border-radius: 10px; border: 2px solid black;" onchange="select_term()" >
 							<c:choose>
 								<c:when test="${term == null }">
 									<option value="하루" selected="selected">하루</option>
@@ -73,16 +66,18 @@
 							</select>
 					</div>
 						</form>
-				</div>
-				
-				<div>
-					<table>
+			</div>
+			<div class="topSales">
+					<div class="topborder">
+						<table class="table1" >
 						<tr><th colspan="3">최고 매출 상품!</th></tr>
 						<tr>
 							<c:forEach var="top" items="${top }" varStatus="loop">
+							
 							<td>
-								<table>
-									<tr><th>
+								<table class="table2">
+									<tr>
+									<th class="tr1">
 										<c:choose>
 											<c:when test="${loop.count == 1 }">
 												1st
@@ -94,70 +89,73 @@
 												3th
 											</c:when>
 										</c:choose>
-									</th></tr>
+									</th>
+									</tr>
 									
 									<tr>
-										<td>
-										이미지 들어가는 곳
+										<td class="tr2">
+										<img src="../image/Korea.png" alt="" width="100%" height="100px"/>
 										${top.value[4]}
 										</td>
 									</tr>
 									
 									<tr>
-										<td>
-										이름들어가는곳
+										<td class="tr3">
+										<b>이름들어가는곳</b>
 										${top.value[3]}
 										</td>
 									</tr>
 									
 									<tr>
-										<td>
-										총 갯수
+										<td class="tr4">
+										<a>총 갯수</a>
 										${top.value[2] }
 										</td>
 									</tr>
 									
 									<tr>
-										<td>
-										총 금액
+										<td class="tr5">
+										<a>총 금액</a>
 										${top.value[1] }
 										</td>
 									</tr>
 								</table>
-							</td>
+								</td>
+								
 							</c:forEach>
 						</tr>
 					</table>
 				</div>
-				
-				<div><!-- 시간대별 매출액 나오는곳 -->
+	</div>
+	<div class="time1"><!-- 시간대별 매출액 나오는곳 -->
 					<div> <!-- flex -->
-						<div>시간대별 매출액</div>
+						<div><h2>시간대별 매출액</h2></div>
 						
-						<div><input type="date" id="select_date" name="select_date" value=""/></div>
+						<div class="dateinput"><input type="date" id="select_date" name="select_date"  value=""
+						style="width: 150px; height: 30px; border-radius: 10px; border: 1px solid #BDBDBD;"/></div>
 						
-						<div>
-							<select name="compare_date" id="compare_date">
+						<div class="dateselect">
+							<select name="compare_date" id="compare_date" 
+							style="width: 150px; height: 30px; border-radius: 10px; border: 2px solid black;">
 								<option value="없음" selected="selected">대비없음</option>
 								<option value="전날">전날 대비</option>
 								<option value="일주일">일주일 평균대비</option>
 								<option value="한달">한달 평균대비</option>
 							</select>
 						</div>
-						
-						<button onclick="graph()" type="button">그래프 확인!</button>
+						<br />
+						<button onclick="graph()" class="grafButton" type="button">그래프 확인!</button>
 					</div>
 					
 					<div id="chart" style="width:900px; height:500px;"><!--  차트나오는 div -->
 					
 					</div>
 				</div>
-				<div>총거래역 : ${total_mount } 회 / 총매출액 :<fmt:formatNumber value="${total_price }" type="currency"/></div>
+				<div><b style="color: #0100FF; font-size: 25px;">총거래역 : ${total_mount } 회 / 총매출액 :<fmt:formatNumber value="${total_price }" type="currency"/></b></div>
 				
 			</div>	
-		</div>
-	</div>
-</div>
+		
+	
 
 <script type="text/javascript">
 
@@ -234,7 +232,6 @@ function graph() {
 		document.getElementById("date_term_form").submit();
 	}
 </script>
-
 
 </body>
 </html>

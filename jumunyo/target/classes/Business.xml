@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Business">
+	<!--type : sql실행후 반환되는 값들을  config.xml의 typeAlias태그에서 정한 vo빈에 저장한다 -->
+	<resultMap type="userVo" id="usermap">
+		<result property="user_id" column="user_id" />	<!-- 왼쪽의 property 는 dto의 전역변수 , 오른쪽의 column은 DB의 컬럼 -->
+		<result property="user_account" column="user_account" />
+		<result property="user_password" column="user_password" />
+		<result property="user_address" column="user_address" />
+		<result property="user_tell" column="user_tell" />
+		<result property="user_nickname" column="user_nickname" />
+		<result property="user_name" column="user_name" />
+		<result property="user_level" column="user_level" />
+		<result property="user_point" column="user_point" />
+		<result property="user_email" column="user_email" />
+		<result property="user_date" column="user_date" />
+	</resultMap>
+	
+	<resultMap type="categoryVo" id="categorymap">
+		<result property="category_id" column="category_id"/>
+		<result property="category_name" column="category_name"/>
+	</resultMap>
+	
+	<resultMap type="menuVo" id="menumap">
+		<result property="menu_id" column="menu_id"/>
+		<result property="menu_name" column="menu_name"/>
+		<result property="menu_price" column="menu_price"/>
+		<result property="menu_description" column="menu_description"/>
+		<result property="menu_image" column="menu_image"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+	</resultMap>
+	
+	<resultMap type="orderVo" id="ordermap">
+		<result property="order_id" column="order_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="order_price" column="order_price"/>
+		<result property="order_confirm" column="order_confirm"/>
+		<result property="order_date" column="order_date"/>
+		<result property="menu_list" column="menu_list"/>
+		<result property="order_type" column="order_type"/>
+		<result property="review_check" column="review_check"/>
+	</resultMap>
+	
+	<resultMap type="questioncategoryVo" id="questioncategorymap">
+		<result property="question_category_id" column="question_category_id"/>
+		<result property="question_category_name" column="question_category_name"/>
+	</resultMap>
+	
+	<resultMap type="questionVo" id="questionmap">
+		<result property="question_id" column="question_id"/>
+		<result property="question_category_id" column="question_category_id"/>
+		<result property="user_id_send" column="user_id_send"/>
+		<result property="question_title" column="question_title"/>
+		<result property="question_content" column="question_content"/>
+		<result property="question_image" column="question_image"/>
+		<result property="question_check" column="question_check"/>
+		<result property="question_date" column="question_date"/>
+		<result property="user_id_receive" column="user_id_receive"/>
+	</resultMap>
+	
+	<resultMap type="replyVo" id="replymap">
+		<result property="review_id" column="review_id"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="reply_content" column="reply_content"/>
+		<result property="reply_date" column="reply_date"/>
+	</resultMap>
+	
+	<resultMap type="restaurantVo" id="restaurantmap">
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="restaurant_name" column="restaurant_name"/>
+		<result property="restaurant_tell" column="restaurant_tell"/>
+		<result property="restaurant_address" column="restaurant_address"/>
+		<result property="restaurant_owner" column="restaurant_owner"/>
+		<result property="restaurant_businessnumber" column="restaurant_businessnumber"/>
+		<result property="restaurant_businessnumber_img" column="restaurant_businessnumber_img"/>
+		<result property="category_id" column="category_id"/>
+		<result property="restaurant_accept" column="restaurant_accept"/>
+		<result property="restaurant_grade" column="restaurant_grade"/>
+		<result property="restaurant_date" column="restaurant_date"/>
+		<result property="latitude" column="latitude"/>
+		<result property="longitude" column="longitude"/>
+	</resultMap>
+	
+	<resultMap type="reviewVo" id="reviewmap">
+		<result property="review_id" column="review_id"/>
+		<result property="review_content" column="review_content"/>
+		<result property="review_date" column="review_date"/>
+		<result property="review_grade" column="review_grade"/>
+		<result property="user_id" column="user_id"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="review_check" column="review_check"/>
+		<result property="review_img" column="review_img"/>
+	</resultMap>
+	
+	<resultMap type="roomVo" id="roommap">
+		<result property="room_id" column="room_id"/>
+		<result property="room_number" column="room_number"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="room_check" column="room_check"/>
+	</resultMap>
+	
+	<resultMap type="seatorderVo" id="seatordermap">
+		<result property="seat_order_id" column="seat_order_id"/>
+		<result property="reservation_time" column="reservation_time"/>
+		<result property="restaurant_id" column="restaurant_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="room_id" column="room_id"/>
+		<result property="order_id" column="order_id"/>
+		<result property="request" column="request"/>
+	</resultMap>
+
+ 	<!-- <select id="select" parameterType="userVo" resultMap="usermap">		윗쪽의 id map 을  이쪽의  resultmap 에 대응
+		SELECT * FROM teltable55 where id = #{id}
+	</select> -->
+ 	
+ 	<select id="selectAll" resultMap="usermap">
+ 		SELECT * FROM users
+ 	</select>
+ 	
+ 	<!-- 위의  select는 견본이고  resultMap 에 적을 Vo 의 id 는 위에 쭉 적혀있습니다.
+ 		위에서 찾아서 써주시면 됩니다. 기본적으로 다 소문자로 ~~~~map 양식으로 되어있습니다.
+ 		
+ 		이 아래에 각자 sql문 적어주시면 됩니다. 자신의 이름 주석 '사이에'에 써주세요 -->
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 이보라 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 이종명 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 최원준 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 최원준 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	<select id="goentrance" resultMap="categorymap">
+ 		SELECT * FROM categories
+ 	</select>
+ 	
+ 	<select id="entrance_request" parameterType="restaurantVo" resultMap="restaurantmap">
+ 		insert into restaurants values(restaurants_seq.nextval,#{user_id},#{restaurant_name},#{restaurant_tell}
+ 		,#{restaurant_address},#{restaurant_owner},#{restaurant_businessnumber},#{restaurant_businessnumber_img}
+ 		,#{category_id},0,0,sysdate,1,1)
+ 	</select>
+ 	
+ 	<select id="question_list_count" resultType="int">
+		SELECT COUNT(*) FROM questions
+		WHERE user_id_send = #{value} or user_id_receive = #{value}
+	</select>
+	
+	<select id="question_list_paging" parameterType="hashmap" resultMap="questionmap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM questions
+							WHERE user_id_send = #{user_id} or user_id_receive = #{user_id}
+							ORDER BY question_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+ 	
+ 	<!-- question_list 페이징 -->
+ 	<select id="getQuestionCategory" resultMap="questioncategorymap">
+ 		SELECT * FROM question_categories
+ 	</select>
+ 	
+ 	<select id="question_send" resultMap="questionmap">
+ 		insert into questions values(questions_seq.NEXTVAL ,#{question_category_id},#{user_id_send},#{question_title},
+ 			#{question_content},'없음',#{question_check},sysdate,#{user_id_receive})
+ 	</select>
+ 	
+ 	 	<!-- order_list 페이징 -->
+ 	<select id="countDealRecord" resultType="int">
+		SELECT COUNT(*) FROM orders
+		WHERE restaurant_id = #{value}
+	</select>
+	
+	<select id="selectDealRecord" parameterType="hashmap" resultMap="ordermap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM orders
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY order_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+ 	
+ 	 	 	<!-- order_list_detail 페이징 -->
+ 	<select id="order_search_detail_count" parameterType="hashmap" resultType="int">
+		SELECT COUNT(*) FROM orders where restaurant_id = #{restaurant_id}
+ 			and order_date between to_date('${far_time} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${last_time} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+ 			and order_price between #{min_price} and #{max_price}
+ 		<if test="order_type1 != 'all'">
+ 			and order_type = #{order_type1}
+ 		</if>
+	</select>
+	
+ 	<select id="order_search_detail_paging" parameterType="hashmap" resultMap="ordermap">
+ 		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM orders
+							WHERE restaurant_id = #{restaurant_id}
+					 			and order_date between to_date('${far_time} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${last_time} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+					 			and order_price between #{min_price} and #{max_price}
+					 		<if test="order_type1 != 'all'">
+					 			and order_type = #{order_type1}
+					 		</if>
+							ORDER BY order_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	 <!-- menu_list 페이징 -->
+ 	<select id="menu_list_count" resultType="int">
+		SELECT COUNT(*) FROM menus
+		WHERE restaurant_id = #{value}
+	</select>
+ 	
+ 	<select id="menu_list_paging" parameterType="hashmap" resultMap="menumap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM menus
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY menu_id DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+ 	<select id="go_menu_modify" resultMap="menumap">
+ 		SELECT * FROM menus
+ 		where menu_id=#{menu_id}
+ 	</select>
+ 	
+ 	<select id="menu_add" resultMap="menumap">
+ 		INSERT INTO menus values(menus_seq.NEXTVAL,#{menu_name},#{menu_price},'설명','노미지',#{restaurant_id})
+ 	</select>
+ 	
+ 	<select id="menu_modify" resultMap="menumap">
+ 		UPDATE menus set menu_name=#{menu_name}, menu_price=#{menu_price}, menu_image='읎음'
+ 		WHERE menu_id=#{menu_id}
+ 	</select>
+ 	
+ 	<select id="menu_delete" resultMap="menumap">
+ 		DELETE FROM menus
+ 		WHERE menu_id=#{menu_id}
+ 	</select>
+ 	
+ 	<select id="reservation_list_count" resultType="int">
+		SELECT COUNT(*) FROM seat_orders
+		WHERE restaurant_id = #{value}
+	</select>
+	
+	<select id="reservation_list_paging" parameterType="hashmap" resultMap="seatordermap">
+		<!-- SELECT seat_order_id,to_char(reservation_time, 'YY-MM-DD HH24:MI:SS') time,
+			restaurant_id,user_id,room_id,order_id,request
+		FROM seat_orders
+		WHERE restaurant_id = #{restaurant_id}
+			AND WEHRE ((ROWNUM from seat_orders where seat_orders.restaurant_id = #{restaurant_id}) 
+				BETWEEN #{start} AND #{end})
+		ORDER BY seat_order_id DESC -->
+		
+		SELECT *
+		FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT seat_order_id,to_char(reservation_time, 'YY-MM-DD HH24:MI:SS') time,
+								restaurant_id,user_id,room_id,order_id,request
+							FROM seat_orders
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY seat_order_id DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+		
+ 	<select id="review_list_count" resultType="int">
+		SELECT COUNT(*) FROM reviews
+		WHERE restaurant_id = #{value}
+	</select>
+	
+	<select id="review_list_paging" parameterType="hashmap" resultMap="reviewmap">
+		SELECT * 
+			FROM (
+				SELECT ROWNUM RN, A.* 
+					FROM (
+							SELECT *
+							FROM reviews
+							WHERE restaurant_id = #{restaurant_id}
+							ORDER BY review_date DESC
+						 ) A
+					)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+ 	
+ 	<select id="review_list" resultMap="reviewmap">
+ 		SELECT * FROM reviews
+ 		WHERE restaurant_id=#{restaurant_id}
+ 	</select>
+ 	
+ 	<select id="reply_one" resultMap="replymap">
+ 		SELECT * FROM replies
+ 		WHERE review_id = #{value}
+ 	</select>
+ 	
+ 	<select id="reply_modify" parameterType="hashmap" resultType="int">
+		UPDATE replies set reply_content=#{new_con}
+		WHERE reply_content=#{old_con}
+	</select>
+	
+	<select id="reply_delete" parameterType="string" resultType="int">
+		DELETE FROM replies
+		WHERE reply_content=#{value}
+	</select>
+	
+	<select id="reply_add" parameterType="hashmap" resultType="int">
+		INSERT INTO replies VALUES(#{review_id},#{restaurant_id},#{reply_content},sysdate)
+	</select>
+ 	
+ 	<select id="room_check" resultMap="roommap">
+ 		SELECT * FROM rooms
+ 		WHERE room_id = #{room_id}
+ 	</select>
+ 	
+ 	<select id="go_roomlist" resultMap="roommap">
+ 		SELECT * FROM rooms
+ 		WHERE restaurant_id=#{restaurant_id}
+ 		ORDER BY room_id ASC
+ 	</select>
+ 	
+ 	<delete id="room_delete">
+ 		DELETE FROM rooms
+ 		where room_id = #{room_id}
+ 	</delete>
+
+	<update id="room_modify">
+		UPDATE rooms
+		SET room_number = #{room_number}
+		WHERE room_id = #{room_id}
+	</update>
+	
+	<insert id="room_add" parameterType="roomVo">
+		INSERT INTO rooms values (rooms_seq.NEXTVAL,#{room_number},#{restaurant_id},0)
+	</insert>
+	
+	<select id="menu_sales_default" parameterType="hashmap" resultMap="ordermap">
+ 		SELECT * FROM orders
+ 		<if test="term.equals('one')">
+	 		WHERE order_date between to_date('${date_str} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+ 		</if>
+ 		<if test="term.equals('two')">
+	 		WHERE order_date between to_date('${ago_str} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${date_str} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+ 		</if>
+ 		AND restaurant_id = #{restaurant_id}
+ 	</select>
+ 	
+ 	
+ 	<select id="menu_sales_graph_select" parameterType="hashmap" resultMap="ordermap">
+ 		SELECT * FROM orders
+	 	WHERE order_date between to_date('${sdate} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${sdate} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+	 	AND restaurant_id = #{restaurant_id}
+ 	</select>
+ 	
+ 	<select id="menu_sales_graph_compare" parameterType="hashmap" resultMap="ordermap">
+ 		SELECT * FROM orders
+	 	WHERE order_date between to_date('${compare_date} 00:00:00', 'YY-MM-DD HH24:MI:SS') and to_date('${sdate} 23:59:59', 'YY-MM-DD HH24:MI:SS')
+	 	AND restaurant_id = #{restaurant_id}
+ 	</select>
+ 	
+	<select id="menu_price" resultMap="menumap">
+ 		SELECT * FROM menus
+ 		WHERE menu_id = #{value}
+ 	</select>
+ 	
+ 	<select id="user_list" resultMap="usermap">
+		SELECT * FROM users
+	</select>
+	
+	<select id="select_user" resultMap="usermap">
+		SELECT * FROM users
+		WHERE user_id = #{value}
+	</select>
+ 	
+ 	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	
+ 	
+ 	
+</mapper>

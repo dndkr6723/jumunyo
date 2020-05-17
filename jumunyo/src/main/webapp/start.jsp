@@ -7,10 +7,27 @@
 <title>Insert title here</title>
 </head>
 <body>
+5월15 커밋
 
-<form action="selectAll">
-	<input type="submit" value="가자">
+<!-- 테스트용 -->
+<form action="selectAll.do">
+	<input type="submit" value="테스트">
 </form>
+
+<!--메인 Index -->
+<form action="Index.do">
+	<input type="submit" value="메인페이지" />
+</form>
+
+<!--상세페이지  -->
+<form action="restaurant_detail.do">
+	<input type="submit" value="상세페이지" />
+</form>
+
+
+
+<!-- 세현임시 -->
+<hr>
 
 <form action="ready">
 	<input type="submit" value="일반,사업자 세션켜면서 사업자인덱스로 가자 이걸 제일처음 무조건 눌러야 한다잉">
@@ -47,8 +64,6 @@
 <form action="go_revenue_table">
 	<input type="submit" value="매장 매출현황 가자~~">
 </form>
-
-
 
 </body>
 </html>
