@@ -6,9 +6,45 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+.modals {
+	background: #F15F5F;
+	width: 23%;
+	margin:5% 38%;
+	height: 600px;
+	border-radius: 15px;
+}
+.textarea {
+	margin: 0 0 20px 60px;
+	width: 100%;	
+}
+.texttitle {
+	margin: 0 0 20px 60px;
+	width: 100%;
+}
+.select {
+	margin: 0 0 20px 60px;
+	width: 100%;
+}
+.button {
+	margin: 5px 800px;
+	width: 100px;
+	height: 40px;
+	background: red;
+	border-radius: 10px;
+	text-align: center;
+}
+.quest-submit {
+	margin: 0 0 20px 60px;
+	width: 100%;
+}
+.filebox {
+	margin: 0 60px;
+}
+</style>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../CSS/menuAdd.css">
+<link rel="stylesheet" type="text/css" href="resources/CSS/menuAdd.css">
 </head>
 <body>
 <%

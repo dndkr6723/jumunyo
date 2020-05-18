@@ -1,0 +1,65 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+}
+.header {
+	width: 100%;
+	height: 50px;
+	background: linear-gradient(to bottom, #00D8FF, #8C8C8C, #E5D85C);
+}
+
+#logo {
+	float: left;
+	width: 40%;
+	margin: 0 10%;
+	line-height:50px;
+}
+
+#a1 {
+	font-size: 30px;
+	font-weight: bold;
+	color: #A566FF;
+	font-family: 'Nanum Pen Script', cursive;
+}
+
+#a2 {
+	font-size: 30px;
+	font-weight: bold;
+	color: #1DDB16;
+	font-family: 'Nanum Pen Script', cursive;
+}
+
+#a3 {
+	font-size: 30px;
+	font-weight: bold;
+	color: #003399;
+	font-family: 'Nanum Pen Script', cursive;
+}
+
+#a4 {
+	font-size: 30px;
+	color: #F29661;
+	font-family: 'Nanum Pen Script', cursive;
+}
+#bp {
+	font-size: 20px;
+	font-family: 'Nanum Pen Script', cursive;
+}
+.res-name {
+	float: left;
+	line-height:50px;
+	font-size: 20px;
+	width: 10%;
+}
+.operator {
+	float: left;
+	width:10%;
+	line-height:50px; 
+	
+}
+.logout {
+	line-height:50px;
+	float: left;
+	width:10%;
+}

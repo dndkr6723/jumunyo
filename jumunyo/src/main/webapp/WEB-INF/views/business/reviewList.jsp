@@ -6,7 +6,47 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../CSS/reviewList.css">
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background: #EAEAEA;
+}
+a {
+	font-size: 15px;
+}
+.footer {
+	border-top: 2px solid black;
+	margin: 20px;
+}
+.orderhistory {
+	width: 50%;
+	margin: 30px 25%;
+	height: auto;
+}
+.orderhistorys {
+	width: 100%;
+	border-top: 10px solid red;
+	font-size: 25px;
+}
+
+.menuBar {
+	position: fixed;
+	top: 204px;
+	left: 14%;	
+}
+.review-in {
+	margin: 10px 5px;
+	height: auto;
+	border-left: 5px solid #00D8FF;
+}
+.paging {
+	width: 150px;
+	margin: 0 90%;
+	font-size: 20px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="resources/CSS/reviewList.css">
 </head>
 <body>
 <!-- 매장 리뷰 관리 페이지 입니다. -->
@@ -37,7 +77,7 @@
 													<a>${ulist.user_nickname} 님네임</a>
 												</c:if>
 									  		</c:forEach>
-										<a>${rvlist.review_grade }3.5</a> <!-- 여기는 별점수 출력-->
+										<a>${rvlist.review_grade }</a> <!-- 여기는 별점수 출력-->
 										<c:choose>
 										<c:when test="${rvlist.review_grade >=5.0}">											                               
 										<img src="../image/star2.png" width="20px" height="20px" />
@@ -137,7 +177,7 @@
 					</div>
 				</c:forEach>
 				
-				<div class="paging"> <!-- 페이징용 임시 div -->1. 2. 3. 4. 5
+				<div class="paging"> <!-- 페이징용 임시 div -->
 				<c:if test="${paging.startPage != 1 }">
 						<a href="review_list?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
 					</c:if>
@@ -164,7 +204,154 @@
 				
 			</div>
 		</div>
+		
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
 
+/* 사장님 댓글 수정버튼 눌렀을때 div 변화 */
+function start_reply_modify(id){
+	
+	var id_num = id;
+	
+	document.getElementById("reply_div"+id_num).style= "display : none";
+	document.getElementById("reply_modify_div"+id_num).style= "display : block";
+	
+}
+
+/* 사장님 댓글 수정 */
+function reply_modify(id){
+	
+	var id_num = id;
+	
+	var content_data = {"reply_content" : $("#reply_content"+id_num).val(), "new_reply_content" : $("#reply_content_modify"+id_num).val()};
+	
+	$.ajax({
+	    url: "reply_modify",
+	    type: "post",
+	    data: content_data,
+	    async:false,
+	    dataType: "text",
+	    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	    success: function(data) {
+	    	if(data == "success"){
+	    		
+	    		alert("수정성공!");
+	    		document.getElementById("reply_div"+id_num).style = "display : block";
+	    		document.getElementById("reply_modify_div"+id_num).style = "display : none";
+	    		document.getElementById("reply_content"+id_num).value = $("#reply_content_modify"+id_num).val();
+	    		document.getElementById("reply_content_modify"+id_num).value = $("#reply_content_modify"+id_num).val();
+	    			
+	    	}else if(data == "fail"){
+	    		alert("수정실패!");
+	    		document.getElementById("reply_div"+id_num).style = "display : block";
+	    		document.getElementById("reply_modify_div"+id_num).style = "display : none";
+	    	}
+	    	
+	    },
+		error: function(errorThrown) {
+        alert(errorThrown.statusText);
+    	}
+	});
+}
+
+// 사장님 댓글 수정 취소
+function reply_modify_cancel(id){
+	
+	var id_num = id;
+	document.getElementById("reply_div"+id_num).style= "display : block";
+	document.getElementById("reply_modify_div"+id_num).style= "display : none";
+	document.getElementById("reply_content_modify"+id_num).value= $("#reply_content"+id_num).val();
+	
+}
+
+/* 사장님 댓글 삭제 */
+function reply_delete(id){
+	
+	var id_num = id;
+	
+	var content_data = {"reply_content" : $("#reply_content"+id_num).val()}
+	
+	$.ajax({
+	    url: "reply_delete",
+	    type: "post",
+	    data: content_data,
+	    async:false,
+	    dataType: "text",
+	    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	    success: function(data) {
+	    	if(data == "success"){
+	    		
+	    		alert("삭제성공!");
+	    		location.href='review_list';
+	    			
+	    	}else if(data == "fail"){
+	    		alert("삭제실패!");
+	    		location.href='review_list';
+	    	}
+	    	
+	    },
+		error: function(errorThrown) {
+        alert(errorThrown.statusText);
+    	}
+	});
+	
+}
+
+// 댓글 작성하기 눌러서 댓글 작성하는 div 여는 함수
+function reply_open(id){
+	
+	var id_num = id;
+	
+	document.getElementById("reply_button_div"+id_num).style= "display : none";
+	document.getElementById("reply_add_div"+id_num).style= "display : block";
+	
+}
+
+// 댓글 추가하는 이벤트
+function reply_add(id){
+	
+var id_num = id;
+	
+	var content_data = {"reply_content" : $("#reply_content_new"+id_num).val(), "review_id" : $("#review_id"+id_num).val()}
+	
+	$.ajax({
+	    url: "reply_add",
+	    type: "post",
+	    data: content_data,
+	    async:false,
+	    dataType: "text",
+	    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+	    success: function(data) {
+	    	if(data == "success"){
+	    		
+	    		alert("댓글달기 성공!");
+	    		location.href='review_list';
+	    			
+	    	}else if(data == "fail"){
+	    		alert("댓글달기 실패!");
+	    		location.href='review_list';
+	    	}
+	    	
+	    },
+		error: function(errorThrown) {
+        alert(errorThrown.statusText);
+    	}
+	});
+	
+}
+
+// 댓글 추가 취소 이벤트
+function reply_cancel(id){
+	
+	var id_num = id;
+	
+	document.getElementById("reply_button_div"+id_num).style= "display : block";
+	document.getElementById("reply_add_div"+id_num).style= "display : none";
+	document.getElementById("reply_content_new"+id_num).value= "";
+	
+}
+
+</script>
 
 </body>
 </html>

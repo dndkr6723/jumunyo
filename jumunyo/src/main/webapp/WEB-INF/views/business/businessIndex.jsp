@@ -6,7 +6,46 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../CSS/businessIndex.css">
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background: #EAEAEA;
+}
+.advert {
+	width: 40%;
+	height: 300px;
+	margin: 50px 30% 100px 30%;
+	border: black solid 1px;
+}
+.apply {
+	width: 40%;
+	height: 300px;
+	margin: 50px 30% 100px 30%;
+	border: black solid 1px;
+	background: white;
+}
+.applyImg {
+	float: left;
+	width: 40%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: black solid 1px;
+}
+.applyText {
+	float: left;
+	width: 55%;
+	height: 90%;
+	
+}
+.applyText > b {
+	font-size: 30px;
+	margin: 0 100px;
+	line-height:300px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/resources/CSS/businessIndex.css">
 </head>
 <body>
 <% int restaurant_accept = 0; %>

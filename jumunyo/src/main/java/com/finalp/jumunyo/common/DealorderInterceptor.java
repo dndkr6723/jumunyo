@@ -12,7 +12,7 @@ public class DealorderInterceptor extends HandlerInterceptorAdapter {
 		HttpSession session = request.getSession(false);
 		if(session.getAttribute("o_search_detail") != null) {
 			System.out.println("세션체크");
-			session.removeAttribute("o_search_detail");
+			/*session.removeAttribute("o_search_detail");*/
 		}
 		return true;
 	}

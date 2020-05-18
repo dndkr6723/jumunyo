@@ -1,0 +1,84 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+	padding: 0;
+	background: #EAEAEA;
+}
+.entrance {
+	width: 50%;
+	margin: 100px 25%;
+	height: auto;
+}
+.res-name1 {
+	font-size: 25px;
+	margin: 10px 0 10px 10px;
+	padding: 10px;
+	border-bottom: 1px dashed black; 
+}
+.res-name_input {
+	width: 200px;
+	height: 30px; 
+	font-size: 15px; 
+	border-radius: 20px;
+}
+.res-category {
+	font-size: 25px;
+	margin: 10px 0 10px 10px;
+	padding: 10px;
+	border-bottom: 1px dashed black; 
+}
+.select1 {
+	width: 200px;
+	height: 30px; 
+	font-size: 15px; 
+	border-radius: 20px;
+}
+.tel {
+	font-size: 25px;
+	margin: 10px 0 10px 10px;
+	padding: 10px;
+	border-bottom: 1px dashed black;
+}
+.telinput {
+	width: 200px; height: 30px; font-size: 15px; border-radius: 20px;
+}
+.number {
+	font-size: 25px;
+	margin: 10px 0 10px 10px;
+	padding: 10px;
+	border-bottom: 1px dashed black;
+}
+.numinput {
+	width: 200px; height: 30px; font-size: 15px; border-radius: 20px;
+}
+.representative {
+	font-size: 25px;
+	margin: 10px 0 10px 10px;
+	padding: 10px;
+	border-bottom: 1px dashed black;
+}
+.repinput {
+	width: 200px; height: 30px; font-size: 15px; border-radius: 20px;
+}
+.address {
+	font-size: 25px;
+	margin: 10px 0 10px 10px;
+	padding: 10px 0;
+	border-bottom: 1px solid black;
+}
+.addressinput {
+	width: 500px; height: 30px; font-size: 15px; border-radius: 20px;
+}
+.addressfindbtn {
+	width: 150px; height: 30px; font-size: 20px; background: #ABF200; border: none; border-radius: 20px;
+}
+.consent {
+	width: 50%;
+	margin: 30px 25%;
+	height: auto;
+}
+.submitbtn {
+	width: 50%;
+	margin: 30px 25%;
+	height: auto;
+}

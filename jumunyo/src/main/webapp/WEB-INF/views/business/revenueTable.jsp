@@ -1,14 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background: #EAEAEA;
+}
+.window_div {
+	width: 50%;
+	margin: 30px 25%;
+	height: auto;
+}
+.menuBar {
+	position: fixed;
+	top: 204px;
+	left: 14%;	
+}
+.date1 {
+	width: 100%;
+	height: auto;
+	border-top: 10px solid red;
+	font-size: 25px;
+	
+}
+.dateinput {
+	
+	margin: 10px 0 0 0;
+}
+.dateselect {
+	margin: 10px 0 0 0;
+}
+.topSales {
+	width: 100%;
+	margin: 0;
+	height: auto;
+	font-size: 25px;
+}
+.topborder {
+	margin: 0;
+	border: thick double #FFE400;
+}
+.table1 {
+	width: 100%;
+}
+.table2 {
+	text-align: center;
+}
+.tr1 {
+	width: 33.3%;
+}
+.tr2 {
+	width: 33.3%;
+}
+.tr3 {
+	width: 33.3%;
+}
+.tr4 {
+	width: 33.3%;
+}
+.tr5 {
+	width: 33.3%;
+}
+.time1 {
+	margin: 10px 0;
+	width: 99%;
+	border: thick double #FFE400;
+}
+.grafButton {
+	box-shadow:inset 0px 0px 15px 3px #9fb4f2;
+	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);
+	background-color:#7892c2;
+	border-radius:17px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 13px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #283966;
+}
+.grafButton:hover {
+	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+	background-color:#476e9e;
+}
+.grafButton:active {
+	position:relative;
+	top:1px;
+}
+</style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<link rel="stylesheet" type="text/css" href="../CSS/revenueTable.css">
+<link rel="stylesheet" type="text/css" href="resources/CSS/revenueTable.css">
 <script>
 	var todate = new Date().toISOString().substring(0,10);
 	document.getElementById("start_date").value = todate;
@@ -28,7 +120,7 @@
 					<div class="dateinput">
 						<c:choose>
 							<c:when test="${date == null }">
-								<input type="date" id="start_date" name="start_date" onchange="select_term()"
+								<input type="date" id="start_date" name="start_date" value ="" onchange="select_term()"
 								style="width: 150px; height: 30px; border-radius: 10px; border: 1px solid #BDBDBD;"/>
 							</c:when>
 							<c:when test="${date != null }">
@@ -101,22 +193,19 @@
 									
 									<tr>
 										<td class="tr3">
-										<b>이름들어가는곳</b>
-										${top.value[3]}
+										<b>${top.value[3]}</b>
 										</td>
 									</tr>
 									
 									<tr>
 										<td class="tr4">
-										<a>총 갯수</a>
-										${top.value[2] }
+										<a>${top.value[2] } 개</a>
 										</td>
 									</tr>
 									
 									<tr>
 										<td class="tr5">
-										<a>총 금액</a>
-										${top.value[1] }
+										<a><fmt:formatNumber value="${top.value[1] }" type="currency"/></a>
 										</td>
 									</tr>
 								</table>

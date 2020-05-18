@@ -6,7 +6,43 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../CSS/questionSend.css">
+<style>
+.modals {
+	background: #F15F5F;
+	width: 23%;
+	margin:5% 38%;
+	height: 600px;
+	border-radius: 15px;
+}
+.textarea {
+	margin: 0 0 20px 60px;
+	width: 100%;	
+}
+.texttitle {
+	margin: 0 0 20px 60px;
+	width: 100%;
+}
+.select {
+	margin: 0 0 20px 60px;
+	width: 100%;
+}
+.button {
+	margin: 5px 800px;
+	width: 100px;
+	height: 40px;
+	background: red;
+	border-radius: 10px;
+	text-align: center;
+}
+.quest-submit {
+	margin: 0 0 20px 60px;
+	width: 100%;
+}
+.filebox {
+	margin: 0 60px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="resources/CSS/questionSend.css">
 </head>
 <body>
 <!-- 1:1문의 보내기 페이지 입니다. -->

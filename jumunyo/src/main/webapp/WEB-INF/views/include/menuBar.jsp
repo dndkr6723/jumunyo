@@ -5,7 +5,58 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../CSS/menuBar.css">
+<style>
+body {
+	margin: 0;
+	padding: 0;
+}
+.menuBar {
+	width: 200px;
+	height: auto;
+	background: #D9E5FF;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+.menu {
+	margin: 30px 10px 10px 12px;
+	padding: 10px 20px 10px 20px;
+	
+	width:120px;
+	background: #B2CCFF;
+}
+.menuul {
+	display: none;
+	font-size: 13px;
+}
+.menuul > li {
+	margin: 6px 0;
+}
+.transaction {
+	margin: 0 10px 10px 12px;
+	padding: 10px 20px 10px 20px;
+	width:120px;
+	background: #B2CCFF;
+}
+.reviewList {
+	margin: 0 10px 10px 12px;
+	padding: 10px 20px 10px 20px;
+	width:120px;
+	background: #B2CCFF;
+}
+.reservationList {
+	margin: 0 10px 10px 12px;
+	padding: 10px 20px 10px 20px;
+	width:120px;
+	background: #B2CCFF;
+}
+.questionList {
+	margin: 0 10px 10px 12px;
+	padding: 10px 20px 10px 20px;
+	width:120px;
+	background: #B2CCFF;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="/resources/CSS/menuBar.css">
 </head>
 <body>
 	<div class="menuBar">
