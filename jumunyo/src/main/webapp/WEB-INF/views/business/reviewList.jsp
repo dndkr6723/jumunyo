@@ -80,46 +80,46 @@ a {
 										<a>${rvlist.review_grade }</a> <!-- 여기는 별점수 출력-->
 										<c:choose>
 										<c:when test="${rvlist.review_grade >=5.0}">											                               
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
 										</c:when>
 										<c:when test="${rvlist.review_grade >=4.0}">										
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />									
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />									
 										</c:when>
 										<c:when test="${rvlist.review_grade >=3.0}">									
-										<img src="../image/star2.png" width="50px" height="50px" />
-										<img src="../image/star2.png" width="50px" height="50px" />
-										<img src="../image/star2.png" width="50px" height="50px" />
-										<img src="../image/star1.png" width="50px" height="50px" />
-										<img src="../image/star1.png" width="50px" height="50px" />
+										<img src="resources/image/star2.png" width="50px" height="50px" />
+										<img src="resources/image/star2.png" width="50px" height="50px" />
+										<img src="resources/image/star2.png" width="50px" height="50px" />
+										<img src="resources/image/star1.png" width="50px" height="50px" />
+										<img src="resources/image/star1.png" width="50px" height="50px" />
 										</c:when>
 										<c:when test="${rvlist.review_grade >=2.0}">
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
 										</c:when>
 										<c:when test="${rvlist.review_grade >=1.0}">										
-										<img src="../image/star2.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
 										</c:when>
 										<c:otherwise>
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
-										<img src="../image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
 										</c:otherwise>
 										</c:choose>	
 										<a>${rvlist.review_date } 2020-05-15 12:05</a>

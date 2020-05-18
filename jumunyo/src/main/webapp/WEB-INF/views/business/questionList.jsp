@@ -238,7 +238,7 @@ body {
 					style="width: 150px; height: 40px; background: red; border-radius: 10px;">							
 			</span>
 			</form>
-			<form action="">
+			<form action="ready">
 			<span class="button2">				
 					<input type="submit" value="이전 페이지로"
 					style="width: 150px; height: 40px; background: #D4F4FA; border-radius: 10px;">				

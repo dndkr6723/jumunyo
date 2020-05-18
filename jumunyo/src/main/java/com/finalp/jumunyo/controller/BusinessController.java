@@ -40,33 +40,10 @@ public class BusinessController {
 	
 	@RequestMapping("ready")
 	public String ready(Model model,HttpSession session) throws Exception {
-		 
-		UserVO uvo = new UserVO();
-		uvo.setUser_id(1);
-		uvo.setUser_account("power");
-		uvo.setUser_password("1541");
-		uvo.setUser_address("서울 서울 부산 찍고");
-		uvo.setUser_tell("111-1111-1111");
-		uvo.setUser_nickname("닉네임");
-		uvo.setUser_name("세현");
-		uvo.setUser_level(2);
-		uvo.setUser_point(3000);
-		uvo.setUser_email("dndkr6723@naver.com");
 		
-		RestaurantVO rvo = new RestaurantVO();
-		rvo.setRestaurant_id(1);
-		rvo.setUser_id(2);
-		rvo.setRestaurant_name("피자헛");
-		rvo.setRestaurant_tell("222-2222-2222");
-		rvo.setRestaurant_address("서울어딘가");
-		rvo.setRestaurant_owner("5조팀");
-		rvo.setRestaurant_businessnumber(15151515);
-		rvo.setRestaurant_businessnumber_img("등록증사본");
-		rvo.setCategory_id(1);
-		rvo.setRestaurant_accept(0);
-		rvo.setRestaurant_grade(3000);
+		UserVO uvo = (UserVO) session.getAttribute("userSession");
+		RestaurantVO rvo = service.restaurant_session(uvo);
 		
-		session.setAttribute("uvo", uvo);
 		session.setAttribute("rvo", rvo);
 		
 		return "business/businessIndex";
@@ -109,13 +86,13 @@ public class BusinessController {
 	}
 	
 	@RequestMapping("question_list") // 현재접속한 사람의 1:1문의 가져오기
-	public String question_list(UserVO uvo,HttpSession session,Model model,PagingVO pagingVO, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
-			UserVO uuvo = (UserVO) session.getAttribute("uvo");
+	public String question_list(HttpSession session,Model model,PagingVO pagingVO, @RequestParam(value = "nowPage", required=false) String nowPage, @RequestParam(value = "cntPerPage", required=false) String cntPerPage) throws Exception {
+			UserVO uvo = (UserVO) session.getAttribute("userSession");
 			
 			// 카테고리 참조를 위한 카테고리 불러오기
 			List<QuestionCategoryVO> qcvo = service.getQuestionCategory();
 			// 페이징
-			int total = service.question_list_count(uuvo);
+			int total = service.question_list_count(uvo);
 			
 			if(nowPage == null && cntPerPage == null) {
 				nowPage = "1";
@@ -126,7 +103,7 @@ public class BusinessController {
 				cntPerPage = "10";
 			pagingVO = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 			model.addAttribute("paging", pagingVO);
-			model.addAttribute("qlist", service.question_list_paging(pagingVO,uuvo));
+			model.addAttribute("qlist", service.question_list_paging(pagingVO,uvo));
 			model.addAttribute("qcvo",qcvo);
 			
 		return "business/questionList";
@@ -298,14 +275,6 @@ public class BusinessController {
 		model.addAttribute("paging", pagingVO);
 		model.addAttribute("relist", service.reservation_list_paging(pagingVO,rvo));
 		model.addAttribute("ulist",service.user_list());
-		
-		List<SeatOrderVO> svo = service.reservation_list_paging(pagingVO,rvo);
-		for(int i=0;i<svo.size(); i++) {
-			String time = svo.get(i).getReservation_time();
-			int id = svo.get(i).getOrder_id();
-			System.out.println(time);
-			System.out.println(id);
-		}
 		
 		return "business/reservationList";
 	}

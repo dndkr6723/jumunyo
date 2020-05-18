@@ -82,7 +82,7 @@ body {
 <body>
 	<div class="header">
 			<div id="logo" onmouseover="logo1();" onmouseout="logo2();">
-				<a href="../index.jsp" style="text-decoration: none;"> 
+				<a href="start.jsp" style="text-decoration: none;"> 
 					<b id="a1">¡÷</b> 
 					<b id="a2">πÆ</b> 
 					<b id="a3">¿Ã</b> 

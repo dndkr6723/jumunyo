@@ -48,7 +48,8 @@ public interface BusinessService {
 		
 	 	
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-	 	
+	public RestaurantVO restaurant_session(UserVO uvo);
+	
 	public List<CategoryVO> goentrance();
 	
 	public void entrance_request(RestaurantVO rvo);
@@ -102,6 +103,7 @@ public interface BusinessService {
 	
 	
 	public List<UserVO> user_list();
+
 
 	 	//<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 end ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 

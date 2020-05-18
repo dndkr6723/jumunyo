@@ -245,8 +245,50 @@ body {
 			</span>
 			</form>
 		</div>					
-						<div class="tablehead">
-						<div class="orderId">
+			<div class="tablehead">
+			
+			<table border="1">
+					<tr>
+						<th>이용시간</th>
+						<th>이용좌석</th>
+						<th>이용회원</th>
+						<th>연락처</th>
+						<th>비고</th>
+						<th>현황</th>
+					</tr>
+					<c:forEach var="relist" items="${relist }">
+					
+					<tr>
+						<td>
+								${relist.reservation_time }
+						</td>
+							
+						<td>
+								${relist.room_id }
+						</td>
+							
+						<c:forEach var="ulist" items="${ulist }">
+						<c:if test="${relist.user_id == ulist.user_id }">
+						<td>	
+								${ulist.user_name }
+						</td>
+							
+						<td>
+								${ulist.user_tell }
+						</td>
+						</c:if>	
+						</c:forEach>
+						<td>
+								${solist.request }
+						</td>
+							
+						<td>
+								여기 이용 현황
+						</td>
+					</tr>
+					</c:forEach>
+				</table>
+						<%-- <div class="orderId">
 						<b>상세분류</b>
 						</div>
 						<div class="title">
@@ -335,12 +377,27 @@ body {
 						</div>
 				</div>	
 				
-				</c:forEach>
+				</c:forEach> --%>
 				</div>
 				
 				<hr>
 				<div class="paging"> <!-- 페이징 위치 -->
-					1. 2. 3. 4. 5
+					<c:if test="${paging.startPage != 1 }">
+						<a href="reservation_list?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+					</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a href="reservation_list?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+					<c:if test="${paging.endPage != paging.lastPage}">
+						<a href="reservation_list?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+					</c:if>
 				</div> 
 			</div>
 		</div>

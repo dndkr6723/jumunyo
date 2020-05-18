@@ -141,47 +141,47 @@ body {
 	<div class="menucollection">
 		<div class="menumanege">
 		<div class="menumanegeimg">
-		<img src="../image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
+		<img src="resources/image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
 		</div>
-		<div class="menumaneges">
-		<b>매장 메뉴 관리</b>
+	<div class="menumaneges">
+		<a href="menu_list" style="text-decoration:none;"><b>매장 메뉴 관리</b></a>
 		</div>
 		</div>
 		<div class="transaction">
 		<div class="transactionimg">
-		<img src="../image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
+		<img src="resources/image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
 		</div>
 		<div class="transactions">
-		<b>매장 거래 내역</b>
+		<a href="dealorder_list" style="text-decoration:none;"><b>매장 거래 내역</b></a>
 		</div>
 		</div>
 		<div class="review">
 		<div class="reviewimg">
-		<img src="../image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
+		<img src="resources/image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
 		</div>
 		<div class="reviews">
-		<b>매장 리뷰 관리</b>
+		<a href="review_list" style="text-decoration:none;"><b>매장 리뷰 관리</b></a>
 		</div>
 		</div>
 		<div class="questionList">
 		<div class="questionListimg">
-		<img src="../image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
+		<img src="resources/image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
 		</div>
 		<div class="questionLists">
-		<b>1:1 문의 게시판</b>
+		<a href="question_list" style="text-decoration:none;"><b>1:1 문의 게시판</b></a>
 		</div>
 		</div>
 		<div class="customer">
 		<div class="customerimg">
-		<img src="../image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
+		<img src="resources/image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
 		</div>
 		<div class="customers">
-		<b>일반 페이지로 이동</b>
+		<a href="Index.do" style="text-decoration:none;"><b>일반 페이지로 이동</b></a>
 		</div>
 		</div>
 		<div class="logo">
 		<div class="logoimg">
-		<img src="../image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
+		<img src="resources/image/menumanege.jpg" alt="" width="100%" height="100%" style="border-radius: 100px;"/>
 		</div>
 		</div>
 	</div>

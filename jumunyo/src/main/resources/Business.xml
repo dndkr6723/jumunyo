@@ -143,6 +143,10 @@
  	
  	
  	<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 권세현 start ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+ 	<select id="restaurant_session" resultMap="restaurantmap">
+ 		SELECT * FROM restaurants
+ 		WHERE user_id = #{user_id}
+ 	</select>
  	
  	<select id="goentrance" resultMap="categorymap">
  		SELECT * FROM categories
@@ -278,20 +282,11 @@
 	</select>
 	
 	<select id="reservation_list_paging" parameterType="hashmap" resultMap="seatordermap">
-		<!-- SELECT seat_order_id,to_char(reservation_time, 'YY-MM-DD HH24:MI:SS') time,
-			restaurant_id,user_id,room_id,order_id,request
-		FROM seat_orders
-		WHERE restaurant_id = #{restaurant_id}
-			AND WEHRE ((ROWNUM from seat_orders where seat_orders.restaurant_id = #{restaurant_id}) 
-				BETWEEN #{start} AND #{end})
-		ORDER BY seat_order_id DESC -->
-		
 		SELECT *
 		FROM (
 				SELECT ROWNUM RN, A.* 
 					FROM (
-							SELECT seat_order_id,to_char(reservation_time, 'YY-MM-DD HH24:MI:SS') time,
-								restaurant_id,user_id,room_id,order_id,request
+							SELECT *
 							FROM seat_orders
 							WHERE restaurant_id = #{restaurant_id}
 							ORDER BY seat_order_id DESC
