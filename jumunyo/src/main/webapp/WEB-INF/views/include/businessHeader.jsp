@@ -96,11 +96,11 @@ body {
 		<div class="operator">
 			<b>¿î¿µÀÚ</b>
 			<a>(</a>			
-			<a href="" style="text-decoration: none; color: red; font-size: 15px;">È«±æµ¿</a>
+			<a href="mypageMenuPage.do" style="text-decoration: none; color: red; font-size: 15px;">${userSession.user_name }</a>
 			<a>)</a>
 		</div>
 		<div class="logout">
-			<a href="" style="text-decoration: none; font-size: 20px;"><b>·Î±×¾Æ¿ô</b></a>
+			<a href="logOut.do" style="text-decoration: none; font-size: 20px;"><b>·Î±×¾Æ¿ô</b></a>
 		</div>
 	</div>
 

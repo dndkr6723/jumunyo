@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,7 @@ a {
 	height: auto;
 }
 .orderhistorys {
+	background: white;
 	width: 100%;
 	border-top: 10px solid red;
 	font-size: 25px;
@@ -35,15 +37,30 @@ a {
 	top: 204px;
 	left: 14%;	
 }
+.rr {
+	margin: 10px;
+	border: 2px dotted #BDBDBD;
+}
 .review-in {
 	margin: 10px 5px;
 	height: auto;
 	border-left: 5px solid #00D8FF;
+	background: #C6FFFF;
+}
+.reply {
+	width: 90%;
+	height: auto;
+	background: #FFFFC6;
+	margin: 10px 5px;
+	padding: 5px;
 }
 .paging {
 	width: 150px;
 	margin: 0 90%;
 	font-size: 20px;
+}
+b {
+	font-size: 15px;
 }
 </style>
 <link rel="stylesheet" type="text/css" href="resources/CSS/reviewList.css">
@@ -60,12 +77,12 @@ a {
 			<h1>${rvo.restaurant_name } 리뷰 관리</h1>	
 		</div>
 		<div>
-			<b>매장 평균 평점 :</b><b style="color: red;"> ${rvo.restaurant_grade }  3.5 </b> <b>점</b>
+			<b>매장 평균 평점 :</b><b style="color: red;"> ${rvo.restaurant_grade }</b> <b>점</b>
 		</div>		
 			<div class="orderhistorys">										
 				<c:forEach var="rvlist" items="${rvlist }" varStatus="status">
 					<div><!-- 각 리뷰글담는 가장 외곽div -->
-						<div><!-- 리뷰의 중간 div (이미지 div와 나누어짐) -->
+						<div class="rr"><!-- 리뷰의 중간 div (이미지 div와 나누어짐) -->
 							<div> <!-- 리뷰작성자 본문의 가장 외곽 div --> <!-- 이것도 flex -->
 								
 								<div class="review-in"> <!-- 실제 리뷰 담기는 div -->
@@ -74,12 +91,12 @@ a {
 										<div>
 											<c:forEach var="ulist" items="${ulist}">
 												<c:if test="${ulist.user_id == rvlist.user_id }">
-													<a>${ulist.user_nickname} 님네임</a>
+													<b>${ulist.user_nickname}</b>
 												</c:if>
 									  		</c:forEach>
-										<a>${rvlist.review_grade }</a> <!-- 여기는 별점수 출력-->
+										<!-- 여기는 별점수 출력-->
 										<c:choose>
-										<c:when test="${rvlist.review_grade >=5.0}">											                               
+										<c:when test="${rvlist.review_grade >=5.0}">										                               
 										<img src="resources/image/star2.png" width="20px" height="20px" />
 										<img src="resources/image/star2.png" width="20px" height="20px" />
 										<img src="resources/image/star2.png" width="20px" height="20px" />
@@ -94,11 +111,11 @@ a {
 										<img src="resources/image/star1.png" width="20px" height="20px" />									
 										</c:when>
 										<c:when test="${rvlist.review_grade >=3.0}">									
-										<img src="resources/image/star2.png" width="50px" height="50px" />
-										<img src="resources/image/star2.png" width="50px" height="50px" />
-										<img src="resources/image/star2.png" width="50px" height="50px" />
-										<img src="resources/image/star1.png" width="50px" height="50px" />
-										<img src="resources/image/star1.png" width="50px" height="50px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star2.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
+										<img src="resources/image/star1.png" width="20px" height="20px" />
 										</c:when>
 										<c:when test="${rvlist.review_grade >=2.0}">
 										<img src="resources/image/star2.png" width="20px" height="20px" />
@@ -122,32 +139,38 @@ a {
 										<img src="resources/image/star1.png" width="20px" height="20px" />
 										</c:otherwise>
 										</c:choose>	
-										<a>${rvlist.review_date } 2020-05-15 12:05</a>
+										<b>
+										<fmt:formatDate value="${rvlist.review_date }" pattern="yyyy년 MM월 dd일 HH:mm"/></b>
 										<input type="hidden" value="${rvlist.review_id }" id="review_id${status.count }">
 										</div>
 										
 									</div>
 									
 									<div><!-- 리뷰 내용들어가는 div -->
-										${rvlist.review_content }
-										<b>대박 맛있었습니다! 사장님 짱!</b>
+										<a style="color: #0100FF;">${rvlist.review_content }</a>
 									</div>
 									
 								</div>
 							</div>
 							
 							<c:if test="${rplist[status.index].reply_content != null }">
-								<div id="notnull_div${status.count }">
+								<div class="reply" id="notnull_div${status.count }">
 									<div id="reply_div${status.count }"> <!-- 사장님 댓글 들어가는 div -->
-										<a>${rvo.restaurant_name } 사장님 답변</a>
-										${rplist[status.index].reply_date }
-										<input type="text" value="${rplist[status.index].reply_content }" name="reply_content" id="reply_content${status.count }" disabled="disabled">
+										<a style="font-size: 30px;">&crarr; <br /></a>
+										<b>${rvo.restaurant_name } 사장님</b>
+										<b>
+										<fmt:formatDate value="${rplist[status.index].reply_date }" pattern="yyyy년 MM월 dd일 HH:mm"/>
+										</b>
+										<br />
+										<input type="text" value="${rplist[status.index].reply_content }" name="reply_content" id="reply_content${status.count }" disabled="disabled"
+										style="border: none; width: 300px; height: 30px; font: 20px;">
 										<input type="button" value="수정" onclick="start_reply_modify('${status.count }')">
 										<input type="button" value="삭제" onclick="reply_delete('${status.count }')">
 									</div>
 									
 									<div id="reply_modify_div${status.count }" style = "display : none">
-										<input type="text" value="${rplist[status.index].reply_content }" name="reply_content" id="reply_content_modify${status.count }">
+										<input type="text" value="${rplist[status.index].reply_content }" name="reply_content" id="reply_content_modify${status.count }"
+										style="border: none; width: 300px; height: 30px; font: 20px;">
 										<input type="button" value="수정완료" onclick="reply_modify('${status.count }');">
 										<input type="button" value="취소" onclick="reply_modify_cancel('${status.count }');">
 									</div>

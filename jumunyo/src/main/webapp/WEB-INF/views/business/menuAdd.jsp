@@ -7,23 +7,40 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+body {
+	margin: 0;
+	padding: 0;
+	background: #EAEAEA;
+}
+.menuBar {
+	position: fixed;
+	top: 304px;
+	left: 280px;
+}
+
+.orderhistorys {
+	width: 50%;
+	margin: 0 25%;
+	border-top: 10px solid red;
+	font-size: 25px;
+}
 .modals {
-	background: #F15F5F;
-	width: 23%;
-	margin:5% 38%;
+	background: white;
+	width: 810px;
+	margin:5% 8%;
 	height: 600px;
-	border-radius: 15px;
+	
 }
 .textarea {
-	margin: 0 0 20px 60px;
+	margin: 0 0 20px 250px;
 	width: 100%;	
 }
 .texttitle {
-	margin: 0 0 20px 60px;
+	margin: 0 0 20px 250px;
 	width: 100%;
 }
 .select {
-	margin: 0 0 20px 60px;
+	margin: 0 0 20px 250px;
 	width: 100%;
 }
 .button {
@@ -35,11 +52,11 @@
 	text-align: center;
 }
 .quest-submit {
-	margin: 0 0 20px 60px;
+	margin: 0 0 20px 250px;
 	width: 100%;
 }
 .filebox {
-	margin: 0 60px;
+	margin: 0 250px;
 }
 </style>
 <script
@@ -55,15 +72,26 @@
 		result = "menu_add";
 	}
 %>
+		<jsp:include page="../include/businessHeader.jsp" />
+	<div class="menuBar">
+	<jsp:include page="../include/menuBar.jsp" />
+	</div>	
+	<div class="orderhistory">
+	</div>
+	<div id="content_div">
+		<div id="upper_div">
+			<h1 style="margin: 50px 0 0 480px;">${rvo.restaurant_name } 메뉴 관리</h1>	
+		</div>		
+			<div class="orderhistorys">
 <!-- 매장 메뉴 추가 페이지 입니다. -->
 			<div class="modals">
 				<form action="<%= result%>">
 					<div class="title">
-						<h1 
+						<h3 
 						style="text-align: center;">
-						${rvo.restaurant_name } 메뉴추가/수정</h1> <!-- 매점명출력 -->
+						${rvo.restaurant_name } 메뉴추가/수정</h3> <!-- 매점명출력 -->
 					</div>					
-					<div style="margin: 0 60px;"><b>메뉴 이름</b></div>
+					<div style="margin: 0 250px;"><b>메뉴 이름</b></div>
 					<div class="texttitle">
 						<c:if test="${mvo.menu_id != null}">
 							<input type="hidden" value="${mvo.menu_id }" name="menu_id">
@@ -72,7 +100,7 @@
 						<input type="text" name="menu_name" value="${mvo.menu_name}" required="required" 
 						style="width: 300px; height: 30px;"/>
 					</div>
-					<div style="margin: 0 60px;"><b>가격</b></div>					
+					<div style="margin: 0 250px;"><b>가격</b></div>					
 					<div class="textarea">					
 						<input type="text" value="${mvo.menu_price}" name="menu_price" required="required" 
 						style="width: 300px; height: 30px;"/>		
@@ -101,6 +129,8 @@
 					</div>
 					</form>
 				</div>
-	
+			</div>
+			</div>
+
 </body>
 </html>
