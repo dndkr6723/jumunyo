@@ -63,7 +63,7 @@
 
 
 # 주요화면
- <img src="![z1](https://user-images.githubusercontent.com/57051145/93582997-370ee380-f9de-11ea-98ec-f3a1c2817044.PNG)" width="300px" />
+ <img src="https://user-images.githubusercontent.com/57051145/93582997-370ee380-f9de-11ea-98ec-f3a1c2817044.PNG" width="300px" />
 ![z2](https://user-images.githubusercontent.com/57051145/93583001-38d8a700-f9de-11ea-8b5e-afb1bcc8c5db.PNG)
 ![z3](https://user-images.githubusercontent.com/57051145/93583003-38d8a700-f9de-11ea-83a9-6dde90141e74.PNG)
 ![z4](https://user-images.githubusercontent.com/57051145/93583005-39713d80-f9de-11ea-9394-6c402e5fb869.PNG)
