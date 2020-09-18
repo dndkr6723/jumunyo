@@ -64,5 +64,5 @@
 
 # 주요화면
 
-![Main](jumunyo_myri/preview/main.png)
+![Main](final_jumunyo/jumunyo/src/main/webapp/resources/image/adv1.jpg)
 
