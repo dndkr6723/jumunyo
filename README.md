@@ -1,12 +1,13 @@
 # Final Project 주문이요
 
-<hr>
 
 <li type="square">음식배달 및 사업자 매장관리 서비스</li>
 
 <li type="square">개발기간 : 2020.04.16 ~ 2020.05.19</li>
 
 <li type="square">개발인원 : 5명</li>
+
+<br>
 
 # 개발환경 및 도구
 
@@ -35,6 +36,7 @@
   <li> CSS3
   </li>
 
+<br>
 
 # 주요기능 
 
@@ -48,9 +50,10 @@
   
   </div>
   
+  <br>
+  
  # 담당기능
  
- <hr>
  
  <li type="circle"> 입점신청 (위치/주소/이름 등)
  <li type="circle"> 매장 메뉴정보 관리
