@@ -9,24 +9,25 @@
 <li type="square">개발인원 : 5명</li>
 
 # 개발환경 및 도구
-<li> 개발환경 
+
+<li> 개발환경 <br>
  Windows10
   
-<li> 사용도구
+<li> 사용도구 <br>
   Eclipse photon<br>
   SqlDeveloper<br>
   Oracle11g<br>
   Tomcat 8.5
   
   
-<li> 사용기술
+<li> 사용기술 <br>
   Spring Framework<br>
   mybatis<br>
   jsp<br>
   ajax<br>
+ HTML5<br>
+ CSS3<br>
   
-
-
 
 
 # 주요기능 
