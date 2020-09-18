@@ -64,5 +64,14 @@
 
 # 주요화면
 
-![Main](final_jumunyo/jumunyo/src/main/webapp/resources/image/adv1.jpg)
+![z1](https://user-images.githubusercontent.com/57051145/93582997-370ee380-f9de-11ea-98ec-f3a1c2817044.PNG)
+![z2](https://user-images.githubusercontent.com/57051145/93583001-38d8a700-f9de-11ea-8b5e-afb1bcc8c5db.PNG)
+![z3](https://user-images.githubusercontent.com/57051145/93583003-38d8a700-f9de-11ea-83a9-6dde90141e74.PNG)
+![z4](https://user-images.githubusercontent.com/57051145/93583005-39713d80-f9de-11ea-9394-6c402e5fb869.PNG)
+![z5](https://user-images.githubusercontent.com/57051145/93583009-39713d80-f9de-11ea-8d0e-e34a54021e13.PNG)
+![z6](https://user-images.githubusercontent.com/57051145/93583011-3a09d400-f9de-11ea-941a-4bca93453674.PNG)
+![z7](https://user-images.githubusercontent.com/57051145/93583013-3aa26a80-f9de-11ea-9cf4-c1bc54f9c888.PNG)
+![z8](https://user-images.githubusercontent.com/57051145/93583015-3aa26a80-f9de-11ea-8aa2-13f89bc5c525.PNG)
+![z9](https://user-images.githubusercontent.com/57051145/93583017-3b3b0100-f9de-11ea-9289-461282c6b541.PNG)
+![z10](https://user-images.githubusercontent.com/57051145/93583019-3b3b0100-f9de-11ea-8c9a-eda771417fc9.PNG)
 
