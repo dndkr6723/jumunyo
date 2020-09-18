@@ -64,20 +64,26 @@
 
 # 주요화면
 
-## 메인화면 및 로그인
- <img src="https://user-images.githubusercontent.com/57051145/93582997-370ee380-f9de-11ea-98ec-f3a1c2817044.PNG" width="500px" />
- <img src="https://user-images.githubusercontent.com/57051145/93583001-38d8a700-f9de-11ea-8b5e-afb1bcc8c5db.PNG" width="500px" />
+### 메인화면 및 로그인
+ <img src="https://user-images.githubusercontent.com/57051145/93582997-370ee380-f9de-11ea-98ec-f3a1c2817044.PNG" width="400px" />
+ <img src="https://user-images.githubusercontent.com/57051145/93583001-38d8a700-f9de-11ea-8b5e-afb1bcc8c5db.PNG" width="400px" />
  
-## 사업자페이지 메인화면
- <img src="https://user-images.githubusercontent.com/57051145/93583003-38d8a700-f9de-11ea-83a9-6dde90141e74.PNG" width="500px" />
- <img src="https://user-images.githubusercontent.com/57051145/93583005-39713d80-f9de-11ea-9394-6c402e5fb869.PNG" width="500px" />
+### 사업자페이지 메인화면
+ <img src="https://user-images.githubusercontent.com/57051145/93583003-38d8a700-f9de-11ea-83a9-6dde90141e74.PNG" width="400px" />
+ <img src="https://user-images.githubusercontent.com/57051145/93583005-39713d80-f9de-11ea-9394-6c402e5fb869.PNG" width="400px" />
  
-## ㅁ
- <img src="https://user-images.githubusercontent.com/57051145/93583009-39713d80-f9de-11ea-8d0e-e34a54021e13.PNG" width="500px" />
- <img src="https://user-images.githubusercontent.com/57051145/93583011-3a09d400-f9de-11ea-941a-4bca93453674.PNG" width="500px" />
- <img src="https://user-images.githubusercontent.com/57051145/93583013-3aa26a80-f9de-11ea-9cf4-c1bc54f9c888.PNG" width="500px" />
- <img src="https://user-images.githubusercontent.com/57051145/93583015-3aa26a80-f9de-11ea-8aa2-13f89bc5c525.PNG" width="500px" />
- <img src="https://user-images.githubusercontent.com/57051145/93583017-3b3b0100-f9de-11ea-9289-461282c6b541.PNG" width="500px" />
- <img src="https://user-images.githubusercontent.com/57051145/93583019-3b3b0100-f9de-11ea-8c9a-eda771417fc9.PNG" width="500px" />
+### 메뉴관리
+ <img src="https://user-images.githubusercontent.com/57051145/93583009-39713d80-f9de-11ea-8d0e-e34a54021e13.PNG" width="400px" />
+
+### 거래내역 확인 및 상세검색
+ <img src="https://user-images.githubusercontent.com/57051145/93583011-3a09d400-f9de-11ea-941a-4bca93453674.PNG" width="400px" />
+ <img src="https://user-images.githubusercontent.com/57051145/93583013-3aa26a80-f9de-11ea-9cf4-c1bc54f9c888.PNG" width="400px" />
+ 
+### 매출현황 확인 및 그래프 출력 (일별/월별 // 전일/전주대비)
+ <img src="https://user-images.githubusercontent.com/57051145/93583015-3aa26a80-f9de-11ea-8aa2-13f89bc5c525.PNG" width="400px" />
+ <img src="https://user-images.githubusercontent.com/57051145/93583017-3b3b0100-f9de-11ea-9289-461282c6b541.PNG" width="400px" />
+ 
+### 리뷰관리
+ <img src="https://user-images.githubusercontent.com/57051145/93583019-3b3b0100-f9de-11ea-8c9a-eda771417fc9.PNG" width="400px" />
 
 
