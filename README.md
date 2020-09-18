@@ -12,7 +12,9 @@
 
 
 <li type="square"> 개발환경
+ <ol>
  <li> Windows10 <li>
+ </ol>
   </li>
 <li type="square"> 사용도구 
  <li> Eclipse photon
