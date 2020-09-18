@@ -13,23 +13,26 @@
 
 <li type="square"> 개발환경
  <ol>
- <li> Windows10 <li>
+ <li> Windows10 
  </ol>
   </li>
 <li type="square"> 사용도구 
- <li> Eclipse photon
- <li> SqlDeveloper
- <li> Oracle11g
+ <ol>
+  <li> Eclipse photon
+  <li> SqlDeveloper
+  <li> Oracle11g
   <li>Tomcat 8.5
+ </ol>  
   </li>
   
 <li type="square"> 사용기술
-<li> Spring Framework
- <li> mybatis
- <li> jsp
- <li> ajax
-<li> HTML5
- <li>CSS3
+ <ol>
+  <li> Spring Framework
+  <li> mybatis
+  <li> jsp
+  <li> ajax
+  <li> HTML5
+  <li> CSS3
   </li>
 
 
