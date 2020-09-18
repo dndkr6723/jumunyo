@@ -10,24 +10,25 @@
 
 # 개발환경 및 도구
 
-<li> 개발환경 <br><br>
- Windows10<br>
+
+<li type="square"> 개발환경
+ <li> Windows10
+  </li>
+<li type="square"> 사용도구 
+  Eclipse photon
+  SqlDeveloper
+  Oracle11g
+  Tomcat 8.5
+  </li>
   
-<li> 사용도구 <br><br>
-  Eclipse photon<br>
-  SqlDeveloper<br>
-  Oracle11g<br>
-  Tomcat 8.5<br>
-  
-  
-<li> 사용기술 <br><br>
-  Spring Framework<br>
-  mybatis<br>
-  jsp<br>
-  ajax<br>
- HTML5<br>
- CSS3<br>
-  
+<li type="square"> 사용기술
+  Spring Framework
+  mybatis
+  jsp
+  ajax
+ HTML5
+ CSS3
+  </li>
 
 
 # 주요기능 
