@@ -8,6 +8,13 @@
 
 <li type="square">개발인원 : 5명</li>
 
+# 개발환경 및 도구
+
+<li> Windows10
+
+
+
+
 # 주요기능 
 
 <div>
@@ -27,7 +34,8 @@
  <li type="circle"> 입점신청 및 매장정보 관리 (위치/주소/이름 등)
  <li type="circle"> 매장 메뉴정보 관리
  <li type="circle"> 매장 좌석 및 예약관리
- <li type="circle"> 매출내역 확인 및 매출현황 도표화
+ <li type="circle"> 매출내역 확인 및 구글그래프를 이용한 매출현황 도표화
+ <li type="circle"> 리뷰 확인 및 관리
 
 
 
