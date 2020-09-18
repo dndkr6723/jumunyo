@@ -64,5 +64,5 @@
 
 # 주요화면
 
-<img src="resources/image/z1.PNG" width="500px" height="500px"/>
+<img src="resources/image/table.jpg" width="500px" height="500px"/>
 
