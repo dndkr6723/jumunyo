@@ -64,5 +64,5 @@
 
 # 주요화면
 
-<img src="resources/image/table.jpg" width="500px" height="500px"/>
+![Main](jumunyo_myri/preview/main.png)
 
