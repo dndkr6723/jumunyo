@@ -186,8 +186,7 @@ body {
 									
 									<tr>
 										<td class="tr2">
-										<img src="../image/Korea.png" alt="" width="100%" height="100px"/>
-										${top.value[4]}
+										<img src="resources/image/${top.value[4]}" alt="" width="150px" height="150px"/>
 										</td>
 									</tr>
 									

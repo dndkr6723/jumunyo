@@ -260,7 +260,7 @@ body {
 							style="width: 98%; height: 90%; background: white; border: none;">
 						</div>						
 						<div class="trans-kinds">
-							<img src="resources/image/Pizza.png" alt="" width="98%" height="90%"/>
+							<img src="resources/image/${mlist.menu_image}" alt="" width="70px" height="50px"/>
 						</div>
 						<div class="created">
 							<form action="go_menu_modify?menu_id=${mlist.menu_id }" method="post"><input type="submit" value="수정" id="m_modify${loop.count}"

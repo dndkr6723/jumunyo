@@ -52,7 +52,7 @@ body {
 <!-- 사업자 인덱스 페이지 입니다. -->
 	<jsp:include page="../include/businessHeader.jsp" />
 	<div class="advert">
-		
+		<img id="image" src="resources/image/adv2.jpg" width="100%" height="100%" >
 	</div>
 	<%if(restaurant_accept == 0) {%>
 	<a href="goentrance" style="text-decoration: none;">
