@@ -62,5 +62,7 @@
  <li type="circle"> 리뷰 확인 및 관리
 
 
+# 주요화면
 
+<img src="resources/image/z1.PNG" width="500px" height="500px"/>
 
